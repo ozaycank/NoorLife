@@ -96,6 +96,11 @@ class AppLocalizationsTr extends AppLocalizations {
   String get resendEmailButton => 'Doğrulama E-postasını Tekrar Gönder';
 
   @override
+  String resendCooldownText(int seconds) {
+    return '$seconds sn sonra tekrar gönderilebilir';
+  }
+
+  @override
   String get verificationEmailSent =>
       'Doğrulama e-postası başarıyla gönderildi.';
 
@@ -117,11 +122,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String get validationPasswordEmpty => 'Lütfen bir şifre girin.';
 
   @override
-  String get validationPasswordLength => 'Şifre en az 6 karakter olmalıdır.';
+  String get validationPasswordLength =>
+      'Şifre 8 ile 64 karakter arasında olmalıdır.';
+
+  @override
+  String get validationPasswordStrength =>
+      'Şifre en az bir büyük harf, küçük harf ve rakam içermelidir.';
 
   @override
   String get validationConfirmPasswordEmpty => 'Lütfen şifrenizi onaylayın.';
 
   @override
   String get validationPasswordMismatch => 'Şifreler eşleşmiyor.';
+
+  @override
+  String get validationNoWhitespace => 'Bu alan boşluk içeremez.';
 }

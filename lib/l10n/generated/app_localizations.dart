@@ -260,6 +260,12 @@ abstract class AppLocalizations {
   /// **'Resend Verification Email'**
   String get resendEmailButton;
 
+  /// Cooldown timer text
+  ///
+  /// In en, this message translates to:
+  /// **'Resend available in {seconds}s'**
+  String resendCooldownText(int seconds);
+
   /// Verification email sent message
   ///
   /// In en, this message translates to:
@@ -299,8 +305,14 @@ abstract class AppLocalizations {
   /// Password length validation
   ///
   /// In en, this message translates to:
-  /// **'Password must be at least 6 characters.'**
+  /// **'Password must be between 8 and 64 characters.'**
   String get validationPasswordLength;
+
+  /// Password strength validation
+  ///
+  /// In en, this message translates to:
+  /// **'Password must contain uppercase, lowercase and numbers.'**
+  String get validationPasswordStrength;
 
   /// Empty confirm password validation
   ///
@@ -313,6 +325,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Passwords do not match.'**
   String get validationPasswordMismatch;
+
+  /// Whitespace check validation
+  ///
+  /// In en, this message translates to:
+  /// **'This field cannot contain spaces.'**
+  String get validationNoWhitespace;
 }
 
 class _AppLocalizationsDelegate

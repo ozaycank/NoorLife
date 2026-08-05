@@ -1,6 +1,7 @@
+import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/di/injection_container.dart';
-import '../../../../core/providers/base_providers.dart';
 import '../domain/entities/auth_user.dart';
 import '../domain/repositories/auth_repository.dart';
 import 'auth_controller.dart';
@@ -13,11 +14,24 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
 final authStateChangesProvider = StreamProvider<AuthUser?>((ref) {
   final repository = ref.watch(authRepositoryProvider);
   return repository.authStateChanges;
-}); 
+});
 
 final authControllerProvider =
-    StateNotifierProvider<AuthController, AuthState>((ref) {
-  final repository = ref.watch(authRepositoryProvider);
-  final logger = ref.watch(loggerProvider);
-  return AuthController(repository, logger);
-});
+    NotifierProvider<AuthController, AuthState>(AuthController.new);
+
+class GoRouterRefreshStream extends ChangeNotifier {
+  late final StreamSubscription<dynamic> _subscription;
+
+  GoRouterRefreshStream(Stream<dynamic> stream) {
+    notifyListeners();
+    _subscription = stream.asBroadcastStream().listen(
+          (dynamic _) => notifyListeners(),
+        );
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
+  }
+}

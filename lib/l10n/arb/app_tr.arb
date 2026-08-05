@@ -27,13 +27,16 @@
   "emailVerificationSubtitle": "Adresinize bir doğrulama e-postası gönderdik. Devam etmek için lütfen hesabınızı doğrulayın.",
   "checkVerificationButton": "Doğruladım",
   "resendEmailButton": "Doğrulama E-postasını Tekrar Gönder",
+  "resendCooldownText": "{seconds} sn sonra tekrar gönderilebilir",
   "verificationEmailSent": "Doğrulama e-postası başarıyla gönderildi.",
   "emailNotVerifiedYet": "E-posta adresiniz henüz doğrulanmadı. Lütfen kutunuzu kontrol edin.",
   "logoutButton": "Çıkış Yap",
   "validationEmailEmpty": "Lütfen bir e-posta adresi girin.",
   "validationEmailInvalid": "Lütfen geçerli bir e-posta adresi girin.",
   "validationPasswordEmpty": "Lütfen bir şifre girin.",
-  "validationPasswordLength": "Şifre en az 6 karakter olmalıdır.",
+  "validationPasswordLength": "Şifre 8 ile 64 karakter arasında olmalıdır.",
+  "validationPasswordStrength": "Şifre en az bir büyük harf, küçük harf ve rakam içermelidir.",
   "validationConfirmPasswordEmpty": "Lütfen şifrenizi onaylayın.",
-  "validationPasswordMismatch": "Şifreler eşleşmiyor."
+  "validationPasswordMismatch": "Şifreler eşleşmiyor.",
+  "validationNoWhitespace": "Bu alan boşluk içeremez."
 }

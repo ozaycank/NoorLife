@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/constants/app_assets.dart';
+import '../../../../core/di/injection_container.dart';
+import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/routing/app_routes.dart';
+import '../../../../core/storage/secure_storage_service.dart';
 import '../../../../core/utils/core_utils.dart';
-import '../../../../l10n/generated/app_localizations.dart';
+import '../../../../shared/widgets/primary_button.dart';
 import '../../application/auth_providers.dart';
 import '../utils/auth_validators.dart';
 
@@ -19,6 +23,25 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _rememberMe = false;
+  bool _obscurePassword = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadRememberedEmail();
+  }
+
+  Future<void> _loadRememberedEmail() async {
+    final secureStorage = getIt<SecureStorageService>();
+    final rememberedEmail = await secureStorage.getRememberedEmail();
+    final status = await secureStorage.getRememberMeStatus();
+    if (status && rememberedEmail != null && mounted) {
+      setState(() {
+        _emailController.text = rememberedEmail;
+        _rememberMe = true;
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -34,6 +57,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final success = await ref.read(authControllerProvider.notifier).signIn(
           email: _emailController.text.trim(),
           password: _passwordController.text,
+          rememberMe: _rememberMe,
         );
 
     if (success && mounted) {
@@ -52,7 +76,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
     final authState = ref.watch(authControllerProvider);
 
     return Scaffold(
@@ -66,37 +90,30 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Icon(Icons.mosque, size: 64, color: Colors.green),
+                  Image.asset(
+                    AppAssets.splashLogo,
+                    height: 80,
+                    errorBuilder: (_, __, ___) => const Icon(
+                      Icons.mosque,
+                      size: 80,
+                      color: Colors.green,
+                    ),
+                  ),
                   const SizedBox(height: 16),
                   Text(
                     l10n.loginTitle,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                    style: context.textTheme.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     l10n.loginSubtitle,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: context.textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 32),
-                  if (authState.errorMessage != null) ...[
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.red.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        authState.errorMessage!,
-                        style: const TextStyle(color: Colors.red),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                  ],
                   TextFormField(
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
@@ -110,10 +127,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: _passwordController,
-                    obscureText: true,
+                    obscureText: _obscurePassword,
                     decoration: InputDecoration(
                       labelText: l10n.passwordLabel,
                       prefixIcon: const Icon(Icons.lock_outline),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
+                      ),
                       border: const OutlineInputBorder(),
                     ),
                     validator: (v) => AuthValidators.validatePassword(v, l10n),
@@ -142,26 +171,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: authState.isLoading ? null : _submitLogin,
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                    ),
-                    child: authState.isLoading
-                        ? const SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : Text(l10n.loginButton),
+                  PrimaryButton(
+                    text: l10n.loginButton,
+                    onPressed: _submitLogin,
+                    isLoading: authState.isLoading,
                   ),
                   const SizedBox(height: 12),
-                  OutlinedButton(
-                    onPressed: authState.isLoading ? null : _submitGuestLogin,
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                    ),
-                    child: Text(l10n.guestLoginButton),
+                  PrimaryButton(
+                    text: l10n.guestLoginButton,
+                    onPressed: _submitGuestLogin,
+                    isLoading: authState.isLoading,
+                    isOutlined: true,
                   ),
                   const SizedBox(height: 24),
                   Row(
@@ -173,7 +193,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         child: Text(
                           l10n.registerLink,
                           style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
+                            color: context.colorScheme.primary,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

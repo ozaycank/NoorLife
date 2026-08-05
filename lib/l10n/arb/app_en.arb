@@ -108,6 +108,15 @@
   "@resendEmailButton": {
     "description": "Resend verification button text"
   },
+  "resendCooldownText": "Resend available in {seconds}s",
+  "@resendCooldownText": {
+    "description": "Cooldown timer text",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
   "verificationEmailSent": "Verification email resent successfully.",
   "@verificationEmailSent": {
     "description": "Verification email sent message"
@@ -132,9 +141,13 @@
   "@validationPasswordEmpty": {
     "description": "Empty password validation"
   },
-  "validationPasswordLength": "Password must be at least 6 characters.",
+  "validationPasswordLength": "Password must be between 8 and 64 characters.",
   "@validationPasswordLength": {
     "description": "Password length validation"
+  },
+  "validationPasswordStrength": "Password must contain uppercase, lowercase and numbers.",
+  "@validationPasswordStrength": {
+    "description": "Password strength validation"
   },
   "validationConfirmPasswordEmpty": "Please confirm your password.",
   "@validationConfirmPasswordEmpty": {
@@ -143,5 +156,9 @@
   "validationPasswordMismatch": "Passwords do not match.",
   "@validationPasswordMismatch": {
     "description": "Password mismatch validation"
+  },
+  "validationNoWhitespace": "This field cannot contain spaces.",
+  "@validationNoWhitespace": {
+    "description": "Whitespace check validation"
   }
 }

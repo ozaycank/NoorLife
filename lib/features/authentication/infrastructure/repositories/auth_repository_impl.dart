@@ -121,6 +121,14 @@ class AuthRepositoryImpl implements AuthRepository {
           return const AuthFailure('The password provided is too weak.');
         case 'invalid-email':
           return const AuthFailure('The email address is not valid.');
+        case 'too-many-requests':
+          return const AuthFailure(
+            'Too many requests. Please try again later.',
+          );
+        case 'user-disabled':
+          return const AuthFailure('This account has been disabled.');
+        case 'operation-not-allowed':
+          return const AuthFailure('This sign-in method is not enabled.');
         case 'network-request-failed':
           return const AuthFailure('No internet connection. Please try again.');
         default:

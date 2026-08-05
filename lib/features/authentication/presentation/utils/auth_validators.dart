@@ -7,6 +7,9 @@ class AuthValidators {
     if (value == null || value.trim().isEmpty) {
       return l10n.validationEmailEmpty;
     }
+    if (value.contains(' ')) {
+      return l10n.validationNoWhitespace;
+    }
     final emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
     if (!emailRegex.hasMatch(value.trim())) {
       return l10n.validationEmailInvalid;
@@ -18,8 +21,15 @@ class AuthValidators {
     if (value == null || value.isEmpty) {
       return l10n.validationPasswordEmpty;
     }
-    if (value.length < 6) {
+    if (value.contains(' ')) {
+      return l10n.validationNoWhitespace;
+    }
+    if (value.length < 8 || value.length > 64) {
       return l10n.validationPasswordLength;
+    }
+    final strengthRegex = RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$');
+    if (!strengthRegex.hasMatch(value)) {
+      return l10n.validationPasswordStrength;
     }
     return null;
   }

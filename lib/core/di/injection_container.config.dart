@@ -21,6 +21,7 @@ import '../../features/authentication/infrastructure/repositories/auth_repositor
     as _i996;
 import '../logging/logger_service.dart' as _i731;
 import '../network/dio_client.dart' as _i667;
+import '../storage/secure_storage_service.dart' as _i666;
 import 'firebase_module.dart' as _i616;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -37,6 +38,8 @@ extension GetItInjectableX on _i174.GetIt {
     final firebaseModule = _$FirebaseModule();
     gh.lazySingleton<_i59.FirebaseAuth>(() => firebaseModule.firebaseAuth);
     gh.lazySingleton<_i731.LoggerService>(() => _i731.LoggerService());
+    gh.lazySingleton<_i666.SecureStorageService>(
+        () => _i666.SecureStorageService());
     gh.lazySingleton<_i1048.FirebaseAuthDataSource>(
         () => _i1048.FirebaseAuthDataSource(gh<_i59.FirebaseAuth>()));
     gh.lazySingleton<_i667.DioClient>(

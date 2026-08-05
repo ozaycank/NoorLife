@@ -95,6 +95,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get resendEmailButton => 'Resend Verification Email';
 
   @override
+  String resendCooldownText(int seconds) {
+    return 'Resend available in ${seconds}s';
+  }
+
+  @override
   String get verificationEmailSent => 'Verification email resent successfully.';
 
   @override
@@ -115,11 +120,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get validationPasswordLength =>
-      'Password must be at least 6 characters.';
+      'Password must be between 8 and 64 characters.';
+
+  @override
+  String get validationPasswordStrength =>
+      'Password must contain uppercase, lowercase and numbers.';
 
   @override
   String get validationConfirmPasswordEmpty => 'Please confirm your password.';
 
   @override
   String get validationPasswordMismatch => 'Passwords do not match.';
+
+  @override
+  String get validationNoWhitespace => 'This field cannot contain spaces.';
 }
