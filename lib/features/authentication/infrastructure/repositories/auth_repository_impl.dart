@@ -124,8 +124,10 @@ class AuthRepositoryImpl implements AuthRepository {
         case 'network-request-failed':
           return const AuthFailure('No internet connection. Please try again.');
         default:
-          return AuthFailure(error.message ?? 'Authentication error occurred.',
-              code: error.code);
+          return AuthFailure(
+            error.message ?? 'Authentication error occurred.',
+            code: error.code,
+          );
       }
     }
     return const AuthFailure('An unexpected authentication error occurred.');

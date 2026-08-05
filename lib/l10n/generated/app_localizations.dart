@@ -98,23 +98,221 @@ abstract class AppLocalizations {
     Locale('tr')
   ];
 
-  /// No description provided for @appTitle.
+  /// Application title
   ///
   /// In en, this message translates to:
   /// **'NoorLife'**
   String get appTitle;
 
-  /// No description provided for @splashLoading.
+  /// Splash loading text
   ///
   /// In en, this message translates to:
   /// **'Loading application...'**
   String get splashLoading;
 
-  /// No description provided for @generalError.
+  /// General error message
   ///
   /// In en, this message translates to:
   /// **'An unexpected error occurred. Please try again.'**
   String get generalError;
+
+  /// Login title
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome Back'**
+  String get loginTitle;
+
+  /// Login subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to continue your daily spiritual journey.'**
+  String get loginSubtitle;
+
+  /// Email input label
+  ///
+  /// In en, this message translates to:
+  /// **'Email Address'**
+  String get emailLabel;
+
+  /// Password input label
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get passwordLabel;
+
+  /// Confirm password input label
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get confirmPasswordLabel;
+
+  /// Remember me checkbox text
+  ///
+  /// In en, this message translates to:
+  /// **'Remember me'**
+  String get rememberMe;
+
+  /// Forgot password link text
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password?'**
+  String get forgotPassword;
+
+  /// Sign in button text
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get loginButton;
+
+  /// Guest login button text
+  ///
+  /// In en, this message translates to:
+  /// **'Continue as Guest'**
+  String get guestLoginButton;
+
+  /// No account text
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? '**
+  String get noAccountText;
+
+  /// Register link text
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get registerLink;
+
+  /// Register title
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get registerTitle;
+
+  /// Register subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Join NoorLife and organize your Islamic daily life.'**
+  String get registerSubtitle;
+
+  /// Register button text
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get registerButton;
+
+  /// Already have account text
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? '**
+  String get alreadyHaveAccountText;
+
+  /// Login link text
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get loginLink;
+
+  /// Forgot password title
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Password'**
+  String get forgotPasswordTitle;
+
+  /// Forgot password subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your registered email address to receive a password reset link.'**
+  String get forgotPasswordSubtitle;
+
+  /// Send reset link button text
+  ///
+  /// In en, this message translates to:
+  /// **'Send Reset Link'**
+  String get sendResetLinkButton;
+
+  /// Reset link sent success message
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset link has been sent to your email.'**
+  String get resetEmailSentSuccess;
+
+  /// Email verification title
+  ///
+  /// In en, this message translates to:
+  /// **'Verify Your Email'**
+  String get emailVerificationTitle;
+
+  /// Email verification subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'We have sent a verification email to your address. Please verify your account to continue.'**
+  String get emailVerificationSubtitle;
+
+  /// Check verification button text
+  ///
+  /// In en, this message translates to:
+  /// **'I Have Verified'**
+  String get checkVerificationButton;
+
+  /// Resend verification button text
+  ///
+  /// In en, this message translates to:
+  /// **'Resend Verification Email'**
+  String get resendEmailButton;
+
+  /// Verification email sent message
+  ///
+  /// In en, this message translates to:
+  /// **'Verification email resent successfully.'**
+  String get verificationEmailSent;
+
+  /// Email not verified yet warning
+  ///
+  /// In en, this message translates to:
+  /// **'Your email is not verified yet. Please check your inbox.'**
+  String get emailNotVerifiedYet;
+
+  /// Logout button text
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Out'**
+  String get logoutButton;
+
+  /// Empty email validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter an email address.'**
+  String get validationEmailEmpty;
+
+  /// Invalid email validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address.'**
+  String get validationEmailInvalid;
+
+  /// Empty password validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a password.'**
+  String get validationPasswordEmpty;
+
+  /// Password length validation
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters.'**
+  String get validationPasswordLength;
+
+  /// Empty confirm password validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm your password.'**
+  String get validationConfirmPasswordEmpty;
+
+  /// Password mismatch validation
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match.'**
+  String get validationPasswordMismatch;
 }
 
 class _AppLocalizationsDelegate

@@ -1,44 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import '../../../../core/routing/app_routes.dart';
 import '../../../../core/utils/core_utils.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../application/auth_providers.dart';
 import '../utils/auth_validators.dart';
 
-class RegisterScreen extends ConsumerStatefulWidget {
-  const RegisterScreen({super.key});
+class ForgotPasswordScreen extends ConsumerStatefulWidget {
+  const ForgotPasswordScreen({super.key});
 
   @override
-  ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
+  ConsumerState<ForgotPasswordScreen> createState() =>
+      _ForgotPasswordScreenState();
 }
 
-class _RegisterScreenState extends ConsumerState<RegisterScreen> {
+class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
     _emailController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
     super.dispose();
   }
 
-  Future<void> _submitRegister() async {
+  Future<void> _submitReset() async {
     CoreUtils.hideKeyboard(context);
     if (!_formKey.currentState!.validate()) return;
 
-    final success = await ref.read(authControllerProvider.notifier).register(
-          email: _emailController.text.trim(),
-          password: _passwordController.text,
-        );
+    final l10n = AppLocalizations.of(context)!;
+    final success = await ref
+        .read(authControllerProvider.notifier)
+        .sendPasswordResetEmail(_emailController.text.trim());
 
     if (success && mounted) {
-      context.go(AppRoutes.emailVerification);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.resetEmailSentSuccess)),
+      );
+      Navigator.of(context).pop();
     }
   }
 
@@ -48,7 +46,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     final authState = ref.watch(authControllerProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.registerTitle)),
+      appBar: AppBar(title: Text(l10n.forgotPasswordTitle)),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -60,7 +58,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    l10n.registerSubtitle,
+                    l10n.forgotPasswordSubtitle,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
@@ -90,35 +88,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ),
                     validator: (v) => AuthValidators.validateEmail(v, l10n),
                   ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _passwordController,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: l10n.passwordLabel,
-                      prefixIcon: const Icon(Icons.lock_outline),
-                      border: const OutlineInputBorder(),
-                    ),
-                    validator: (v) => AuthValidators.validatePassword(v, l10n),
-                  ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _confirmPasswordController,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: l10n.confirmPasswordLabel,
-                      prefixIcon: const Icon(Icons.lock_reset_outlined),
-                      border: const OutlineInputBorder(),
-                    ),
-                    validator: (v) => AuthValidators.validateConfirmPassword(
-                      v,
-                      _passwordController.text,
-                      l10n,
-                    ),
-                  ),
                   const SizedBox(height: 24),
                   ElevatedButton(
-                    onPressed: authState.isLoading ? null : _submitRegister,
+                    onPressed: authState.isLoading ? null : _submitReset,
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
@@ -128,24 +100,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             width: 20,
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
-                        : Text(l10n.registerButton),
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(l10n.alreadyHaveAccountText),
-                      GestureDetector(
-                        onTap: () => context.pop(),
-                        child: Text(
-                          l10n.loginLink,
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
+                        : Text(l10n.sendResetLinkButton),
                   ),
                 ],
               ),

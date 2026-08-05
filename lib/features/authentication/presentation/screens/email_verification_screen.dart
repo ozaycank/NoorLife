@@ -39,7 +39,7 @@ class EmailVerificationScreen extends ConsumerWidget {
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: Colors.red.withOpacity(0.1),
+                      color: Colors.red.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
@@ -87,7 +87,8 @@ class EmailVerificationScreen extends ConsumerWidget {
                           if (sent && context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                  content: Text(l10n.verificationEmailSent)),
+                                content: Text(l10n.verificationEmailSent),
+                              ),
                             );
                           }
                         },

@@ -1,39 +1,147 @@
 {
   "@@locale": "en",
   "appTitle": "NoorLife",
+  "@appTitle": {
+    "description": "Application title"
+  },
   "splashLoading": "Loading application...",
+  "@splashLoading": {
+    "description": "Splash loading text"
+  },
   "generalError": "An unexpected error occurred. Please try again.",
+  "@generalError": {
+    "description": "General error message"
+  },
   "loginTitle": "Welcome Back",
+  "@loginTitle": {
+    "description": "Login title"
+  },
   "loginSubtitle": "Sign in to continue your daily spiritual journey.",
+  "@loginSubtitle": {
+    "description": "Login subtitle"
+  },
   "emailLabel": "Email Address",
+  "@emailLabel": {
+    "description": "Email input label"
+  },
   "passwordLabel": "Password",
+  "@passwordLabel": {
+    "description": "Password input label"
+  },
   "confirmPasswordLabel": "Confirm Password",
+  "@confirmPasswordLabel": {
+    "description": "Confirm password input label"
+  },
   "rememberMe": "Remember me",
+  "@rememberMe": {
+    "description": "Remember me checkbox text"
+  },
   "forgotPassword": "Forgot Password?",
+  "@forgotPassword": {
+    "description": "Forgot password link text"
+  },
   "loginButton": "Sign In",
+  "@loginButton": {
+    "description": "Sign in button text"
+  },
   "guestLoginButton": "Continue as Guest",
+  "@guestLoginButton": {
+    "description": "Guest login button text"
+  },
   "noAccountText": "Don't have an account? ",
+  "@noAccountText": {
+    "description": "No account text"
+  },
   "registerLink": "Sign Up",
+  "@registerLink": {
+    "description": "Register link text"
+  },
   "registerTitle": "Create Account",
+  "@registerTitle": {
+    "description": "Register title"
+  },
   "registerSubtitle": "Join NoorLife and organize your Islamic daily life.",
+  "@registerSubtitle": {
+    "description": "Register subtitle"
+  },
   "registerButton": "Create Account",
+  "@registerButton": {
+    "description": "Register button text"
+  },
   "alreadyHaveAccountText": "Already have an account? ",
+  "@alreadyHaveAccountText": {
+    "description": "Already have account text"
+  },
   "loginLink": "Sign In",
+  "@loginLink": {
+    "description": "Login link text"
+  },
   "forgotPasswordTitle": "Reset Password",
+  "@forgotPasswordTitle": {
+    "description": "Forgot password title"
+  },
   "forgotPasswordSubtitle": "Enter your registered email address to receive a password reset link.",
+  "@forgotPasswordSubtitle": {
+    "description": "Forgot password subtitle"
+  },
   "sendResetLinkButton": "Send Reset Link",
+  "@sendResetLinkButton": {
+    "description": "Send reset link button text"
+  },
   "resetEmailSentSuccess": "Password reset link has been sent to your email.",
+  "@resetEmailSentSuccess": {
+    "description": "Reset link sent success message"
+  },
   "emailVerificationTitle": "Verify Your Email",
+  "@emailVerificationTitle": {
+    "description": "Email verification title"
+  },
   "emailVerificationSubtitle": "We have sent a verification email to your address. Please verify your account to continue.",
+  "@emailVerificationSubtitle": {
+    "description": "Email verification subtitle"
+  },
   "checkVerificationButton": "I Have Verified",
+  "@checkVerificationButton": {
+    "description": "Check verification button text"
+  },
   "resendEmailButton": "Resend Verification Email",
+  "@resendEmailButton": {
+    "description": "Resend verification button text"
+  },
   "verificationEmailSent": "Verification email resent successfully.",
+  "@verificationEmailSent": {
+    "description": "Verification email sent message"
+  },
   "emailNotVerifiedYet": "Your email is not verified yet. Please check your inbox.",
+  "@emailNotVerifiedYet": {
+    "description": "Email not verified yet warning"
+  },
   "logoutButton": "Sign Out",
+  "@logoutButton": {
+    "description": "Logout button text"
+  },
   "validationEmailEmpty": "Please enter an email address.",
+  "@validationEmailEmpty": {
+    "description": "Empty email validation"
+  },
   "validationEmailInvalid": "Please enter a valid email address.",
+  "@validationEmailInvalid": {
+    "description": "Invalid email validation"
+  },
   "validationPasswordEmpty": "Please enter a password.",
+  "@validationPasswordEmpty": {
+    "description": "Empty password validation"
+  },
   "validationPasswordLength": "Password must be at least 6 characters.",
+  "@validationPasswordLength": {
+    "description": "Password length validation"
+  },
   "validationConfirmPasswordEmpty": "Please confirm your password.",
-  "validationPasswordMismatch": "Passwords do not match."
+  "@validationConfirmPasswordEmpty": {
+    "description": "Empty confirm password validation"
+  },
+  "validationPasswordMismatch": "Passwords do not match.",
+  "@validationPasswordMismatch": {
+    "description": "Password mismatch validation"
+  }
 }
