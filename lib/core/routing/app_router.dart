@@ -6,7 +6,7 @@ import '../../features/authentication/presentation/screens/forgot_password_scree
 import '../../features/authentication/presentation/screens/login_screen.dart';
 import '../../features/authentication/presentation/screens/register_screen.dart';
 import '../../features/authentication/presentation/screens/splash_auth_decision_screen.dart';
-import '../../features/home/presentation/home_placeholder_screen.dart';
+import '../../features/home/presentation/screens/home_placeholder_screen.dart';
 import 'app_routes.dart';
 
 class AppRouter {
