@@ -160,5 +160,93 @@
   "validationNoWhitespace": "This field cannot contain spaces.",
   "@validationNoWhitespace": {
     "description": "Whitespace check validation"
+  },
+  "navHome": "Home",
+  "@navHome": {
+    "description": "Bottom navigation Home label"
+  },
+  "navPrayer": "Prayer",
+  "@navPrayer": {
+    "description": "Bottom navigation Prayer label"
+  },
+  "navQuran": "Quran",
+  "@navQuran": {
+    "description": "Bottom navigation Quran label"
+  },
+  "navActivity": "Activity",
+  "@navActivity": {
+    "description": "Bottom navigation Activity label"
+  },
+  "navProfile": "Profile",
+  "@navProfile": {
+    "description": "Bottom navigation Profile label"
+  },
+  "homeTitle": "Home",
+  "@homeTitle": {
+    "description": "Home placeholder page title"
+  },
+  "homeDesc": "Welcome to NoorLife. Your daily spiritual overview will appear here.",
+  "@homeDesc": {
+    "description": "Home placeholder page description"
+  },
+  "prayerTitle": "Prayer Times",
+  "@prayerTitle": {
+    "description": "Prayer placeholder page title"
+  },
+  "prayerDesc": "Accurate prayer times and qibla direction will be displayed here.",
+  "@prayerDesc": {
+    "description": "Prayer placeholder page description"
+  },
+  "quranTitle": "Al-Quran",
+  "@quranTitle": {
+    "description": "Quran placeholder page title"
+  },
+  "quranDesc": "Holy Quran reading, audio recitations, and bookmarks will be available here.",
+  "@quranDesc": {
+    "description": "Quran placeholder page description"
+  },
+  "activityTitle": "Worship Activity",
+  "@activityTitle": {
+    "description": "Activity placeholder page title"
+  },
+  "activityDesc": "Track your daily prayers, dhikr, and fasting progress here.",
+  "@activityDesc": {
+    "description": "Activity placeholder page description"
+  },
+  "profileTitle": "User Profile",
+  "@profileTitle": {
+    "description": "Profile placeholder page title"
+  },
+  "profileDesc": "Manage your NoorLife account, preferences, and personal statistics.",
+  "@profileDesc": {
+    "description": "Profile placeholder page description"
+  },
+  "settingsTitle": "Settings",
+  "@settingsTitle": {
+    "description": "Settings placeholder page title"
+  },
+  "settingsDesc": "Configure notifications, calculation methods, and app themes.",
+  "@settingsDesc": {
+    "description": "Settings placeholder page description"
+  },
+  "openSettingsButton": "Open Settings",
+  "@openSettingsButton": {
+    "description": "Open settings button label"
+  },
+  "emptyStateDefaultTitle": "No Content Available",
+  "@emptyStateDefaultTitle": {
+    "description": "Default empty state title"
+  },
+  "emptyStateDefaultDesc": "This module is currently under development for a future phase.",
+  "@emptyStateDefaultDesc": {
+    "description": "Default empty state description"
+  },
+  "errorStateDefaultTitle": "Something Went Wrong",
+  "@errorStateDefaultTitle": {
+    "description": "Default error state title"
+  },
+  "retryButton": "Retry",
+  "@retryButton": {
+    "description": "Retry button label"
   }
 }

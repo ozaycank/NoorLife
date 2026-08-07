@@ -2,56 +2,38 @@ import 'package:flutter/material.dart';
 import '../design_system/tokens/app_border_radius.dart';
 import '../design_system/tokens/app_spacing.dart';
 
-class PrimaryButton extends StatelessWidget {
+class AppOutlinedButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
   final bool isLoading;
-  final bool isOutlined;
   final IconData? icon;
 
-  const PrimaryButton({
+  const AppOutlinedButton({
     super.key,
     required this.text,
     required this.onPressed,
     this.isLoading = false,
-    this.isOutlined = false,
     this.icon,
   });
 
   @override
   Widget build(BuildContext context) {
-    final shape = RoundedRectangleBorder(
-      borderRadius: AppBorderRadius.medium,
-    );
-
-    if (isOutlined) {
-      return OutlinedButton(
-        onPressed: isLoading ? null : onPressed,
-        style: OutlinedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(
-            vertical: AppSpacing.lg,
-            horizontal: AppSpacing.xl,
-          ),
-          shape: shape,
-        ),
-        child: _buildChild(context),
-      );
-    }
-
-    return ElevatedButton(
+    return OutlinedButton(
       onPressed: isLoading ? null : onPressed,
-      style: ElevatedButton.styleFrom(
+      style: OutlinedButton.styleFrom(
         padding: const EdgeInsets.symmetric(
           vertical: AppSpacing.lg,
           horizontal: AppSpacing.xl,
         ),
-        shape: shape,
+        shape: const RoundedRectangleBorder(
+          borderRadius: AppBorderRadius.medium,
+        ),
       ),
-      child: _buildChild(context),
+      child: _buildChild(),
     );
   }
 
-  Widget _buildChild(BuildContext context) {
+  Widget _buildChild() {
     if (isLoading) {
       return const SizedBox(
         height: 20,
