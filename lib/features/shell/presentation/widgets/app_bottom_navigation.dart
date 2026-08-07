@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/extensions/context_extensions.dart';
+import '../../../../shared/design_system/tokens/app_icons.dart';
 
 class AppBottomNavigation extends StatelessWidget {
   final int selectedIndex;
@@ -31,28 +32,28 @@ class AppBottomNavigation extends StatelessWidget {
         onDestinationSelected: onDestinationSelected,
         destinations: [
           NavigationDestination(
-            icon: const Icon(Icons.home_outlined),
-            selectedIcon: const Icon(Icons.home),
+            icon: const Icon(AppIcons.home),
+            selectedIcon: const Icon(AppIcons.homeSelected),
             label: l10n.navHome,
           ),
           NavigationDestination(
-            icon: const Icon(Icons.access_time_outlined),
-            selectedIcon: const Icon(Icons.access_time_filled),
+            icon: const Icon(AppIcons.prayer),
+            selectedIcon: const Icon(AppIcons.prayerSelected),
             label: l10n.navPrayer,
           ),
           NavigationDestination(
-            icon: const Icon(Icons.menu_book_outlined),
-            selectedIcon: const Icon(Icons.menu_book),
+            icon: const Icon(AppIcons.quran),
+            selectedIcon: const Icon(AppIcons.quranSelected),
             label: l10n.navQuran,
           ),
           NavigationDestination(
-            icon: const Icon(Icons.track_changes_outlined),
-            selectedIcon: const Icon(Icons.track_changes),
+            icon: const Icon(AppIcons.activity),
+            selectedIcon: const Icon(AppIcons.activitySelected),
             label: l10n.navActivity,
           ),
           NavigationDestination(
-            icon: const Icon(Icons.person_outline),
-            selectedIcon: const Icon(Icons.person),
+            icon: const Icon(AppIcons.profile),
+            selectedIcon: const Icon(AppIcons.profileSelected),
             label: l10n.navProfile,
           ),
         ],

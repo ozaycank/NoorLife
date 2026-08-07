@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../shared/design_system/tokens/app_breakpoints.dart';
 import '../widgets/app_bottom_navigation.dart';
 import '../widgets/app_navigation_rail.dart';
 
@@ -20,8 +21,7 @@ class AppShellScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.sizeOf(context).width;
-    final isTabletOrLandscape = screenWidth >= 600;
+    final isTabletOrLandscape = AppBreakpoints.isTabletOrLandscape(context);
 
     return Scaffold(
       body: isTabletOrLandscape

@@ -3,16 +3,21 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:noor_life/app.dart';
 import 'package:noor_life/core/di/injection_container.dart';
+import 'package:noor_life/core/logging/logger_service.dart';
 import 'package:noor_life/features/authentication/application/auth_providers.dart';
 import 'package:noor_life/features/authentication/domain/repositories/auth_repository.dart';
 
 class MockAuthRepository extends Mock implements AuthRepository {}
 
+class MockLoggerService extends Mock implements LoggerService {}
+
 void main() {
   late MockAuthRepository mockAuthRepository;
+  late MockLoggerService mockLoggerService;
 
   setUp(() {
     mockAuthRepository = MockAuthRepository();
+    mockLoggerService = MockLoggerService();
 
     when(() => mockAuthRepository.authStateChanges)
         .thenAnswer((_) => const Stream.empty());
@@ -24,6 +29,13 @@ void main() {
     } else {
       getIt.unregister<AuthRepository>();
       getIt.registerSingleton<AuthRepository>(mockAuthRepository);
+    }
+
+    if (!getIt.isRegistered<LoggerService>()) {
+      getIt.registerSingleton<LoggerService>(mockLoggerService);
+    } else {
+      getIt.unregister<LoggerService>();
+      getIt.registerSingleton<LoggerService>(mockLoggerService);
     }
   });
 

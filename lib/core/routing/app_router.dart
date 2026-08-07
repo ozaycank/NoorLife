@@ -14,6 +14,9 @@ import '../../features/profile/presentation/screens/profile_placeholder_screen.d
 import '../../features/quran/presentation/screens/quran_placeholder_screen.dart';
 import '../../features/settings/presentation/screens/settings_placeholder_screen.dart';
 import '../../features/shell/presentation/screens/app_shell_screen.dart';
+import '../di/injection_container.dart';
+import '../logging/logger_service.dart';
+import 'app_navigation_observer.dart';
 import 'app_routes.dart';
 
 class AppRouter {
@@ -28,6 +31,9 @@ class AppRouter {
     return GoRouter(
       navigatorKey: _rootNavigatorKey,
       initialLocation: AppRoutes.splash,
+      observers: [
+        AppNavigationObserver(getIt<LoggerService>()),
+      ],
       refreshListenable: GoRouterRefreshStream(
         authRepository.authStateChanges,
       ),
