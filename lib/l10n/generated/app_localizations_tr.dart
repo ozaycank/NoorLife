@@ -137,4 +137,77 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get validationNoWhitespace => 'Bu alan boşluk içeremez.';
+
+  @override
+  String get navHome => 'Ana Sayfa';
+
+  @override
+  String get navPrayer => 'Namaz';
+
+  @override
+  String get navQuran => 'Kur\'an';
+
+  @override
+  String get navActivity => 'İbadetim';
+
+  @override
+  String get navProfile => 'Profil';
+
+  @override
+  String get homeTitle => 'Ana Sayfa';
+
+  @override
+  String get homeDesc =>
+      'NoorLife\'a hoş geldiniz. Günlük manevi özetiniz burada görüntülenecektir.';
+
+  @override
+  String get prayerTitle => 'Namaz Vakitleri';
+
+  @override
+  String get prayerDesc =>
+      'Doğru namaz vakitleri ve kıble yönü burada gösterilecektir.';
+
+  @override
+  String get quranTitle => 'Kur\'an-ı Kerim';
+
+  @override
+  String get quranDesc =>
+      'Kur\'an okuma, sesli tilavetler ve yer işaretleri burada yer alacaktır.';
+
+  @override
+  String get activityTitle => 'İbadet Takibi';
+
+  @override
+  String get activityDesc =>
+      'Günlük namaz, zikir ve oruç ibadetlerinizi buradan takip edin.';
+
+  @override
+  String get profileTitle => 'Kullanıcı Profili';
+
+  @override
+  String get profileDesc =>
+      'NoorLife hesabınızı, tercihlerinizi ve kişisel istatistiklerinizi yönetin.';
+
+  @override
+  String get settingsTitle => 'Ayarlar';
+
+  @override
+  String get settingsDesc =>
+      'Bildirimleri, hesaplama yöntemlerini ve uygulama temalarını yapılandırın.';
+
+  @override
+  String get openSettingsButton => 'Ayarları Aç';
+
+  @override
+  String get emptyStateDefaultTitle => 'İçerik Bulunmuyor';
+
+  @override
+  String get emptyStateDefaultDesc =>
+      'Bu modül gelecekteki fazlar için geliştirme aşamasındadır.';
+
+  @override
+  String get errorStateDefaultTitle => 'Bir Hata Oluştu';
+
+  @override
+  String get retryButton => 'Tekrar Dene';
 }

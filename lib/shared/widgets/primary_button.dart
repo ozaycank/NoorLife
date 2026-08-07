@@ -20,7 +20,7 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final shape = RoundedRectangleBorder(
+    const shape = RoundedRectangleBorder(
       borderRadius: AppBorderRadius.medium,
     );
 

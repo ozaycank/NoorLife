@@ -134,4 +134,77 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get validationNoWhitespace => 'This field cannot contain spaces.';
+
+  @override
+  String get navHome => 'Home';
+
+  @override
+  String get navPrayer => 'Prayer';
+
+  @override
+  String get navQuran => 'Quran';
+
+  @override
+  String get navActivity => 'Activity';
+
+  @override
+  String get navProfile => 'Profile';
+
+  @override
+  String get homeTitle => 'Home';
+
+  @override
+  String get homeDesc =>
+      'Welcome to NoorLife. Your daily spiritual overview will appear here.';
+
+  @override
+  String get prayerTitle => 'Prayer Times';
+
+  @override
+  String get prayerDesc =>
+      'Accurate prayer times and qibla direction will be displayed here.';
+
+  @override
+  String get quranTitle => 'Al-Quran';
+
+  @override
+  String get quranDesc =>
+      'Holy Quran reading, audio recitations, and bookmarks will be available here.';
+
+  @override
+  String get activityTitle => 'Worship Activity';
+
+  @override
+  String get activityDesc =>
+      'Track your daily prayers, dhikr, and fasting progress here.';
+
+  @override
+  String get profileTitle => 'User Profile';
+
+  @override
+  String get profileDesc =>
+      'Manage your NoorLife account, preferences, and personal statistics.';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get settingsDesc =>
+      'Configure notifications, calculation methods, and app themes.';
+
+  @override
+  String get openSettingsButton => 'Open Settings';
+
+  @override
+  String get emptyStateDefaultTitle => 'No Content Available';
+
+  @override
+  String get emptyStateDefaultDesc =>
+      'This module is currently under development for a future phase.';
+
+  @override
+  String get errorStateDefaultTitle => 'Something Went Wrong';
+
+  @override
+  String get retryButton => 'Retry';
 }

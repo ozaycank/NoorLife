@@ -331,6 +331,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This field cannot contain spaces.'**
   String get validationNoWhitespace;
+
+  /// Bottom navigation Home label
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get navHome;
+
+  /// Bottom navigation Prayer label
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer'**
+  String get navPrayer;
+
+  /// Bottom navigation Quran label
+  ///
+  /// In en, this message translates to:
+  /// **'Quran'**
+  String get navQuran;
+
+  /// Bottom navigation Activity label
+  ///
+  /// In en, this message translates to:
+  /// **'Activity'**
+  String get navActivity;
+
+  /// Bottom navigation Profile label
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get navProfile;
+
+  /// Home placeholder page title
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get homeTitle;
+
+  /// Home placeholder page description
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to NoorLife. Your daily spiritual overview will appear here.'**
+  String get homeDesc;
+
+  /// Prayer placeholder page title
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer Times'**
+  String get prayerTitle;
+
+  /// Prayer placeholder page description
+  ///
+  /// In en, this message translates to:
+  /// **'Accurate prayer times and qibla direction will be displayed here.'**
+  String get prayerDesc;
+
+  /// Quran placeholder page title
+  ///
+  /// In en, this message translates to:
+  /// **'Al-Quran'**
+  String get quranTitle;
+
+  /// Quran placeholder page description
+  ///
+  /// In en, this message translates to:
+  /// **'Holy Quran reading, audio recitations, and bookmarks will be available here.'**
+  String get quranDesc;
+
+  /// Activity placeholder page title
+  ///
+  /// In en, this message translates to:
+  /// **'Worship Activity'**
+  String get activityTitle;
+
+  /// Activity placeholder page description
+  ///
+  /// In en, this message translates to:
+  /// **'Track your daily prayers, dhikr, and fasting progress here.'**
+  String get activityDesc;
+
+  /// Profile placeholder page title
+  ///
+  /// In en, this message translates to:
+  /// **'User Profile'**
+  String get profileTitle;
+
+  /// Profile placeholder page description
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your NoorLife account, preferences, and personal statistics.'**
+  String get profileDesc;
+
+  /// Settings placeholder page title
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// Settings placeholder page description
+  ///
+  /// In en, this message translates to:
+  /// **'Configure notifications, calculation methods, and app themes.'**
+  String get settingsDesc;
+
+  /// Open settings button label
+  ///
+  /// In en, this message translates to:
+  /// **'Open Settings'**
+  String get openSettingsButton;
+
+  /// Default empty state title
+  ///
+  /// In en, this message translates to:
+  /// **'No Content Available'**
+  String get emptyStateDefaultTitle;
+
+  /// Default empty state description
+  ///
+  /// In en, this message translates to:
+  /// **'This module is currently under development for a future phase.'**
+  String get emptyStateDefaultDesc;
+
+  /// Default error state title
+  ///
+  /// In en, this message translates to:
+  /// **'Something Went Wrong'**
+  String get errorStateDefaultTitle;
+
+  /// Retry button label
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retryButton;
 }
 
 class _AppLocalizationsDelegate
