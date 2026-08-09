@@ -60,5 +60,19 @@
   "emptyStateDefaultTitle": "İçerik Bulunmuyor",
   "emptyStateDefaultDesc": "Bu modül gelecekteki fazlar için geliştirme aşamasındadır.",
   "errorStateDefaultTitle": "Bir Hata Oluştu",
-  "retryButton": "Tekrar Dene"
+  "retryButton": "Tekrar Dene",
+  "prayerFajr": "İmsak",
+  "prayerSunrise": "Güneş",
+  "prayerDhuhr": "Öğle",
+  "prayerAsr": "İkindi",
+  "prayerMaghrib": "Akşam",
+  "prayerIsha": "Yatsı",
+  "prayerNextPrayer": "Sıradaki Vakit",
+  "prayerRemainingTime": "Kalan Süre",
+  "prayerCalculationMethod": "Hesaplama Yöntemi",
+  "prayerMadhab": "Mezhep",
+  "prayerLocationHeader": "Konum",
+  "prayerRefreshButton": "Vakitleri Yenile",
+  "prayerSettingsTitle": "Namaz Ayarları",
+  "prayerSettingsDesc": "Hesaplama yöntemlerini ve mezhep tercihlerinizi düzenleyin."
 }

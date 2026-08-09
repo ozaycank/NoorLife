@@ -248,5 +248,61 @@
   "retryButton": "Retry",
   "@retryButton": {
     "description": "Retry button label"
+  },
+  "prayerFajr": "Fajr",
+  "@prayerFajr": {
+    "description": "Fajr prayer name"
+  },
+  "prayerSunrise": "Sunrise",
+  "@prayerSunrise": {
+    "description": "Sunrise time"
+  },
+  "prayerDhuhr": "Dhuhr",
+  "@prayerDhuhr": {
+    "description": "Dhuhr prayer name"
+  },
+  "prayerAsr": "Asr",
+  "@prayerAsr": {
+    "description": "Asr prayer name"
+  },
+  "prayerMaghrib": "Maghrib",
+  "@prayerMaghrib": {
+    "description": "Maghrib prayer name"
+  },
+  "prayerIsha": "Isha",
+  "@prayerIsha": {
+    "description": "Isha prayer name"
+  },
+  "prayerNextPrayer": "Next Prayer",
+  "@prayerNextPrayer": {
+    "description": "Next prayer label"
+  },
+  "prayerRemainingTime": "Remaining Time",
+  "@prayerRemainingTime": {
+    "description": "Remaining time label"
+  },
+  "prayerCalculationMethod": "Calculation Method",
+  "@prayerCalculationMethod": {
+    "description": "Calculation method setting label"
+  },
+  "prayerMadhab": "Madhab / Juristic Method",
+  "@prayerMadhab": {
+    "description": "Madhab setting label"
+  },
+  "prayerLocationHeader": "Prayer Location",
+  "@prayerLocationHeader": {
+    "description": "Prayer location header"
+  },
+  "prayerRefreshButton": "Refresh Times",
+  "@prayerRefreshButton": {
+    "description": "Refresh times button"
+  },
+  "prayerSettingsTitle": "Prayer Settings",
+  "@prayerSettingsTitle": {
+    "description": "Prayer settings screen title"
+  },
+  "prayerSettingsDesc": "Adjust your calculation methods and juristic preferences.",
+  "@prayerSettingsDesc": {
+    "description": "Prayer settings screen description"
   }
 }

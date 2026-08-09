@@ -463,6 +463,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Retry'**
   String get retryButton;
+
+  /// Fajr prayer name
+  ///
+  /// In en, this message translates to:
+  /// **'Fajr'**
+  String get prayerFajr;
+
+  /// Sunrise time
+  ///
+  /// In en, this message translates to:
+  /// **'Sunrise'**
+  String get prayerSunrise;
+
+  /// Dhuhr prayer name
+  ///
+  /// In en, this message translates to:
+  /// **'Dhuhr'**
+  String get prayerDhuhr;
+
+  /// Asr prayer name
+  ///
+  /// In en, this message translates to:
+  /// **'Asr'**
+  String get prayerAsr;
+
+  /// Maghrib prayer name
+  ///
+  /// In en, this message translates to:
+  /// **'Maghrib'**
+  String get prayerMaghrib;
+
+  /// Isha prayer name
+  ///
+  /// In en, this message translates to:
+  /// **'Isha'**
+  String get prayerIsha;
+
+  /// Next prayer label
+  ///
+  /// In en, this message translates to:
+  /// **'Next Prayer'**
+  String get prayerNextPrayer;
+
+  /// Remaining time label
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining Time'**
+  String get prayerRemainingTime;
+
+  /// Calculation method setting label
+  ///
+  /// In en, this message translates to:
+  /// **'Calculation Method'**
+  String get prayerCalculationMethod;
+
+  /// Madhab setting label
+  ///
+  /// In en, this message translates to:
+  /// **'Madhab / Juristic Method'**
+  String get prayerMadhab;
+
+  /// Prayer location header
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer Location'**
+  String get prayerLocationHeader;
+
+  /// Refresh times button
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh Times'**
+  String get prayerRefreshButton;
+
+  /// Prayer settings screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer Settings'**
+  String get prayerSettingsTitle;
+
+  /// Prayer settings screen description
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust your calculation methods and juristic preferences.'**
+  String get prayerSettingsDesc;
 }
 
 class _AppLocalizationsDelegate

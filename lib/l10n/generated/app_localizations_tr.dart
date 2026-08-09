@@ -210,4 +210,47 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get retryButton => 'Tekrar Dene';
+
+  @override
+  String get prayerFajr => 'İmsak';
+
+  @override
+  String get prayerSunrise => 'Güneş';
+
+  @override
+  String get prayerDhuhr => 'Öğle';
+
+  @override
+  String get prayerAsr => 'İkindi';
+
+  @override
+  String get prayerMaghrib => 'Akşam';
+
+  @override
+  String get prayerIsha => 'Yatsı';
+
+  @override
+  String get prayerNextPrayer => 'Sıradaki Vakit';
+
+  @override
+  String get prayerRemainingTime => 'Kalan Süre';
+
+  @override
+  String get prayerCalculationMethod => 'Hesaplama Yöntemi';
+
+  @override
+  String get prayerMadhab => 'Mezhep';
+
+  @override
+  String get prayerLocationHeader => 'Konum';
+
+  @override
+  String get prayerRefreshButton => 'Vakitleri Yenile';
+
+  @override
+  String get prayerSettingsTitle => 'Namaz Ayarları';
+
+  @override
+  String get prayerSettingsDesc =>
+      'Hesaplama yöntemlerini ve mezhep tercihlerinizi düzenleyin.';
 }

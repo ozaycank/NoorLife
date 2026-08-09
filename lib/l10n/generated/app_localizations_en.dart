@@ -207,4 +207,47 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get retryButton => 'Retry';
+
+  @override
+  String get prayerFajr => 'Fajr';
+
+  @override
+  String get prayerSunrise => 'Sunrise';
+
+  @override
+  String get prayerDhuhr => 'Dhuhr';
+
+  @override
+  String get prayerAsr => 'Asr';
+
+  @override
+  String get prayerMaghrib => 'Maghrib';
+
+  @override
+  String get prayerIsha => 'Isha';
+
+  @override
+  String get prayerNextPrayer => 'Next Prayer';
+
+  @override
+  String get prayerRemainingTime => 'Remaining Time';
+
+  @override
+  String get prayerCalculationMethod => 'Calculation Method';
+
+  @override
+  String get prayerMadhab => 'Madhab / Juristic Method';
+
+  @override
+  String get prayerLocationHeader => 'Prayer Location';
+
+  @override
+  String get prayerRefreshButton => 'Refresh Times';
+
+  @override
+  String get prayerSettingsTitle => 'Prayer Settings';
+
+  @override
+  String get prayerSettingsDesc =>
+      'Adjust your calculation methods and juristic preferences.';
 }
