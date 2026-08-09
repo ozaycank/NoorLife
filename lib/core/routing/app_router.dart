@@ -9,7 +9,7 @@ import '../../features/authentication/presentation/screens/login_screen.dart';
 import '../../features/authentication/presentation/screens/register_screen.dart';
 import '../../features/authentication/presentation/screens/splash_auth_decision_screen.dart';
 import '../../features/home/presentation/screens/home_placeholder_screen.dart';
-import '../../features/prayer/presentation/screens/prayer_placeholder_screen.dart';
+import '../../features/prayer/shared/presentation/screens/prayer_home_screen.dart';
 import '../../features/profile/presentation/screens/profile_placeholder_screen.dart';
 import '../../features/quran/presentation/screens/quran_placeholder_screen.dart';
 import '../../features/settings/presentation/screens/settings_placeholder_screen.dart';
@@ -113,7 +113,7 @@ class AppRouter {
               routes: [
                 GoRoute(
                   path: AppRoutes.prayer,
-                  builder: (context, state) => const PrayerPlaceholderScreen(),
+                  builder: (context, state) => const PrayerHomeScreen(),
                 ),
               ],
             ),

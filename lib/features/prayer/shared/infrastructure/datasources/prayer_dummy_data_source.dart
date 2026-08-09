@@ -1,6 +1,4 @@
 import 'package:injectable/injectable.dart';
-import '../../../calculation_methods/domain/entities/madhab.dart';
-import '../../../calculation_methods/domain/entities/prayer_calculation_method.dart';
 import '../../../calculation_methods/infrastructure/models/madhab_model.dart';
 import '../../../calculation_methods/infrastructure/models/prayer_calculation_method_model.dart';
 import '../../../location/domain/entities/prayer_location.dart';
