@@ -8,7 +8,12 @@ part 'prayer_time_model.g.dart';
 class PrayerTimeModel extends PrayerTime {
   const PrayerTimeModel({
     required super.name,
+    required super.time,
     required super.formattedTime,
+    required super.remainingDuration,
+    required super.isPassed,
+    required super.isCurrent,
+    required super.isUpcoming,
     required super.isNext,
   });
 
@@ -20,7 +25,12 @@ class PrayerTimeModel extends PrayerTime {
   factory PrayerTimeModel.fromEntity(PrayerTime entity) {
     return PrayerTimeModel(
       name: entity.name,
+      time: entity.time,
       formattedTime: entity.formattedTime,
+      remainingDuration: entity.remainingDuration,
+      isPassed: entity.isPassed,
+      isCurrent: entity.isCurrent,
+      isUpcoming: entity.isUpcoming,
       isNext: entity.isNext,
     );
   }

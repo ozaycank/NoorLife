@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/extensions/context_extensions.dart';
-import '../../../../../shared/design_system/tokens/app_border_radius.dart';
-import '../../../../../shared/design_system/tokens/app_spacing.dart';
+import '../../../../core/extensions/context_extensions.dart';
+import '../../../../shared/design_system/tokens/app_border_radius.dart';
+import '../../../../shared/design_system/tokens/app_spacing.dart';
 
 class PrayerSettingsTile extends StatelessWidget {
   final String title;
