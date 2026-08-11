@@ -1,99 +1,68 @@
 import 'package:injectable/injectable.dart';
 import '../../../../../core/base/result.dart';
+import '../../../calculation_methods/domain/entities/madhab.dart';
 import '../../../location/domain/entities/prayer_location.dart';
 import '../../../shared/domain/errors/prayer_failure.dart';
+import '../../../shared/infrastructure/datasources/prayer_local_data_source.dart';
+import '../../domain/calculators/calculation_method_profile.dart';
+import '../../domain/calculators/high_latitude_strategy.dart';
+import '../../domain/calculators/prayer_calculation_config.dart';
+import '../../domain/calculators/prayer_calculator.dart';
 import '../../domain/entities/prayer_day.dart';
+import '../../domain/entities/prayer_time.dart';
 import '../../domain/repositories/prayer_times_repository.dart';
 import '../../domain/value_objects/prayer_name.dart';
-import '../models/prayer_day_model.dart';
-import '../models/prayer_time_model.dart';
 
 @LazySingleton(as: PrayerTimesRepository)
 class PrayerTimesRepositoryImpl implements PrayerTimesRepository {
+  final PrayerLocalDataSource _localDataSource;
+
+  PrayerTimesRepositoryImpl(this._localDataSource);
+
   @override
   Future<Result<PrayerDay, PrayerFailure>> getPrayerTimes(
-    PrayerLocation location,
-  ) async {
-    await Future.delayed(const Duration(milliseconds: 600));
-    return Success(_buildDummyDay());
-  }
+      PrayerLocation location, DateTime targetDate) async {
+    try {
+      final methodId = await _localDataSource.getSelectedCalculationMethodId();
+      final madhabId = await _localDataSource.getSelectedMadhabId();
 
-  @override
-  Future<Result<PrayerDay, PrayerFailure>> refreshPrayerTimes(
-    PrayerLocation location,
-  ) async {
-    await Future.delayed(const Duration(milliseconds: 600));
-    return Success(_buildDummyDay());
-  }
+      final methodResult = CalculationMethodProfile.fromId(methodId);
+      if (methodResult is Error) {
+        return Error((methodResult as Error).failure as PrayerFailure);
+      }
+      final methodProfile = (methodResult as Success<CalculationMethodProfile, PrayerFailure>).value;
 
-  PrayerDayModel _buildDummyDay() {
-    return PrayerDayModel(
-      dateIso8601: '2026-08-07',
-      hijriDateFormatted: '23 Safar 1448 AH',
-      nextPrayerName: 'Asr',
-      timeRemainingFormatted: '02h 15m',
-      prayerTimes: [
-        PrayerTimeModel(
-          name: PrayerName.fajr,
-          time: DateTime.now().subtract(const Duration(hours: 4)),
-          formattedTime: '04:35',
-          remainingDuration: Duration.zero,
-          isPassed: true,
-          isCurrent: false,
-          isUpcoming: false,
-          isNext: false,
-        ),
-        PrayerTimeModel(
-          name: PrayerName.sunrise,
-          time: DateTime.now().subtract(const Duration(hours: 2)),
-          formattedTime: '06:05',
-          remainingDuration: Duration.zero,
-          isPassed: true,
-          isCurrent: false,
-          isUpcoming: false,
-          isNext: false,
-        ),
-        PrayerTimeModel(
-          name: PrayerName.dhuhr,
-          time: DateTime.now().subtract(const Duration(minutes: 30)),
-          formattedTime: '13:15',
-          remainingDuration: Duration.zero,
-          isPassed: true,
-          isCurrent: true,
-          isUpcoming: false,
-          isNext: false,
-        ),
-        PrayerTimeModel(
-          name: PrayerName.asr,
-          time: DateTime.now().add(const Duration(hours: 2)),
-          formattedTime: '17:05',
-          remainingDuration: const Duration(hours: 2),
-          isPassed: false,
-          isCurrent: false,
-          isUpcoming: true,
-          isNext: true,
-        ),
-        PrayerTimeModel(
-          name: PrayerName.maghrib,
-          time: DateTime.now().add(const Duration(hours: 5)),
-          formattedTime: '20:15',
-          remainingDuration: const Duration(hours: 5),
-          isPassed: false,
-          isCurrent: false,
-          isUpcoming: true,
-          isNext: false,
-        ),
-        PrayerTimeModel(
-          name: PrayerName.isha,
-          time: DateTime.now().add(const Duration(hours: 6, minutes: 30)),
-          formattedTime: '21:40',
-          remainingDuration: const Duration(hours: 6, minutes: 30),
-          isPassed: false,
-          isCurrent: false,
-          isUpcoming: true,
-          isNext: false,
-        ),
-      ],
-    );
+      final config = PrayerCalculationConfig(
+        latitude: location.latitude,
+        longitude: location.longitude,
+        date: targetDate,
+        timezone: 'Europe/Istanbul', // Hardcoded safely temporarily until LocationService provides TZ.
+        method: methodProfile,
+        madhab: Madhab(id: madhabId, name: madhabId),
+        highLatitudeStrategy: HighLatitudeStrategy.angleBased,
+      );
+
+      final calculator = PrayerCalculator(config);
+      final calcResult = calculator.calculate();
+
+      if (calcResult is Error) {
+        return Error((calcResult as Error).failure as PrayerFailure);
+      }
+
+      final times = (calcResult as Success).value;
+
+      final prayerTimes = [
+        PrayerTime(name: PrayerName.fajr, time: times.fajr),
+        PrayerTime(name: PrayerName.sunrise, time: times.sunrise),
+        PrayerTime(name: PrayerName.dhuhr, time: times.dhuhr),
+        PrayerTime(name: PrayerName.asr, time: times.asr),
+        PrayerTime(name: PrayerName.maghrib, time: times.maghrib),
+        PrayerTime(name: PrayerName.isha, time: times.isha),
+      ];
+
+      return Success(PrayerDay(date: targetDate, prayerTimes: prayerTimes));
+    } catch (e) {
+      return Error(PrayerCalculationFailure('Repository orchestration failed: $e'));
+    }
   }
 }

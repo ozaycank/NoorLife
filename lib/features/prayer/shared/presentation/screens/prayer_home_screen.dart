@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import '../../../../../core/extensions/context_extensions.dart';
 import '../../../../../core/providers/default_location_provider.dart';
 import '../../../../../shared/design_system/tokens/app_spacing.dart';
 import '../../../../../shared/widgets/section_header.dart';
 import '../../../prayer_times/application/providers/prayer_times_notifier.dart';
+import '../../../prayer_times/presentation/providers/prayer_live_state_provider.dart';
 import '../../../prayer_times/presentation/widgets/prayer_card.dart';
 import '../widgets/prayer_error_widget.dart';
 import '../widgets/prayer_header.dart';
@@ -17,6 +19,7 @@ class PrayerHomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(prayerTimesNotifierProvider);
     final location = ref.watch(defaultLocationProvider);
+    final liveState = ref.watch(prayerLiveStateProvider);
     final l10n = context.l10n;
 
     if (state.isLoading && state.prayerDay == null) {
@@ -37,6 +40,11 @@ class PrayerHomeScreen extends ConsumerWidget {
     }
 
     final day = state.prayerDay;
+    final formatter = DateFormat('yyyy-MM-dd');
+
+    final rem = liveState.timeRemaining;
+    final timeRemainingStr =
+        '${rem.inHours.toString().padLeft(2, '0')}:${(rem.inMinutes % 60).toString().padLeft(2, '0')}';
 
     return Scaffold(
       appBar: AppBar(
@@ -45,7 +53,7 @@ class PrayerHomeScreen extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () =>
-                ref.read(prayerTimesNotifierProvider.notifier).refreshTimes(),
+                ref.read(prayerTimesNotifierProvider.notifier).loadTimes(),
             tooltip: l10n.prayerRefreshButton,
           ),
         ],
@@ -53,7 +61,7 @@ class PrayerHomeScreen extends ConsumerWidget {
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () =>
-              ref.read(prayerTimesNotifierProvider.notifier).refreshTimes(),
+              ref.read(prayerTimesNotifierProvider.notifier).loadTimes(),
           child: ListView(
             padding: const EdgeInsets.all(AppSpacing.lg),
             children: [
@@ -61,13 +69,17 @@ class PrayerHomeScreen extends ConsumerWidget {
                 PrayerHeader(
                   cityName: location.cityName,
                   countryName: location.countryName,
-                  hijriDate: day.hijriDateFormatted,
-                  nextPrayerName: day.nextPrayerName,
-                  timeRemaining: day.timeRemainingFormatted,
+                  hijriDate: formatter.format(day.date),
+                  nextPrayerName: liveState.nextPrayer?.name.name.toUpperCase(),
+                  timeRemaining: timeRemainingStr,
                 ),
               const SizedBox(height: AppSpacing.lg),
               SectionHeader(title: l10n.prayerTitle),
-              if (day != null) PrayerCard(prayerTimes: day.prayerTimes),
+              if (day != null)
+                PrayerCard(
+                  prayerTimes: day.prayerTimes,
+                  liveState: liveState,
+                ),
               const SizedBox(height: AppSpacing.xxl),
             ],
           ),

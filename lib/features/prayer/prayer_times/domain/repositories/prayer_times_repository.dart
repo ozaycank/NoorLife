@@ -6,8 +6,6 @@ import '../entities/prayer_day.dart';
 abstract class PrayerTimesRepository {
   Future<Result<PrayerDay, PrayerFailure>> getPrayerTimes(
     PrayerLocation location,
-  );
-  Future<Result<PrayerDay, PrayerFailure>> refreshPrayerTimes(
-    PrayerLocation location,
+    DateTime targetDate,
   );
 }

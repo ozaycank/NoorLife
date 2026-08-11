@@ -23,6 +23,10 @@ import '../../features/prayer/prayer_times/domain/repositories/prayer_times_repo
     as _i621;
 import '../../features/prayer/prayer_times/infrastructure/repositories/prayer_times_repository_impl.dart'
     as _i887;
+import '../../features/prayer/shared/infrastructure/datasources/prayer_in_memory_data_source.dart'
+    as _i916;
+import '../../features/prayer/shared/infrastructure/datasources/prayer_local_data_source.dart'
+    as _i260;
 import '../logging/logger_service.dart' as _i731;
 import '../network/dio_client.dart' as _i667;
 import '../storage/secure_storage_service.dart' as _i666;
@@ -44,12 +48,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i731.LoggerService>(() => _i731.LoggerService());
     gh.lazySingleton<_i666.SecureStorageService>(
         () => _i666.SecureStorageService());
-    gh.lazySingleton<_i621.PrayerTimesRepository>(
-        () => _i887.PrayerTimesRepositoryImpl());
+    gh.lazySingleton<_i260.PrayerLocalDataSource>(
+        () => _i916.PrayerInMemoryDataSource());
     gh.lazySingleton<_i1048.FirebaseAuthDataSource>(
         () => _i1048.FirebaseAuthDataSource(gh<_i59.FirebaseAuth>()));
     gh.lazySingleton<_i667.DioClient>(
         () => _i667.DioClient(gh<_i731.LoggerService>()));
+    gh.lazySingleton<_i621.PrayerTimesRepository>(() =>
+        _i887.PrayerTimesRepositoryImpl(gh<_i260.PrayerLocalDataSource>()));
     gh.lazySingleton<_i742.AuthRepository>(
         () => _i996.AuthRepositoryImpl(gh<_i1048.FirebaseAuthDataSource>()));
     return this;
