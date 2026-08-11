@@ -19,7 +19,7 @@ void main() {
         date: DateTime.utc(2026, 8, 9),
         timezone: 'Europe/Istanbul',
         method: CalculationMethodProfile.mwl,
-        madhab: const Madhab(id: 'standard', name: 'Standard'),
+        madhab: const Madhab(id: 'shafi_hanbali_maliki', name: 'Standard'),
       );
 
       final configHanafi = PrayerCalculationConfig(
@@ -38,14 +38,14 @@ void main() {
       final timesStandard = resStandard.value;
       final timesHanafi = resHanafi.value;
 
-      // Hanafi Asr (Shadow 2) must be later than Standard Asr (Shadow 1)
       expect(timesHanafi.asr.isAfter(timesStandard.asr), isTrue);
-      // Validated duration difference (approx 50-70 mins)
-      expect(timesHanafi.asr.difference(timesStandard.asr).inMinutes,
-          greaterThan(30));
+      expect(
+        timesHanafi.asr.difference(timesStandard.asr).inMinutes,
+        greaterThan(30),
+      );
     });
 
-    test('Invalid Configuration causes domain Failure', () {
+    test('Invalid Configuration causes domain ArgumentError', () {
       expect(
         () => PrayerCalculationConfig(
           latitude: 100.0, // Invalid
@@ -59,7 +59,7 @@ void main() {
       );
     });
 
-    test('Invalid Timezone creates Error Result', () {
+    test('Invalid Timezone creates ResultFailure', () {
       final config = PrayerCalculationConfig(
         latitude: 41.0082,
         longitude: 28.9784,
@@ -70,7 +70,7 @@ void main() {
       );
 
       final result = PrayerCalculator(config).calculate();
-      expect(result, isA<Error>());
+      expect(result, isA<ResultFailure>());
     });
   });
 }

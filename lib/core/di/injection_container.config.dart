@@ -19,6 +19,10 @@ import '../../features/authentication/infrastructure/datasources/firebase_auth_d
     as _i1048;
 import '../../features/authentication/infrastructure/repositories/auth_repository_impl.dart'
     as _i996;
+import '../../features/prayer/calculation_methods/domain/repositories/calculation_method_repository.dart'
+    as _i612;
+import '../../features/prayer/calculation_methods/infrastructure/repositories/calculation_method_repository_impl.dart'
+    as _i699;
 import '../../features/prayer/prayer_times/domain/repositories/prayer_times_repository.dart'
     as _i621;
 import '../../features/prayer/prayer_times/infrastructure/repositories/prayer_times_repository_impl.dart'
@@ -54,6 +58,9 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i1048.FirebaseAuthDataSource(gh<_i59.FirebaseAuth>()));
     gh.lazySingleton<_i667.DioClient>(
         () => _i667.DioClient(gh<_i731.LoggerService>()));
+    gh.lazySingleton<_i612.CalculationMethodRepository>(() =>
+        _i699.CalculationMethodRepositoryImpl(
+            gh<_i260.PrayerLocalDataSource>()));
     gh.lazySingleton<_i621.PrayerTimesRepository>(() =>
         _i887.PrayerTimesRepositoryImpl(gh<_i260.PrayerLocalDataSource>()));
     gh.lazySingleton<_i742.AuthRepository>(

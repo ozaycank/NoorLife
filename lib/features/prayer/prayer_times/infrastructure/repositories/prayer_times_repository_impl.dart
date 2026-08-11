@@ -21,22 +21,27 @@ class PrayerTimesRepositoryImpl implements PrayerTimesRepository {
 
   @override
   Future<Result<PrayerDay, PrayerFailure>> getPrayerTimes(
-      PrayerLocation location, DateTime targetDate) async {
+    PrayerLocation location,
+    DateTime targetDate,
+  ) async {
     try {
       final methodId = await _localDataSource.getSelectedCalculationMethodId();
       final madhabId = await _localDataSource.getSelectedMadhabId();
 
       final methodResult = CalculationMethodProfile.fromId(methodId);
-      if (methodResult is Error) {
-        return Error((methodResult as Error).failure as PrayerFailure);
+      if (methodResult is ResultFailure) {
+        return ResultFailure(
+            (methodResult as ResultFailure).failure as PrayerFailure,);
       }
-      final methodProfile = (methodResult as Success<CalculationMethodProfile, PrayerFailure>).value;
+      final methodProfile =
+          (methodResult as Success<CalculationMethodProfile, PrayerFailure>)
+              .value;
 
       final config = PrayerCalculationConfig(
         latitude: location.latitude,
         longitude: location.longitude,
         date: targetDate,
-        timezone: 'Europe/Istanbul', // Hardcoded safely temporarily until LocationService provides TZ.
+        timezone: 'Europe/Istanbul',
         method: methodProfile,
         madhab: Madhab(id: madhabId, name: madhabId),
         highLatitudeStrategy: HighLatitudeStrategy.angleBased,
@@ -45,8 +50,9 @@ class PrayerTimesRepositoryImpl implements PrayerTimesRepository {
       final calculator = PrayerCalculator(config);
       final calcResult = calculator.calculate();
 
-      if (calcResult is Error) {
-        return Error((calcResult as Error).failure as PrayerFailure);
+      if (calcResult is ResultFailure) {
+        return ResultFailure(
+            (calcResult as ResultFailure).failure as PrayerFailure,);
       }
 
       final times = (calcResult as Success).value;
@@ -62,7 +68,17 @@ class PrayerTimesRepositoryImpl implements PrayerTimesRepository {
 
       return Success(PrayerDay(date: targetDate, prayerTimes: prayerTimes));
     } catch (e) {
-      return Error(PrayerCalculationFailure('Repository orchestration failed: $e'));
+      return ResultFailure(
+        PrayerCalculationFailure('Repository orchestration failed: $e'),
+      );
     }
+  }
+
+  @override
+  Future<Result<PrayerDay, PrayerFailure>> refreshPrayerTimes(
+    PrayerLocation location,
+    DateTime targetDate,
+  ) async {
+    return getPrayerTimes(location, targetDate);
   }
 }

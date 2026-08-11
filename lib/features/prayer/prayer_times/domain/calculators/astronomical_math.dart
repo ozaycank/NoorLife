@@ -10,8 +10,6 @@ class AstronomicalMath {
   static double fixHour(double hour) =>
       hour - 24.0 * (hour / 24.0).floorToDouble();
 
-  /// Calculates the Julian Day for a given Gregorian date and UTC decimal hour.
-  /// Valid for years > 1582. Reference: Meeus Astronomical Algorithms.
   static double calculateJulianDay(
       int year, int month, int day, double utcDecimalHour,) {
     if (month <= 2) {
@@ -28,8 +26,6 @@ class AstronomicalMath {
         (utcDecimalHour / 24.0);
   }
 
-  /// Calculates Solar Declination and Equation of Time for a given Julian Day.
-  /// Returns [Declination in degrees, Equation of Time in decimal hours]
   static List<double> calculateSunPosition(double jd) {
     final d = jd - 2451545.0;
     final g = fixAngle(357.529 + 0.98560028 * d);
@@ -38,8 +34,12 @@ class AstronomicalMath {
         q + 1.915 * math.sin(deg2rad(g)) + 0.020 * math.sin(deg2rad(2 * g)),);
     final e = 23.439 - 0.00000036 * d;
 
-    double ra = rad2deg(math.atan2(
-        math.cos(deg2rad(e)) * math.sin(deg2rad(l)), math.cos(deg2rad(l))));
+    double ra = rad2deg(
+      math.atan2(
+        math.cos(deg2rad(e)) * math.sin(deg2rad(l)),
+        math.cos(deg2rad(l)),
+      ),
+    );
     ra = fixAngle(ra);
 
     final eqt = (q / 15.0) - (ra / 15.0);
@@ -49,8 +49,6 @@ class AstronomicalMath {
     return [decl, eqt];
   }
 
-  /// Calculates the Hour Angle (in decimal hours) for a given solar angle.
-  /// Returns double.nan if the sun never reaches the specified angle.
   static double calculateHourAngle(double angle, double decl, double lat) {
     final cosH = (math.sin(deg2rad(angle)) -
             math.sin(deg2rad(decl)) * math.sin(deg2rad(lat))) /

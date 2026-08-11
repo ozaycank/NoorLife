@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/entities/prayer_time.dart';
 import '../../domain/value_objects/prayer_name.dart';
 import '../../application/providers/prayer_times_notifier.dart';
-import '../../application/states/prayer_times_state.dart';
 
 final currentTimeProvider = StreamProvider<DateTime>((ref) {
   return Stream.periodic(const Duration(seconds: 1), (_) => DateTime.now());
@@ -39,9 +38,6 @@ final prayerLiveStateProvider = Provider<PrayerLiveState>((ref) {
     }
   }
 
-  // If now is after Isha, next prayer is theoretically tomorrow's Fajr.
-  // For Phase 4, we fallback to today's Fajr conceptually to prevent UI crash,
-  // pending full cross-day architecture in Phase 5.
   if (next == null && times.isNotEmpty) {
     current = times.last;
     next = PrayerTime(

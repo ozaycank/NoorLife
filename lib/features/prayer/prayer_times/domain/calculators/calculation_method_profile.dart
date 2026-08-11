@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import '../../../shared/domain/errors/prayer_failure.dart';
 import '../../../../../core/base/result.dart';
+import '../../../shared/domain/errors/prayer_failure.dart';
 
 class CalculationMethodProfile extends Equatable {
   final String id;
@@ -45,9 +45,6 @@ class CalculationMethodProfile extends Equatable {
     ishaIntervalMinutes: 90,
   );
 
-  /// Note: This is an astronomical approximation profile based on 18/17 degrees.
-  /// It is not an official reproduction of Diyanet's proprietary calculation system.
-  /// Accuracy must be validated against a trusted reference dataset.
   static const CalculationMethodProfile diyanetApproximation =
       CalculationMethodProfile(
     id: 'diyar_turk',
@@ -70,8 +67,8 @@ class CalculationMethodProfile extends Equatable {
       case 'diyar_turk':
         return const Success(diyanetApproximation);
       default:
-        return Error(
-            PrayerCalculationFailure('Unsupported calculation method ID: $id'),);
+        return ResultFailure(
+            PrayerCalculationFailure('Unsupported method ID: $id'),);
     }
   }
 

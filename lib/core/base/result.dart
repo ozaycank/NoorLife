@@ -1,4 +1,3 @@
-// lib/core/base/result.dart
 import '../errors/failure.dart';
 
 sealed class Result<S, F extends Failure> {
@@ -10,7 +9,7 @@ class Success<S, F extends Failure> extends Result<S, F> {
   const Success(this.value);
 }
 
-class Error<S, F extends Failure> extends Result<S, F> {
+class ResultFailure<S, F extends Failure> extends Result<S, F> {
   final F failure;
-  const Error(this.failure);
+  const ResultFailure(this.failure);
 }

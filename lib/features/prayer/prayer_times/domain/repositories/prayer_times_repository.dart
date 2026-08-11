@@ -8,4 +8,8 @@ abstract class PrayerTimesRepository {
     PrayerLocation location,
     DateTime targetDate,
   );
+  Future<Result<PrayerDay, PrayerFailure>> refreshPrayerTimes(
+    PrayerLocation location,
+    DateTime targetDate,
+  );
 }
