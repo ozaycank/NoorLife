@@ -1,4 +1,3 @@
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../features/prayer/location/domain/entities/prayer_location.dart';
 
@@ -8,5 +7,6 @@ final defaultLocationProvider = Provider<PrayerLocation>((ref) {
     longitude: 28.9784,
     cityName: 'Istanbul',
     countryName: 'Türkiye',
+    timezoneIdentifier: 'Europe/Istanbul',
   );
 });

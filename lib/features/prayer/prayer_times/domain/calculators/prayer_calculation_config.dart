@@ -6,8 +6,7 @@ import 'high_latitude_strategy.dart';
 class PrayerCalculationConfig extends Equatable {
   final double latitude;
   final double longitude;
-  final DateTime date;
-  final String timezone;
+  final DateTime dateUtc;
   final CalculationMethodProfile method;
   final Madhab madhab;
   final HighLatitudeStrategy highLatitudeStrategy;
@@ -15,8 +14,7 @@ class PrayerCalculationConfig extends Equatable {
   PrayerCalculationConfig({
     required this.latitude,
     required this.longitude,
-    required this.date,
-    required this.timezone,
+    required this.dateUtc,
     required this.method,
     required this.madhab,
     this.highLatitudeStrategy = HighLatitudeStrategy.angleBased,
@@ -27,8 +25,8 @@ class PrayerCalculationConfig extends Equatable {
     if (longitude < -180 || longitude > 180) {
       throw ArgumentError('Longitude must be between -180 and 180');
     }
-    if (timezone.trim().isEmpty) {
-      throw ArgumentError('Timezone identifier cannot be empty');
+    if (!dateUtc.isUtc) {
+      throw ArgumentError('Calculation date must be explicitly UTC');
     }
   }
 
@@ -36,8 +34,7 @@ class PrayerCalculationConfig extends Equatable {
   List<Object?> get props => [
         latitude,
         longitude,
-        date,
-        timezone,
+        dateUtc,
         method,
         madhab,
         highLatitudeStrategy,

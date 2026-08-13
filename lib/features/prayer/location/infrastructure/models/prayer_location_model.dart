@@ -10,6 +10,7 @@ class PrayerLocationModel extends PrayerLocation {
     required super.longitude,
     required super.cityName,
     required super.countryName,
+    required super.timezoneIdentifier,
   });
 
   factory PrayerLocationModel.fromJson(Map<String, dynamic> json) =>

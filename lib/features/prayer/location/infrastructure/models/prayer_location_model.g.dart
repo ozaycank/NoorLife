@@ -12,6 +12,7 @@ PrayerLocationModel _$PrayerLocationModelFromJson(Map<String, dynamic> json) =>
       longitude: (json['longitude'] as num).toDouble(),
       cityName: json['cityName'] as String,
       countryName: json['countryName'] as String,
+      timezoneIdentifier: json['timezoneIdentifier'] as String,
     );
 
 Map<String, dynamic> _$PrayerLocationModelToJson(
@@ -21,4 +22,5 @@ Map<String, dynamic> _$PrayerLocationModelToJson(
       'longitude': instance.longitude,
       'cityName': instance.cityName,
       'countryName': instance.countryName,
+      'timezoneIdentifier': instance.timezoneIdentifier,
     };

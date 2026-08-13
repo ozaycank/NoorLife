@@ -31,7 +31,7 @@ class AstronomicalMath {
     final g = fixAngle(357.529 + 0.98560028 * d);
     final q = fixAngle(280.459 + 0.98564736 * d);
     final l = fixAngle(
-        q + 1.915 * math.sin(deg2rad(g)) + 0.020 * math.sin(deg2rad(2 * g)),);
+        q + 1.915 * math.sin(deg2rad(g)) + 0.020 * math.sin(deg2rad(2 * g),),);
     final e = 23.439 - 0.00000036 * d;
 
     double ra = rad2deg(

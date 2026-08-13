@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import '../../../../../core/extensions/context_extensions.dart';
 import '../../../../../core/providers/default_location_provider.dart';
 import '../../../../../shared/design_system/tokens/app_spacing.dart';
@@ -40,7 +39,6 @@ class PrayerHomeScreen extends ConsumerWidget {
     }
 
     final day = state.prayerDay;
-    final formatter = DateFormat('yyyy-MM-dd');
 
     final rem = liveState.timeRemaining;
     final timeRemainingStr =
@@ -69,7 +67,7 @@ class PrayerHomeScreen extends ConsumerWidget {
                 PrayerHeader(
                   cityName: location.cityName,
                   countryName: location.countryName,
-                  hijriDate: formatter.format(day.date),
+                  hijriDate: day.hijriDateString ?? '-',
                   nextPrayerName: liveState.nextPrayer?.name.name.toUpperCase(),
                   timeRemaining: timeRemainingStr,
                 ),

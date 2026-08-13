@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-import 'package:timezone/timezone.dart' as tz;
 import '../../../../../core/base/result.dart';
 import '../../../shared/domain/errors/prayer_failure.dart';
 import 'astronomical_math.dart';
@@ -14,19 +13,19 @@ class PrayerCalculator {
 
   Result<CalculatedPrayerTimes, PrayerCalculationFailure> calculate() {
     try {
-      tz.Location targetLocation;
-      try {
-        targetLocation = tz.getLocation(config.timezone);
-      } catch (_) {
+      if (config.madhab.id != 'hanafi' &&
+          config.madhab.id != 'shafi_hanbali_maliki') {
         return ResultFailure(
-          PrayerCalculationFailure('Invalid timezone: ${config.timezone}'),
+          PrayerCalculationFailure(
+            'Unsupported madhab ID: ${config.madhab.id}',
+          ),
         );
       }
 
       final jdNoonUtc = AstronomicalMath.calculateJulianDay(
-        config.date.year,
-        config.date.month,
-        config.date.day,
+        config.dateUtc.year,
+        config.dateUtc.month,
+        config.dateUtc.day,
         12.0,
       );
 
@@ -42,11 +41,10 @@ class PrayerCalculator {
         config.latitude,
       );
 
-      if (hourAngleSunrise.isNaN &&
-          config.highLatitudeStrategy == HighLatitudeStrategy.none) {
+      if (hourAngleSunrise.isNaN) {
         return const ResultFailure(
           PrayerCalculationFailure(
-            'Astronomical failure: Sun does not rise/set at this latitude.',
+            'Astronomical failure: Sun does not rise/set at this latitude on this date. Polar calculation is not supported.',
           ),
         );
       }
@@ -55,9 +53,9 @@ class PrayerCalculator {
       final sunsetUTC = noonUTC + hourAngleSunrise;
 
       final jdTomorrowNoon = AstronomicalMath.calculateJulianDay(
-        config.date.year,
-        config.date.month,
-        config.date.day + 1,
+        config.dateUtc.year,
+        config.dateUtc.month,
+        config.dateUtc.day + 1,
         12.0,
       );
       final sunPosTomorrow =
@@ -69,17 +67,20 @@ class PrayerCalculator {
         sunPosTomorrow[0],
         config.latitude,
       );
-      final tomorrowSunriseUTC = noonTomorrowUTC - hourAngleTomorrow + 24.0;
 
+      if (hourAngleTomorrow.isNaN) {
+        return const ResultFailure(
+          PrayerCalculationFailure(
+            'Astronomical failure for tomorrow\'s sunrise.',
+          ),
+        );
+      }
+      final tomorrowSunriseUTC = noonTomorrowUTC - hourAngleTomorrow + 24.0;
       final nightDuration = tomorrowSunriseUTC - sunsetUTC;
 
       final fajrAngle = -config.method.fajrAngle;
       double fajrUTC = noonUTC -
-          AstronomicalMath.calculateHourAngle(
-            fajrAngle,
-            decl,
-            config.latitude,
-          );
+          AstronomicalMath.calculateHourAngle(fajrAngle, decl, config.latitude);
 
       double ishaUTC = double.nan;
       if (config.method.ishaIntervalMinutes != null) {
@@ -105,11 +106,7 @@ class PrayerCalculator {
       );
 
       final asrUTC = noonUTC +
-          AstronomicalMath.calculateHourAngle(
-            asrAngle,
-            decl,
-            config.latitude,
-          );
+          AstronomicalMath.calculateHourAngle(asrAngle, decl, config.latitude);
 
       if (fajrUTC.isNaN) {
         if (config.highLatitudeStrategy == HighLatitudeStrategy.angleBased) {
@@ -148,13 +145,13 @@ class PrayerCalculator {
 
       return Success(
         CalculatedPrayerTimes(
-          fajr: _utcDecimalToTZ(config.date, fajrUTC, targetLocation),
-          sunrise: _utcDecimalToTZ(config.date, sunriseUTC, targetLocation),
-          dhuhr: _utcDecimalToTZ(config.date, noonUTC, targetLocation),
-          asr: _utcDecimalToTZ(config.date, asrUTC, targetLocation),
-          sunset: _utcDecimalToTZ(config.date, sunsetUTC, targetLocation),
-          maghrib: _utcDecimalToTZ(config.date, sunsetUTC, targetLocation),
-          isha: _utcDecimalToTZ(config.date, ishaUTC, targetLocation),
+          fajr: _decimalToUtcTime(config.dateUtc, fajrUTC),
+          sunrise: _decimalToUtcTime(config.dateUtc, sunriseUTC),
+          dhuhr: _decimalToUtcTime(config.dateUtc, noonUTC),
+          asr: _decimalToUtcTime(config.dateUtc, asrUTC),
+          sunset: _decimalToUtcTime(config.dateUtc, sunsetUTC),
+          maghrib: _decimalToUtcTime(config.dateUtc, sunsetUTC),
+          isha: _decimalToUtcTime(config.dateUtc, ishaUTC),
         ),
       );
     } catch (e) {
@@ -164,28 +161,21 @@ class PrayerCalculator {
     }
   }
 
-  DateTime _utcDecimalToTZ(
-    DateTime baseDate,
-    double utcDecimalHours,
-    tz.Location targetLocation,
-  ) {
-    final fixedHours = AstronomicalMath.fixHour(utcDecimalHours);
-    final dayOffset =
-        utcDecimalHours < 0 ? -1 : (utcDecimalHours >= 24 ? 1 : 0);
+  DateTime _decimalToUtcTime(DateTime baseDateUtc, double decimalHours) {
+    final fixedHours = AstronomicalMath.fixHour(decimalHours);
+    final dayOffset = decimalHours < 0 ? -1 : (decimalHours >= 24 ? 1 : 0);
 
     final hours = fixedHours.floor();
     final minutes = ((fixedHours - hours) * 60).floor();
     final seconds = ((((fixedHours - hours) * 60) - minutes) * 60).floor();
 
-    final utcTime = DateTime.utc(
-      baseDate.year,
-      baseDate.month,
-      baseDate.day + dayOffset,
+    return DateTime.utc(
+      baseDateUtc.year,
+      baseDateUtc.month,
+      baseDateUtc.day + dayOffset,
       hours,
       minutes,
       seconds,
     );
-
-    return tz.TZDateTime.from(utcTime, targetLocation);
   }
 }

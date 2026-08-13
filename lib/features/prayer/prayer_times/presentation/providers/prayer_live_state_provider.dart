@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/entities/prayer_time.dart';
-import '../../domain/value_objects/prayer_name.dart';
 import '../../application/providers/prayer_times_notifier.dart';
 
 final currentTimeProvider = StreamProvider<DateTime>((ref) {
@@ -26,7 +25,8 @@ final prayerLiveStateProvider = Provider<PrayerLiveState>((ref) {
 
   if (state.prayerDay == null) return PrayerLiveState();
 
-  final times = state.prayerDay!.prayerTimes;
+  final day = state.prayerDay!;
+  final times = day.prayerTimes;
   PrayerTime? current;
   PrayerTime? next;
 
@@ -40,10 +40,7 @@ final prayerLiveStateProvider = Provider<PrayerLiveState>((ref) {
 
   if (next == null && times.isNotEmpty) {
     current = times.last;
-    next = PrayerTime(
-      name: PrayerName.fajr,
-      time: times.first.time.add(const Duration(days: 1)),
-    );
+    next = day.tomorrowFajr;
   }
 
   final remaining = next?.time.difference(now) ?? Duration.zero;

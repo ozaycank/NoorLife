@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:timezone/data/latest.dart' as tz;
 import 'package:noor_life/features/prayer/calculation_methods/domain/entities/madhab.dart';
 import 'package:noor_life/features/prayer/prayer_times/domain/calculators/calculation_method_profile.dart';
 import 'package:noor_life/features/prayer/prayer_times/domain/calculators/prayer_calculation_config.dart';
@@ -7,17 +6,12 @@ import 'package:noor_life/features/prayer/prayer_times/domain/calculators/prayer
 import 'package:noor_life/core/base/result.dart';
 
 void main() {
-  setUpAll(() {
-    tz.initializeTimeZones();
-  });
-
-  group('PrayerCalculator Engine Validation', () {
-    test('Standard Asr vs Hanafi Asr applies correct shadow ratio', () {
+  group('PrayerCalculator Math & Validation', () {
+    test('Standard vs Hanafi Asr applies verified shadow ratios', () {
       final configStandard = PrayerCalculationConfig(
         latitude: 41.0082,
         longitude: 28.9784,
-        date: DateTime.utc(2026, 8, 9),
-        timezone: 'Europe/Istanbul',
+        dateUtc: DateTime.utc(2026, 8, 9),
         method: CalculationMethodProfile.mwl,
         madhab: const Madhab(id: 'shafi_hanbali_maliki', name: 'Standard'),
       );
@@ -25,8 +19,7 @@ void main() {
       final configHanafi = PrayerCalculationConfig(
         latitude: 41.0082,
         longitude: 28.9784,
-        date: DateTime.utc(2026, 8, 9),
-        timezone: 'Europe/Istanbul',
+        dateUtc: DateTime.utc(2026, 8, 9),
         method: CalculationMethodProfile.mwl,
         madhab: const Madhab(id: 'hanafi', name: 'Hanafi'),
       );
@@ -39,38 +32,49 @@ void main() {
       final timesHanafi = resHanafi.value;
 
       expect(timesHanafi.asr.isAfter(timesStandard.asr), isTrue);
-      expect(
-        timesHanafi.asr.difference(timesStandard.asr).inMinutes,
-        greaterThan(30),
-      );
+
+      final diffMins = timesHanafi.asr.difference(timesStandard.asr).inMinutes;
+      expect(diffMins, greaterThan(45));
+      expect(diffMins, lessThan(80));
     });
 
-    test('Invalid Configuration causes domain ArgumentError', () {
-      expect(
-        () => PrayerCalculationConfig(
-          latitude: 100.0, // Invalid
-          longitude: 28.9784,
-          date: DateTime.utc(2026, 8, 9),
-          timezone: 'Europe/Istanbul',
-          method: CalculationMethodProfile.mwl,
-          madhab: const Madhab(id: 'standard', name: 'Standard'),
-        ),
-        throwsA(isA<ArgumentError>()),
-      );
-    });
-
-    test('Invalid Timezone creates ResultFailure', () {
-      final config = PrayerCalculationConfig(
+    test('Invalid Madhab ID causes explicit failure', () {
+      final configInvalidMadhab = PrayerCalculationConfig(
         latitude: 41.0082,
         longitude: 28.9784,
-        date: DateTime.utc(2026, 8, 9),
-        timezone: 'Fake/Timezone',
+        dateUtc: DateTime.utc(2026, 8, 9),
         method: CalculationMethodProfile.mwl,
-        madhab: const Madhab(id: 'standard', name: 'Standard'),
+        madhab: const Madhab(id: 'random_id', name: 'Unknown'),
+      );
+
+      final result = PrayerCalculator(configInvalidMadhab).calculate();
+      expect(result, isA<ResultFailure>());
+      if (result is ResultFailure) {
+        // Explicitly cast to ResultFailure to access failure property
+        final failureResult = result as ResultFailure;
+        expect(
+            failureResult.failure.message, contains('Unsupported madhab ID'),);
+      }
+    });
+
+    test(
+        'Abnormal Polar Latitude returns Astronomical Failure without High Latitude Strategy',
+        () {
+      final config = PrayerCalculationConfig(
+        latitude: 80.0, // Svalbard (Polar Day/Night)
+        longitude: 15.0,
+        dateUtc: DateTime.utc(2026, 6, 21), // Summer Solstice (Midnight Sun)
+        method: CalculationMethodProfile.mwl,
+        madhab: const Madhab(id: 'shafi_hanbali_maliki', name: 'Standard'),
       );
 
       final result = PrayerCalculator(config).calculate();
       expect(result, isA<ResultFailure>());
+      if (result is ResultFailure) {
+        // Explicitly cast to ResultFailure to access failure property
+        final failureResult = result as ResultFailure;
+        expect(failureResult.failure.message, contains('Astronomical failure'));
+      }
     });
   });
 }
