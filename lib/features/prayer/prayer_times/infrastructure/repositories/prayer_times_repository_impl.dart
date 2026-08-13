@@ -1,16 +1,15 @@
+import 'package:hijri/hijri_calendar.dart';
 import 'package:injectable/injectable.dart';
 import '../../../../../core/base/result.dart';
 import '../../../../../core/errors/failure.dart';
 import '../../../../../core/services/timezone/timezone_service.dart';
-import '../../../calculation_methods/domain/entities/madhab.dart';
 import '../../../location/domain/entities/prayer_location.dart';
 import '../../../shared/domain/errors/prayer_failure.dart';
 import '../../../shared/infrastructure/datasources/prayer_local_data_source.dart';
-import '../../domain/calculators/calculated_prayer_times.dart';
 import '../../domain/calculators/calculation_method_profile.dart';
-import '../../domain/calculators/high_latitude_strategy.dart';
 import '../../domain/calculators/prayer_calculation_config.dart';
 import '../../domain/calculators/prayer_calculator.dart';
+import '../../domain/calculators/calculated_prayer_times.dart';
 import '../../domain/entities/prayer_day.dart';
 import '../../domain/entities/prayer_time.dart';
 import '../../domain/repositories/prayer_times_repository.dart';
@@ -29,8 +28,13 @@ class PrayerTimesRepositoryImpl implements PrayerTimesRepository {
     DateTime targetDate,
   ) async {
     try {
-      final methodId = await _localDataSource.getSelectedCalculationMethodId();
-      final madhabId = await _localDataSource.getSelectedMadhabId();
+      final methodId =
+          await _localDataSource.getSelectedCalculationMethodId() ??
+              'diyar_turk';
+      final madhabId = await _localDataSource.getSelectedMadhabId() ??
+          'shafi_hanbali_maliki';
+      final highLatStrategy =
+          await _localDataSource.getSelectedHighLatitudeStrategy();
 
       final methodResult = CalculationMethodProfile.fromId(methodId);
       CalculationMethodProfile methodProfile;
@@ -40,6 +44,14 @@ class PrayerTimesRepositoryImpl implements PrayerTimesRepository {
           return ResultFailure(f as PrayerFailure);
         case Success(value: final v):
           methodProfile = v;
+      }
+
+      final supportedMadhabs = await _localDataSource.getSupportedMadhabs();
+      final madhabList =
+          supportedMadhabs.where((m) => m.id == madhabId).toList();
+      if (madhabList.isEmpty) {
+        return ResultFailure(PrayerCalculationFailure(
+            'Unsupported madhab ID explicitly rejected: $madhabId',),);
       }
 
       final baseDateUtc = DateTime.utc(
@@ -53,8 +65,8 @@ class PrayerTimesRepositoryImpl implements PrayerTimesRepository {
         longitude: location.longitude,
         dateUtc: baseDateUtc,
         method: methodProfile,
-        madhab: Madhab(id: madhabId, name: madhabId),
-        highLatitudeStrategy: HighLatitudeStrategy.angleBased,
+        madhab: madhabList.first,
+        highLatitudeStrategy: highLatStrategy,
       );
 
       final calculator = PrayerCalculator(config);
@@ -68,40 +80,12 @@ class PrayerTimesRepositoryImpl implements PrayerTimesRepository {
           utcTimes = v;
       }
 
-      final tomorrowConfig = PrayerCalculationConfig(
-        latitude: location.latitude,
-        longitude: location.longitude,
-        dateUtc: baseDateUtc.add(const Duration(days: 1)),
-        method: methodProfile,
-        madhab: Madhab(id: madhabId, name: madhabId),
-        highLatitudeStrategy: HighLatitudeStrategy.angleBased,
-      );
-      final tomorrowResult = PrayerCalculator(tomorrowConfig).calculate();
-
-      DateTime? tomorrowFajrLocal;
-      switch (tomorrowResult) {
-        case ResultFailure():
-          // Keep null if tomorrow fails
-          break;
-        case Success(value: final v):
-          final res = _timezoneService.convertToTimezone(
-            v.fajr,
-            location.timezoneIdentifier,
-          );
-          if (res is Success<DateTime, Failure>) {
-            tomorrowFajrLocal = res.value;
-          }
-      }
-
       DateTime convert(DateTime utc) {
         final res = _timezoneService.convertToTimezone(
-          utc,
-          location.timezoneIdentifier,
-        );
+            utc, location.timezoneIdentifier,);
         if (res is Success<DateTime, Failure>) return res.value;
         throw Exception(
-          'Timezone conversion failed for ${location.timezoneIdentifier}',
-        );
+            'Timezone conversion failed for ${location.timezoneIdentifier}',);
       }
 
       final prayerTimes = [
@@ -113,14 +97,16 @@ class PrayerTimesRepositoryImpl implements PrayerTimesRepository {
         PrayerTime(name: PrayerName.isha, time: convert(utcTimes.isha)),
       ];
 
+      final hijriDate = HijriCalendar.fromDate(
+          DateTime(targetDate.year, targetDate.month, targetDate.day),);
+      final hijriString =
+          '${hijriDate.hDay} ${hijriDate.longMonthName} ${hijriDate.hYear}';
+
       return Success(
         PrayerDay(
           targetDate: targetDate,
           prayerTimes: prayerTimes,
-          tomorrowFajr: tomorrowFajrLocal != null
-              ? PrayerTime(name: PrayerName.fajr, time: tomorrowFajrLocal)
-              : null,
-          hijriDateString: null,
+          hijriDateString: hijriString,
         ),
       );
     } catch (e) {

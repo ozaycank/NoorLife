@@ -13,15 +13,6 @@ class PrayerCalculator {
 
   Result<CalculatedPrayerTimes, PrayerCalculationFailure> calculate() {
     try {
-      if (config.madhab.id != 'hanafi' &&
-          config.madhab.id != 'shafi_hanbali_maliki') {
-        return ResultFailure(
-          PrayerCalculationFailure(
-            'Unsupported madhab ID: ${config.madhab.id}',
-          ),
-        );
-      }
-
       final jdNoonUtc = AstronomicalMath.calculateJulianDay(
         config.dateUtc.year,
         config.dateUtc.month,
@@ -44,7 +35,7 @@ class PrayerCalculator {
       if (hourAngleSunrise.isNaN) {
         return const ResultFailure(
           PrayerCalculationFailure(
-            'Astronomical failure: Sun does not rise/set at this latitude on this date. Polar calculation is not supported.',
+            'Astronomical failure: Sun does not rise/set at this latitude on this date. Polar calculation requires specialized fatwa rules not covered by standard high-latitude strategies.',
           ),
         );
       }
@@ -71,7 +62,7 @@ class PrayerCalculator {
       if (hourAngleTomorrow.isNaN) {
         return const ResultFailure(
           PrayerCalculationFailure(
-            'Astronomical failure for tomorrow\'s sunrise.',
+            'Astronomical failure for tomorrow\'s sunrise. Sun does not set.',
           ),
         );
       }
@@ -109,7 +100,14 @@ class PrayerCalculator {
           AstronomicalMath.calculateHourAngle(asrAngle, decl, config.latitude);
 
       if (fajrUTC.isNaN) {
-        if (config.highLatitudeStrategy == HighLatitudeStrategy.angleBased) {
+        if (config.highLatitudeStrategy == HighLatitudeStrategy.none) {
+          return const ResultFailure(
+            PrayerCalculationFailure(
+              'Fajr angle not reached and no high latitude strategy selected.',
+            ),
+          );
+        } else if (config.highLatitudeStrategy ==
+            HighLatitudeStrategy.angleBased) {
           fajrUTC =
               sunriseUTC - (nightDuration * (config.method.fajrAngle / 60.0));
         } else if (config.highLatitudeStrategy ==
@@ -118,15 +116,18 @@ class PrayerCalculator {
         } else if (config.highLatitudeStrategy ==
             HighLatitudeStrategy.nightMiddle) {
           fajrUTC = sunriseUTC - (nightDuration / 2.0);
-        } else {
-          return const ResultFailure(
-            PrayerCalculationFailure('Fajr angle not reached (High Latitude).'),
-          );
         }
       }
 
       if (ishaUTC.isNaN) {
-        if (config.highLatitudeStrategy == HighLatitudeStrategy.angleBased &&
+        if (config.highLatitudeStrategy == HighLatitudeStrategy.none) {
+          return const ResultFailure(
+            PrayerCalculationFailure(
+              'Isha angle not reached and no high latitude strategy selected.',
+            ),
+          );
+        } else if (config.highLatitudeStrategy ==
+                HighLatitudeStrategy.angleBased &&
             config.method.ishaAngle != null) {
           ishaUTC =
               sunsetUTC + (nightDuration * (config.method.ishaAngle! / 60.0));
@@ -136,10 +137,6 @@ class PrayerCalculator {
         } else if (config.highLatitudeStrategy ==
             HighLatitudeStrategy.nightMiddle) {
           ishaUTC = sunsetUTC + (nightDuration / 2.0);
-        } else {
-          return const ResultFailure(
-            PrayerCalculationFailure('Isha angle not reached (High Latitude).'),
-          );
         }
       }
 
