@@ -58,7 +58,7 @@ void main() {
       },
     );
 
-    test('TEST A, B, C - Chronological cross-day ordering', () {
+    test('TEST A, B, C - Chronological cross-day ordering', () async {
       final yesterday = PrayerDay(
         targetDate: DateTime.utc(2026, 8, 12),
         prayerTimes: [
@@ -133,6 +133,9 @@ void main() {
         ],
       );
 
+      // Wait for Stream to emit first value
+      await container.read(currentTimeProvider.future);
+
       var liveState = container.read(prayerLiveStateProvider);
       expect(liveState.currentPrayer?.name, PrayerName.isha);
       expect(liveState.currentPrayer?.time.day, 12);
@@ -151,6 +154,9 @@ void main() {
         ],
       );
 
+      // Wait for Stream to emit first value
+      await container.read(currentTimeProvider.future);
+
       liveState = container.read(prayerLiveStateProvider);
       expect(liveState.currentPrayer?.name, PrayerName.dhuhr);
       expect(liveState.currentPrayer?.time.day, 13);
@@ -168,6 +174,9 @@ void main() {
           ),
         ],
       );
+
+      // Wait for Stream to emit first value
+      await container.read(currentTimeProvider.future);
 
       liveState = container.read(prayerLiveStateProvider);
       expect(liveState.currentPrayer?.name, PrayerName.isha);
