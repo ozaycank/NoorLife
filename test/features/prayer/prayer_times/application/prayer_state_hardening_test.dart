@@ -8,7 +8,7 @@ import 'package:noor_life/features/prayer/prayer_times/presentation/providers/pr
 import 'package:noor_life/features/prayer/prayer_times/domain/entities/prayer_time.dart';
 import 'package:noor_life/features/prayer/prayer_times/domain/entities/prayer_day.dart';
 import 'package:noor_life/features/prayer/prayer_times/domain/entities/prayer_schedule.dart';
-import 'package:noor_life/features/prayer/shared/domain/value_objects/prayer_name.dart';
+import 'package:noor_life/features/prayer/prayer_times/domain/value_objects/prayer_name.dart';
 import 'package:noor_life/features/prayer/location/domain/entities/prayer_location.dart';
 import 'package:noor_life/features/prayer/prayer_times/application/providers/prayer_times_notifier.dart';
 import 'package:noor_life/features/prayer/shared/domain/errors/prayer_failure.dart';
