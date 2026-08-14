@@ -43,6 +43,9 @@ final prayerLiveStateProvider = Provider<PrayerLiveState>((ref) {
     ...state.schedule!.tomorrow.prayerTimes,
   ];
 
+  // Guarantee chronological ordering natively regardless of calculation origin
+  allTimes.sort((a, b) => a.time.compareTo(b.time));
+
   PrayerTime? current;
   PrayerTime? next;
 
@@ -60,7 +63,6 @@ final prayerLiveStateProvider = Provider<PrayerLiveState>((ref) {
     current = allTimes.last;
   }
 
-  // next.time is guaranteed to be in the future by the loop above, so remaining cannot be negative.
   final remaining = next?.time.difference(nowTarget) ?? Duration.zero;
 
   return PrayerLiveState(

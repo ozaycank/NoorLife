@@ -20,15 +20,15 @@ class PrayerTimesState extends Equatable {
 
   PrayerTimesState copyWith({
     bool? isLoading,
-    PrayerFailure? failure,
-    PrayerSchedule? schedule,
-    PrayerLocation? location,
+    PrayerFailure? Function()? failure,
+    PrayerSchedule? Function()? schedule,
+    PrayerLocation? Function()? location,
   }) {
     return PrayerTimesState(
       isLoading: isLoading ?? this.isLoading,
-      failure: failure,
-      schedule: schedule ?? this.schedule,
-      location: location ?? this.location,
+      failure: failure != null ? failure() : this.failure,
+      schedule: schedule != null ? schedule() : this.schedule,
+      location: location != null ? location() : this.location,
     );
   }
 

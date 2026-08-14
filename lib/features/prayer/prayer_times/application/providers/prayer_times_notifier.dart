@@ -30,11 +30,9 @@ class PrayerTimesNotifier extends Notifier<PrayerTimesState> {
   }
 
   Future<void> loadTimes() async {
-    state = PrayerTimesState(
+    state = state.copyWith(
       isLoading: true,
-      failure: null,
-      schedule: state.schedule,
-      location: state.location,
+      failure: () => null,
     );
 
     final PrayerLocation loc = await _localDataSource.getSelectedLocation() ??
@@ -50,24 +48,29 @@ class PrayerTimesNotifier extends Notifier<PrayerTimesState> {
     final nowLocal = DateTime.now();
     final targetNow = tz.TZDateTime.from(nowLocal, targetTz);
 
-    final result = await _orchestrator.getSchedule(loc, targetNow);
+    // Normalize target date to midnight to represent pure target calendar date.
+    final targetCalendarDate = DateTime.utc(
+      targetNow.year,
+      targetNow.month,
+      targetNow.day,
+    );
+
+    final result = await _orchestrator.getSchedule(loc, targetCalendarDate);
 
     switch (result) {
       case Success(value: final data):
         _logger.logPrayer('Prayer schedule loaded successfully.');
-        state = PrayerTimesState(
+        state = state.copyWith(
           isLoading: false,
-          failure: null,
-          schedule: data,
-          location: loc,
+          failure: () => null,
+          schedule: () => data,
+          location: () => loc,
         );
       case ResultFailure(failure: final f):
         _logger.logPrayer('Failed to load prayer schedule: ${f.message}');
-        state = PrayerTimesState(
+        state = state.copyWith(
           isLoading: false,
-          failure: f,
-          schedule: state.schedule,
-          location: state.location,
+          failure: () => f,
         );
     }
   }
