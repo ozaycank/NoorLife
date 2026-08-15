@@ -54,7 +54,7 @@ class LocationNotifier extends Notifier<LocationState> {
       case ResultFailure(failure: final f):
         state = state.copyWith(
           status: LocationStatus.failure,
-          failure: () => f as LocationFailure,
+          failure: () => f,
         );
     }
   }

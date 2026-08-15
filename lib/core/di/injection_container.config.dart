@@ -23,6 +23,16 @@ import '../../features/prayer/calculation_methods/domain/repositories/calculatio
     as _i612;
 import '../../features/prayer/calculation_methods/infrastructure/repositories/calculation_method_repository_impl.dart'
     as _i699;
+import '../../features/prayer/location/domain/interfaces/location_permission_service.dart'
+    as _i643;
+import '../../features/prayer/location/domain/interfaces/location_service.dart'
+    as _i1067;
+import '../../features/prayer/location/infrastructure/datasources/geolocator_data_source.dart'
+    as _i599;
+import '../../features/prayer/location/infrastructure/services/location_permission_service_impl.dart'
+    as _i493;
+import '../../features/prayer/location/infrastructure/services/location_service_impl.dart'
+    as _i933;
 import '../../features/prayer/prayer_times/application/services/prayer_orchestrator_service.dart'
     as _i877;
 import '../../features/prayer/prayer_times/domain/repositories/prayer_times_repository.dart'
@@ -62,10 +72,16 @@ extension GetItInjectableX on _i174.GetIt {
         _i699.CalculationMethodRepositoryImpl(
             gh<_i260.PrayerLocalDataSource>()));
     gh.lazySingleton<_i280.TimezoneService>(() => _i338.TimezoneServiceImpl());
+    gh.lazySingleton<_i643.LocationPermissionService>(() =>
+        _i493.LocationPermissionServiceImpl(gh<_i599.GeolocatorDataSource>()));
     gh.lazySingleton<_i1048.FirebaseAuthDataSource>(
         () => _i1048.FirebaseAuthDataSource(gh<_i59.FirebaseAuth>()));
     gh.lazySingleton<_i667.DioClient>(
         () => _i667.DioClient(gh<_i731.LoggerService>()));
+    gh.lazySingleton<_i1067.LocationService>(() => _i933.LocationServiceImpl(
+          gh<_i643.LocationPermissionService>(),
+          gh<_i599.GeolocatorDataSource>(),
+        ));
     gh.lazySingleton<_i621.PrayerTimesRepository>(
         () => _i887.PrayerTimesRepositoryImpl(
               gh<_i260.PrayerLocalDataSource>(),

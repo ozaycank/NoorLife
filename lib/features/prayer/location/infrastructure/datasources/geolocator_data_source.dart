@@ -1,7 +1,5 @@
 import 'package:geolocator/geolocator.dart';
-import 'package:injectable/injectable.dart';
 
-@LazySingleton
 class GeolocatorDataSource {
   Future<bool> isLocationServiceEnabled() =>
       Geolocator.isLocationServiceEnabled();

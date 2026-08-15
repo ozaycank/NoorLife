@@ -4,7 +4,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:noor_life/features/prayer/location/infrastructure/datasources/geolocator_data_source.dart';
 import 'package:noor_life/features/prayer/location/infrastructure/services/location_permission_service_impl.dart';
 import 'package:noor_life/features/prayer/location/infrastructure/services/location_service_impl.dart';
-import 'package:noor_life/features/prayer/location/domain/interfaces/location_service.dart';
 import 'package:noor_life/core/base/result.dart';
 
 class MockGeolocatorDataSource extends Mock implements GeolocatorDataSource {}
@@ -65,6 +64,9 @@ void main() {
       speedAccuracy: 1.0,
       altitudeAccuracy: 1.0,
       headingAccuracy: 1.0,
+      // For older versions of geolocator, these might be required or optional,
+      // but providing them ensures full compatibility.
+      isMocked: false,
     );
 
     when(() => mockGeoSource.getCurrentPosition())
