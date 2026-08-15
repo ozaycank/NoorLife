@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/extensions/context_extensions.dart';
 import '../../../../../shared/design_system/tokens/app_spacing.dart';
 import '../../../../../shared/widgets/section_header.dart';
+import '../../../location/application/providers/location_notifier.dart';
+import '../../../location/application/states/location_state.dart';
 import '../../../prayer_times/application/providers/prayer_times_notifier.dart';
 import '../../../prayer_times/presentation/providers/prayer_live_state_provider.dart';
 import '../../../prayer_times/presentation/widgets/prayer_card.dart';
@@ -17,9 +19,11 @@ class PrayerHomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(prayerTimesNotifierProvider);
     final liveState = ref.watch(prayerLiveStateProvider);
+    final locState = ref.watch(locationNotifierProvider);
     final l10n = context.l10n;
 
-    if (state.isLoading && state.schedule == null) {
+    if ((state.isLoading || locState.status == LocationStatus.requesting) &&
+        state.schedule == null) {
       return const PrayerLoadingScreen();
     }
 
@@ -29,8 +33,12 @@ class PrayerHomeScreen extends ConsumerWidget {
         body: SafeArea(
           child: PrayerErrorWidget(
             message: state.failure!.message,
-            onRetry: () =>
-                ref.read(prayerTimesNotifierProvider.notifier).loadTimes(),
+            onRetry: () {
+              ref
+                  .read(locationNotifierProvider.notifier)
+                  .acquireDeviceLocation();
+              ref.read(prayerTimesNotifierProvider.notifier).loadTimes();
+            },
           ),
         ),
       );
@@ -49,16 +57,22 @@ class PrayerHomeScreen extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: () =>
-                ref.read(prayerTimesNotifierProvider.notifier).refreshTimes(),
+            onPressed: () {
+              ref
+                  .read(locationNotifierProvider.notifier)
+                  .acquireDeviceLocation();
+            },
             tooltip: l10n.prayerRefreshButton,
           ),
         ],
       ),
       body: SafeArea(
         child: RefreshIndicator(
-          onRefresh: () =>
-              ref.read(prayerTimesNotifierProvider.notifier).refreshTimes(),
+          onRefresh: () async {
+            await ref
+                .read(locationNotifierProvider.notifier)
+                .acquireDeviceLocation();
+          },
           child: ListView(
             padding: const EdgeInsets.all(AppSpacing.lg),
             children: [
