@@ -25,8 +25,10 @@ class LocationServiceImpl implements LocationService {
       final serviceEnabled = await _geoDataSource.isLocationServiceEnabled();
       if (!serviceEnabled) {
         return const ResultFailure(
-          LocationFailure('Location services are disabled.',
-              code: 'locationServiceDisabled',),
+          LocationFailure(
+            'Location services are disabled.',
+            code: 'locationServiceDisabled',
+          ),
         );
       }
 
@@ -37,13 +39,17 @@ class LocationServiceImpl implements LocationService {
 
       if (permStatus == AppLocationPermission.permanentlyDenied) {
         return const ResultFailure(
-          LocationFailure('Location permission permanently denied.',
-              code: 'permissionDeniedForever',),
+          LocationFailure(
+            'Location permission permanently denied.',
+            code: 'permissionDeniedForever',
+          ),
         );
       } else if (permStatus == AppLocationPermission.denied) {
         return const ResultFailure(
-          LocationFailure('Location permission denied.',
-              code: 'permissionDenied',),
+          LocationFailure(
+            'Location permission denied.',
+            code: 'permissionDenied',
+          ),
         );
       }
 
@@ -54,8 +60,10 @@ class LocationServiceImpl implements LocationService {
           position.longitude < -180 ||
           position.longitude > 180) {
         return const ResultFailure(
-          LocationFailure('Received invalid coordinates from device.',
-              code: 'invalidCoordinates',),
+          LocationFailure(
+            'Received invalid coordinates from device.',
+            code: 'invalidCoordinates',
+          ),
         );
       }
 
@@ -67,12 +75,13 @@ class LocationServiceImpl implements LocationService {
         );
       } catch (e) {
         return const ResultFailure(
-          LocationFailure('Failed to resolve timezone from coordinates.',
-              code: 'timezoneResolutionFailed',),
+          LocationFailure(
+            'Failed to resolve timezone from coordinates.',
+            code: 'timezoneResolutionFailed',
+          ),
         );
       }
 
-      // Safe Geocoding Fallback implementation
       String resolvedCity = 'Current Location';
       String resolvedCountry = 'Unknown';
 
@@ -97,8 +106,10 @@ class LocationServiceImpl implements LocationService {
       return Success(location);
     } catch (e) {
       return ResultFailure(
-        LocationFailure('Failed to acquire location: $e',
-            code: 'coordinateAcquisitionFailed',),
+        LocationFailure(
+          'Failed to acquire location: $e',
+          code: 'coordinateAcquisitionFailed',
+        ),
       );
     }
   }

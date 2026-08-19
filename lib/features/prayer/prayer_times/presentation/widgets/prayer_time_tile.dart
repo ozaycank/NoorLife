@@ -60,8 +60,11 @@ class PrayerTimeTile extends StatelessWidget {
           Row(
             children: [
               if (isNext) ...[
-                Icon(Icons.access_time_filled,
-                    color: colorScheme.primary, size: 20,),
+                Icon(
+                  Icons.access_time_filled,
+                  color: colorScheme.primary,
+                  size: 20,
+                ),
                 const SizedBox(width: AppSpacing.sm),
               ],
               Text(

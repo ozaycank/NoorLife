@@ -11,7 +11,11 @@ class AstronomicalMath {
       hour - 24.0 * (hour / 24.0).floorToDouble();
 
   static double calculateJulianDay(
-      int year, int month, int day, double utcDecimalHour,) {
+    int year,
+    int month,
+    int day,
+    double utcDecimalHour,
+  ) {
     if (month <= 2) {
       year -= 1;
       month += 12;
@@ -31,7 +35,13 @@ class AstronomicalMath {
     final g = fixAngle(357.529 + 0.98560028 * d);
     final q = fixAngle(280.459 + 0.98564736 * d);
     final l = fixAngle(
-        q + 1.915 * math.sin(deg2rad(g)) + 0.020 * math.sin(deg2rad(2 * g),),);
+      q +
+          1.915 * math.sin(deg2rad(g)) +
+          0.020 *
+              math.sin(
+                deg2rad(2 * g),
+              ),
+    );
     final e = 23.439 - 0.00000036 * d;
 
     double ra = rad2deg(

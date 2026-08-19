@@ -74,6 +74,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i666.SecureStorageService());
     gh.lazySingleton<_i557.GeocodingDataSource>(
         () => _i557.GeocodingDataSource());
+    gh.lazySingleton<_i599.GeolocatorDataSource>(
+        () => _i599.GeolocatorDataSource());
     gh.lazySingleton<_i260.PrayerLocalDataSource>(
         () => _i949.PrayerSecureStorageDataSource());
     gh.lazySingleton<_i612.CalculationMethodRepository>(() =>

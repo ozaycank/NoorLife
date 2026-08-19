@@ -54,7 +54,8 @@ class CalculationMethodProfile extends Equatable {
   );
 
   static Result<CalculationMethodProfile, PrayerCalculationFailure> fromId(
-      String id,) {
+    String id,
+  ) {
     switch (id) {
       case 'mwl':
         return const Success(mwl);
@@ -68,7 +69,8 @@ class CalculationMethodProfile extends Equatable {
         return const Success(diyanetApproximation);
       default:
         return ResultFailure(
-            PrayerCalculationFailure('Unsupported method ID: $id'),);
+          PrayerCalculationFailure('Unsupported method ID: $id'),
+        );
     }
   }
 

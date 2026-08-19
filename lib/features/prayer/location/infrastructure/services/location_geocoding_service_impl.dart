@@ -16,7 +16,10 @@ class LocationGeocodingServiceImpl implements LocationGeocodingService {
     double longitude,
   ) async {
     try {
-      final placemarks = await _dataSource.getPlacemarks(latitude, longitude);
+      final placemarks = await _dataSource.getPlacemarks(
+        latitude,
+        longitude,
+      );
       if (placemarks.isNotEmpty) {
         final place = placemarks.first;
         final city =
@@ -25,13 +28,17 @@ class LocationGeocodingServiceImpl implements LocationGeocodingService {
         return Success((city, country));
       }
       return const ResultFailure(
-        LocationFailure('No placemarks found.',
-            code: 'locationGeocodingFailed',),
+        LocationFailure(
+          'No placemarks found.',
+          code: 'locationGeocodingFailed',
+        ),
       );
     } catch (e) {
       return ResultFailure(
-        LocationFailure('Geocoding failed: $e',
-            code: 'locationGeocodingFailed',),
+        LocationFailure(
+          'Geocoding failed: $e',
+          code: 'locationGeocodingFailed',
+        ),
       );
     }
   }

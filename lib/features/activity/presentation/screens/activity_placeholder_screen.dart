@@ -23,4 +23,3 @@ class ActivityPlaceholderScreen extends StatelessWidget {
     );
   }
 }
-  

@@ -47,36 +47,42 @@ class SettingsScreen extends ConsumerWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.location_on_outlined,
-                          color: colorScheme.primary,),
+                      Icon(
+                        Icons.location_on_outlined,
+                        color: colorScheme.primary,
+                      ),
                       const SizedBox(width: AppSpacing.sm),
                       Expanded(
                         child: Text(
                           location != null
                               ? '${location.cityName}, ${location.countryName}'
                               : l10n.locationUnavailable,
-                          style: textTheme.titleMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
+                          style: textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ],
                   ),
                   const Divider(height: AppSpacing.xl),
                   _InfoRow(
-                      label: l10n.timezoneLabel,
-                      value: location?.timezoneIdentifier ?? '-',),
+                    label: l10n.timezoneLabel,
+                    value: location?.timezoneIdentifier ?? '-',
+                  ),
                   const SizedBox(height: AppSpacing.sm),
                   _InfoRow(
-                      label: l10n.coordinatesLabel,
-                      value: location != null
-                          ? '${location.latitude.toStringAsFixed(4)}, ${location.longitude.toStringAsFixed(4)}'
-                          : '-',),
+                    label: l10n.coordinatesLabel,
+                    value: location != null
+                        ? '${location.latitude.toStringAsFixed(4)}, ${location.longitude.toStringAsFixed(4)}'
+                        : '-',
+                  ),
                   if (locState.failure != null) ...[
                     const SizedBox(height: AppSpacing.md),
                     Text(
                       locState.failure!.message,
-                      style: textTheme.bodySmall
-                          ?.copyWith(color: colorScheme.error),
+                      style: textTheme.bodySmall?.copyWith(
+                        color: colorScheme.error,
+                      ),
                     ),
                   ],
                   const SizedBox(height: AppSpacing.lg),
@@ -103,7 +109,10 @@ class _InfoRow extends StatelessWidget {
   final String label;
   final String value;
 
-  const _InfoRow({required this.label, required this.value});
+  const _InfoRow({
+    required this.label,
+    required this.value,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -112,11 +121,18 @@ class _InfoRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label,
-            style: textTheme.bodyMedium
-                ?.copyWith(color: colorScheme.onSurfaceVariant),),
-        Text(value,
-            style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),),
+        Text(
+          label,
+          style: textTheme.bodyMedium?.copyWith(
+            color: colorScheme.onSurfaceVariant,
+          ),
+        ),
+        Text(
+          value,
+          style: textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w500,
+          ),
+        ),
       ],
     );
   }

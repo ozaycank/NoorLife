@@ -8,7 +8,8 @@ abstract class BaseException implements Exception {
   });
 
   @override
-  String toString() => 'BaseException(message: $message, statusCode: $statusCode)';
+  String toString() =>
+      'BaseException(message: $message, statusCode: $statusCode)';
 }
 
 class NetworkException extends BaseException {

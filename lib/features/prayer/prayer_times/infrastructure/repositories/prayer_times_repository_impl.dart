@@ -50,8 +50,11 @@ class PrayerTimesRepositoryImpl implements PrayerTimesRepository {
       final madhabList =
           supportedMadhabs.where((m) => m.id == madhabId).toList();
       if (madhabList.isEmpty) {
-        return ResultFailure(PrayerCalculationFailure(
-            'Unsupported madhab ID explicitly rejected: $madhabId',),);
+        return ResultFailure(
+          PrayerCalculationFailure(
+            'Unsupported madhab ID explicitly rejected: $madhabId',
+          ),
+        );
       }
 
       final baseDateUtc = DateTime.utc(
@@ -82,10 +85,13 @@ class PrayerTimesRepositoryImpl implements PrayerTimesRepository {
 
       DateTime convert(DateTime utc) {
         final res = _timezoneService.convertToTimezone(
-            utc, location.timezoneIdentifier,);
+          utc,
+          location.timezoneIdentifier,
+        );
         if (res is Success<DateTime, Failure>) return res.value;
         throw Exception(
-            'Timezone conversion failed for ${location.timezoneIdentifier}',);
+          'Timezone conversion failed for ${location.timezoneIdentifier}',
+        );
       }
 
       final prayerTimes = [
@@ -98,7 +104,8 @@ class PrayerTimesRepositoryImpl implements PrayerTimesRepository {
       ];
 
       final hijriDate = HijriCalendar.fromDate(
-          DateTime(targetDate.year, targetDate.month, targetDate.day),);
+        DateTime(targetDate.year, targetDate.month, targetDate.day),
+      );
       final hijriString =
           '${hijriDate.hDay} ${hijriDate.longMonthName} ${hijriDate.hYear}';
 
