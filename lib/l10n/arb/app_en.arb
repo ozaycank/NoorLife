@@ -304,5 +304,24 @@
   "prayerSettingsDesc": "Adjust your calculation methods and juristic preferences.",
   "@prayerSettingsDesc": {
     "description": "Prayer settings screen description"
-  }
+  },"locationTitle": "Location Settings",
+  "@locationTitle": { "description": "Location settings section title" },
+  "currentLocation": "Current Location",
+  "@currentLocation": { "description": "Fallback city name" },
+  "refreshLocation": "Refresh Location",
+  "@refreshLocation": { "description": "Refresh location button text" },
+  "locationUnavailable": "Location Unavailable",
+  "@locationUnavailable": { "description": "Location missing fallback" },
+  "locationPermissionDenied": "Location permission is required.",
+  "@locationPermissionDenied": { "description": "Location permission denied error" },
+  "locationServiceDisabled": "Location services are disabled.",
+  "@locationServiceDisabled": { "description": "Location service disabled error" },
+  "locationGeocodingFailed": "Failed to resolve address.",
+  "@locationGeocodingFailed": { "description": "Geocoding failure message" },
+  "timezoneLabel": "Timezone",
+  "@timezoneLabel": { "description": "Timezone display label" },
+  "coordinatesLabel": "Coordinates",
+  "@coordinatesLabel": { "description": "Coordinates display label" },
+  "unknownCountry": "Unknown",
+  "@unknownCountry": { "description": "Unknown country fallback" }
 }

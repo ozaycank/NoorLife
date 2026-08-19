@@ -250,4 +250,34 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get prayerSettingsDesc =>
       'Adjust your calculation methods and juristic preferences.';
+
+  @override
+  String get locationTitle => 'Location Settings';
+
+  @override
+  String get currentLocation => 'Current Location';
+
+  @override
+  String get refreshLocation => 'Refresh Location';
+
+  @override
+  String get locationUnavailable => 'Location Unavailable';
+
+  @override
+  String get locationPermissionDenied => 'Location permission is required.';
+
+  @override
+  String get locationServiceDisabled => 'Location services are disabled.';
+
+  @override
+  String get locationGeocodingFailed => 'Failed to resolve address.';
+
+  @override
+  String get timezoneLabel => 'Timezone';
+
+  @override
+  String get coordinatesLabel => 'Coordinates';
+
+  @override
+  String get unknownCountry => 'Unknown';
 }

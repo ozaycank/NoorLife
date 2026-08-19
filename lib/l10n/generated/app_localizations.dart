@@ -547,6 +547,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Adjust your calculation methods and juristic preferences.'**
   String get prayerSettingsDesc;
+
+  /// Location settings section title
+  ///
+  /// In en, this message translates to:
+  /// **'Location Settings'**
+  String get locationTitle;
+
+  /// Fallback city name
+  ///
+  /// In en, this message translates to:
+  /// **'Current Location'**
+  String get currentLocation;
+
+  /// Refresh location button text
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh Location'**
+  String get refreshLocation;
+
+  /// Location missing fallback
+  ///
+  /// In en, this message translates to:
+  /// **'Location Unavailable'**
+  String get locationUnavailable;
+
+  /// Location permission denied error
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission is required.'**
+  String get locationPermissionDenied;
+
+  /// Location service disabled error
+  ///
+  /// In en, this message translates to:
+  /// **'Location services are disabled.'**
+  String get locationServiceDisabled;
+
+  /// Geocoding failure message
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to resolve address.'**
+  String get locationGeocodingFailed;
+
+  /// Timezone display label
+  ///
+  /// In en, this message translates to:
+  /// **'Timezone'**
+  String get timezoneLabel;
+
+  /// Coordinates display label
+  ///
+  /// In en, this message translates to:
+  /// **'Coordinates'**
+  String get coordinatesLabel;
+
+  /// Unknown country fallback
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get unknownCountry;
 }
 
 class _AppLocalizationsDelegate

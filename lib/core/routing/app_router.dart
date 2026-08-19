@@ -12,8 +12,8 @@ import '../../features/home/presentation/screens/home_placeholder_screen.dart';
 import '../../features/prayer/shared/presentation/screens/prayer_home_screen.dart';
 import '../../features/profile/presentation/screens/profile_placeholder_screen.dart';
 import '../../features/quran/presentation/screens/quran_placeholder_screen.dart';
-import '../../features/settings/presentation/screens/settings_placeholder_screen.dart';
 import '../../features/shell/presentation/screens/app_shell_screen.dart';
+import '../../features/settings/presentation/screens/settings_screen.dart';
 import '../di/injection_container.dart';
 import '../logging/logger_service.dart';
 import 'app_navigation_observer.dart';
@@ -94,7 +94,7 @@ class AppRouter {
         GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
           path: AppRoutes.settings,
-          builder: (context, state) => const SettingsPlaceholderScreen(),
+          builder: (context, state) => const SettingsScreen(),
         ),
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) {

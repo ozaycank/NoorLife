@@ -2,6 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:lat_lng_to_timezone/lat_lng_to_timezone.dart' as tzmap;
 import '../../../../../core/base/result.dart';
 import '../../domain/entities/prayer_location.dart';
+import '../../domain/interfaces/location_geocoding_service.dart';
 import '../../domain/interfaces/location_permission_service.dart';
 import '../../domain/interfaces/location_service.dart';
 import '../datasources/geolocator_data_source.dart';
@@ -9,9 +10,14 @@ import '../datasources/geolocator_data_source.dart';
 @LazySingleton(as: LocationService)
 class LocationServiceImpl implements LocationService {
   final LocationPermissionService _permissionService;
+  final LocationGeocodingService _geocodingService;
   final GeolocatorDataSource _geoDataSource;
 
-  LocationServiceImpl(this._permissionService, this._geoDataSource);
+  LocationServiceImpl(
+    this._permissionService,
+    this._geocodingService,
+    this._geoDataSource,
+  );
 
   @override
   Future<Result<PrayerLocation, LocationFailure>> getCurrentLocation() async {
@@ -66,12 +72,25 @@ class LocationServiceImpl implements LocationService {
         );
       }
 
+      // Safe Geocoding Fallback implementation
+      String resolvedCity = 'Current Location';
+      String resolvedCountry = 'Unknown';
+
+      final geoResult = await _geocodingService.reverseGeocode(
+        position.latitude,
+        position.longitude,
+      );
+
+      if (geoResult is Success<(String, String), LocationFailure>) {
+        resolvedCity = geoResult.value.$1;
+        resolvedCountry = geoResult.value.$2;
+      }
+
       final location = PrayerLocation(
         latitude: position.latitude,
         longitude: position.longitude,
-        cityName: 'Current Location',
-        countryName:
-            'Device Coordinates', // Semantic placeholder until reverse-geocoding is implemented
+        cityName: resolvedCity,
+        countryName: resolvedCountry,
         timezoneIdentifier: timezoneId,
       );
 

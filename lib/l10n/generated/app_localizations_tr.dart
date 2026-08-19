@@ -253,4 +253,34 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get prayerSettingsDesc =>
       'Hesaplama yöntemlerini ve mezhep tercihlerinizi düzenleyin.';
+
+  @override
+  String get locationTitle => 'Konum Ayarları';
+
+  @override
+  String get currentLocation => 'Mevcut Konum';
+
+  @override
+  String get refreshLocation => 'Konumu Güncelle';
+
+  @override
+  String get locationUnavailable => 'Konum Bulunamadı';
+
+  @override
+  String get locationPermissionDenied => 'Konum izni gerekiyor.';
+
+  @override
+  String get locationServiceDisabled => 'Konum servisleri kapalı.';
+
+  @override
+  String get locationGeocodingFailed => 'Adres çözümlenemedi.';
+
+  @override
+  String get timezoneLabel => 'Zaman Dilimi';
+
+  @override
+  String get coordinatesLabel => 'Koordinatlar';
+
+  @override
+  String get unknownCountry => 'Bilinmiyor';
 }

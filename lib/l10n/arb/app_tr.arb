@@ -74,5 +74,14 @@
   "prayerLocationHeader": "Konum",
   "prayerRefreshButton": "Vakitleri Yenile",
   "prayerSettingsTitle": "Namaz Ayarları",
-  "prayerSettingsDesc": "Hesaplama yöntemlerini ve mezhep tercihlerinizi düzenleyin."
+  "prayerSettingsDesc": "Hesaplama yöntemlerini ve mezhep tercihlerinizi düzenleyin.","locationTitle": "Konum Ayarları",
+  "currentLocation": "Mevcut Konum",
+  "refreshLocation": "Konumu Güncelle",
+  "locationUnavailable": "Konum Bulunamadı",
+  "locationPermissionDenied": "Konum izni gerekiyor.",
+  "locationServiceDisabled": "Konum servisleri kapalı.",
+  "locationGeocodingFailed": "Adres çözümlenemedi.",
+  "timezoneLabel": "Zaman Dilimi",
+  "coordinatesLabel": "Koordinatlar",
+  "unknownCountry": "Bilinmiyor"
 }
