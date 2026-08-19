@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/base/result.dart';
 import '../../../../../core/di/injection_container.dart';
-import '../../../prayer_times/application/providers/prayer_times_notifier.dart';
 import '../../../shared/infrastructure/datasources/prayer_local_data_source.dart';
 import '../../domain/interfaces/location_service.dart';
 import '../states/location_state.dart';
@@ -34,7 +33,7 @@ class LocationNotifier extends Notifier<LocationState> {
     }
   }
 
-  Future<void> acquireDeviceLocation() async {
+  Future<bool> acquireDeviceLocation() async {
     state = state.copyWith(
       status: LocationStatus.requesting,
       failure: () => null,
@@ -50,12 +49,13 @@ class LocationNotifier extends Notifier<LocationState> {
           location: () => loc,
           failure: () => null,
         );
-        ref.read(prayerTimesNotifierProvider.notifier).loadTimes();
+        return true;
       case ResultFailure(failure: final f):
         state = state.copyWith(
           status: LocationStatus.failure,
           failure: () => f,
         );
+        return false;
     }
   }
 }

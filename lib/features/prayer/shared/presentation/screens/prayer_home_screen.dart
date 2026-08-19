@@ -15,6 +15,15 @@ import 'prayer_loading_screen.dart';
 class PrayerHomeScreen extends ConsumerWidget {
   const PrayerHomeScreen({super.key});
 
+  Future<void> _refreshData(BuildContext context, WidgetRef ref) async {
+    final success = await ref
+        .read(locationNotifierProvider.notifier)
+        .acquireDeviceLocation();
+    if (success && context.mounted) {
+      await ref.read(prayerTimesNotifierProvider.notifier).refreshTimes();
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(prayerTimesNotifierProvider);
@@ -33,12 +42,7 @@ class PrayerHomeScreen extends ConsumerWidget {
         body: SafeArea(
           child: PrayerErrorWidget(
             message: state.failure!.message,
-            onRetry: () {
-              ref
-                  .read(locationNotifierProvider.notifier)
-                  .acquireDeviceLocation();
-              ref.read(prayerTimesNotifierProvider.notifier).loadTimes();
-            },
+            onRetry: () => _refreshData(context, ref),
           ),
         ),
       );
@@ -57,22 +61,14 @@ class PrayerHomeScreen extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: () {
-              ref
-                  .read(locationNotifierProvider.notifier)
-                  .acquireDeviceLocation();
-            },
+            onPressed: () => _refreshData(context, ref),
             tooltip: l10n.prayerRefreshButton,
           ),
         ],
       ),
       body: SafeArea(
         child: RefreshIndicator(
-          onRefresh: () async {
-            await ref
-                .read(locationNotifierProvider.notifier)
-                .acquireDeviceLocation();
-          },
+          onRefresh: () => _refreshData(context, ref),
           child: ListView(
             padding: const EdgeInsets.all(AppSpacing.lg),
             children: [

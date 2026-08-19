@@ -2,14 +2,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:noor_life/features/prayer/location/infrastructure/datasources/geolocator_data_source.dart';
-import 'package:noor_life/features/prayer/location/infrastructure/services/location_permission_service_impl.dart';
+import 'package:noor_life/features/prayer/location/domain/interfaces/location_permission_service.dart';
 import 'package:noor_life/features/prayer/location/infrastructure/services/location_service_impl.dart';
 import 'package:noor_life/core/base/result.dart';
 
 class MockGeolocatorDataSource extends Mock implements GeolocatorDataSource {}
 
 class MockLocationPermissionService extends Mock
-    implements LocationPermissionServiceImpl {}
+    implements LocationPermissionService {}
 
 void main() {
   late MockGeolocatorDataSource mockGeoSource;
@@ -22,28 +22,45 @@ void main() {
     locationService = LocationServiceImpl(mockPermissionService, mockGeoSource);
   });
 
-  test('returns LocationFailure when location services are disabled', () async {
+  test(
+      'returns LocationFailure with code locationServiceDisabled when services are disabled',
+      () async {
     when(() => mockGeoSource.isLocationServiceEnabled())
         .thenAnswer((_) async => false);
 
     final result = await locationService.getCurrentLocation();
 
     expect(result, isA<ResultFailure>());
-    expect((result as ResultFailure).failure.message, contains('disabled'));
+    expect((result as ResultFailure).failure.code, 'locationServiceDisabled');
   });
 
-  test('returns LocationFailure when permission is denied', () async {
+  test(
+      'returns LocationFailure with code permissionDeniedForever when permanently denied',
+      () async {
     when(() => mockGeoSource.isLocationServiceEnabled())
         .thenAnswer((_) async => true);
     when(() => mockPermissionService.checkPermission())
-        .thenAnswer((_) async => false);
-    when(() => mockPermissionService.requestPermission())
-        .thenAnswer((_) async => false);
+        .thenAnswer((_) async => AppLocationPermission.permanentlyDenied);
 
     final result = await locationService.getCurrentLocation();
 
     expect(result, isA<ResultFailure>());
-    expect((result as ResultFailure).failure.message, contains('denied'));
+    expect((result as ResultFailure).failure.code, 'permissionDeniedForever');
+  });
+
+  test('returns LocationFailure with code permissionDenied when denied',
+      () async {
+    when(() => mockGeoSource.isLocationServiceEnabled())
+        .thenAnswer((_) async => true);
+    when(() => mockPermissionService.checkPermission())
+        .thenAnswer((_) async => AppLocationPermission.denied);
+    when(() => mockPermissionService.requestPermission())
+        .thenAnswer((_) async => AppLocationPermission.denied);
+
+    final result = await locationService.getCurrentLocation();
+
+    expect(result, isA<ResultFailure>());
+    expect((result as ResultFailure).failure.code, 'permissionDenied');
   });
 
   test('returns PrayerLocation with IANA timezone for valid coordinates',
@@ -51,7 +68,7 @@ void main() {
     when(() => mockGeoSource.isLocationServiceEnabled())
         .thenAnswer((_) async => true);
     when(() => mockPermissionService.checkPermission())
-        .thenAnswer((_) async => true);
+        .thenAnswer((_) async => AppLocationPermission.granted);
 
     final mockPosition = Position(
       latitude: 41.0082,
@@ -64,8 +81,6 @@ void main() {
       speedAccuracy: 1.0,
       altitudeAccuracy: 1.0,
       headingAccuracy: 1.0,
-      // For older versions of geolocator, these might be required or optional,
-      // but providing them ensures full compatibility.
       isMocked: false,
     );
 

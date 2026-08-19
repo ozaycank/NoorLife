@@ -19,16 +19,26 @@ class LocationServiceImpl implements LocationService {
       final serviceEnabled = await _geoDataSource.isLocationServiceEnabled();
       if (!serviceEnabled) {
         return const ResultFailure(
-            LocationFailure('Location services are disabled.'),);
+          LocationFailure('Location services are disabled.',
+              code: 'locationServiceDisabled',),
+        );
       }
 
-      final hasPermission = await _permissionService.checkPermission();
-      if (!hasPermission) {
-        final granted = await _permissionService.requestPermission();
-        if (!granted) {
-          return const ResultFailure(
-              LocationFailure('Location permission denied.'),);
-        }
+      var permStatus = await _permissionService.checkPermission();
+      if (permStatus == AppLocationPermission.denied) {
+        permStatus = await _permissionService.requestPermission();
+      }
+
+      if (permStatus == AppLocationPermission.permanentlyDenied) {
+        return const ResultFailure(
+          LocationFailure('Location permission permanently denied.',
+              code: 'permissionDeniedForever',),
+        );
+      } else if (permStatus == AppLocationPermission.denied) {
+        return const ResultFailure(
+          LocationFailure('Location permission denied.',
+              code: 'permissionDenied',),
+        );
       }
 
       final position = await _geoDataSource.getCurrentPosition();
@@ -38,25 +48,39 @@ class LocationServiceImpl implements LocationService {
           position.longitude < -180 ||
           position.longitude > 180) {
         return const ResultFailure(
-            LocationFailure('Received invalid coordinates from device.'),);
+          LocationFailure('Received invalid coordinates from device.',
+              code: 'invalidCoordinates',),
+        );
       }
 
-      final timezoneId = tzmap.latLngToTimezoneString(
-        position.latitude,
-        position.longitude,
-      );
+      String timezoneId;
+      try {
+        timezoneId = tzmap.latLngToTimezoneString(
+          position.latitude,
+          position.longitude,
+        );
+      } catch (e) {
+        return const ResultFailure(
+          LocationFailure('Failed to resolve timezone from coordinates.',
+              code: 'timezoneResolutionFailed',),
+        );
+      }
 
       final location = PrayerLocation(
         latitude: position.latitude,
         longitude: position.longitude,
         cityName: 'Current Location',
-        countryName: 'Resolved by GPS',
+        countryName:
+            'Device Coordinates', // Semantic placeholder until reverse-geocoding is implemented
         timezoneIdentifier: timezoneId,
       );
 
       return Success(location);
     } catch (e) {
-      return ResultFailure(LocationFailure('Failed to acquire location: $e'));
+      return ResultFailure(
+        LocationFailure('Failed to acquire location: $e',
+            code: 'coordinateAcquisitionFailed',),
+      );
     }
   }
 }

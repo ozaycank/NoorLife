@@ -28,7 +28,7 @@ dependencies:
   flutter_svg: ^2.0.10
   timezone: ^0.9.4
   hijri: ^3.0.1
-  geolocator: ^11.0.0
+  geolocator: ^11.1.0
   lat_lng_to_timezone: ^0.2.0
 
 dev_dependencies:

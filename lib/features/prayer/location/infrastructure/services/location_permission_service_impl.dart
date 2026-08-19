@@ -10,19 +10,28 @@ class LocationPermissionServiceImpl implements LocationPermissionService {
   LocationPermissionServiceImpl(this._geoDataSource);
 
   @override
-  Future<bool> checkPermission() async {
+  Future<AppLocationPermission> checkPermission() async {
     final permission = await _geoDataSource.checkPermission();
-    return permission == LocationPermission.always ||
-        permission == LocationPermission.whileInUse;
+    return _mapPermission(permission);
   }
 
   @override
-  Future<bool> requestPermission() async {
+  Future<AppLocationPermission> requestPermission() async {
     var permission = await _geoDataSource.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await _geoDataSource.requestPermission();
     }
-    return permission == LocationPermission.always ||
-        permission == LocationPermission.whileInUse;
+    return _mapPermission(permission);
+  }
+
+  AppLocationPermission _mapPermission(LocationPermission permission) {
+    if (permission == LocationPermission.always ||
+        permission == LocationPermission.whileInUse) {
+      return AppLocationPermission.granted;
+    }
+    if (permission == LocationPermission.deniedForever) {
+      return AppLocationPermission.permanentlyDenied;
+    }
+    return AppLocationPermission.denied;
   }
 }
