@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../shared/widgets/loading_indicator.dart';
 import '../../application/auth_providers.dart';
+import '../../domain/entities/auth_user.dart';
 
 class SplashAuthDecisionScreen extends ConsumerStatefulWidget {
   const SplashAuthDecisionScreen({super.key});
@@ -15,19 +16,14 @@ class SplashAuthDecisionScreen extends ConsumerStatefulWidget {
 
 class _SplashAuthDecisionScreenState
     extends ConsumerState<SplashAuthDecisionScreen> {
-  @override
-  void initState() {
-    super.initState();
-    _decideNavigation();
-  }
+  bool _isNavigating = false;
 
-  Future<void> _decideNavigation() async {
-    await Future.delayed(const Duration(seconds: 2));
-    if (!mounted) return;
+  void _handleNavigation(AsyncValue<AuthUser?> state) {
+    if (_isNavigating || !mounted) return;
 
-    final authState = ref.read(authStateChangesProvider);
-    authState.when(
+    state.whenOrNull(
       data: (user) {
+        _isNavigating = true;
         if (user == null) {
           context.go(AppRoutes.login);
         } else if (!user.isAnonymous && !user.isEmailVerified) {
@@ -36,17 +32,29 @@ class _SplashAuthDecisionScreenState
           context.go(AppRoutes.home);
         }
       },
-      loading: () {},
       error: (_, __) {
-        if (mounted) {
-          context.go(AppRoutes.login);
-        }
+        _isNavigating = true;
+        context.go(AppRoutes.login);
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    // 1. Listen for any future state changes continuously
+    ref.listen<AsyncValue<AuthUser?>>(
+      authStateChangesProvider,
+      (_, next) => _handleNavigation(next),
+    );
+
+    // 2. Safely capture the exact immediate state if it's already resolved upon drawing
+    final authState = ref.watch(authStateChangesProvider);
+    if (!authState.isLoading) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _handleNavigation(authState);
+      });
+    }
+
     return Scaffold(
       body: Center(
         child: Column(
