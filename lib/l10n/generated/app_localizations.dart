@@ -607,6 +607,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unknown'**
   String get unknownCountry;
+
+  /// No description provided for @prayerCalculationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer Calculation'**
+  String get prayerCalculationTitle;
+
+  /// No description provided for @calculationMethodLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculation Method'**
+  String get calculationMethodLabel;
+
+  /// No description provided for @madhabLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Madhab / Juristic Method'**
+  String get madhabLabel;
+
+  /// No description provided for @highLatitudeStrategyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'High Latitude Strategy'**
+  String get highLatitudeStrategyLabel;
+
+  /// No description provided for @calculationMethodSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings saved successfully.'**
+  String get calculationMethodSaved;
+
+  /// No description provided for @settingsSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save settings.'**
+  String get settingsSaveFailed;
+
+  /// No description provided for @angleBasedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Angle Based'**
+  String get angleBasedLabel;
+
+  /// No description provided for @oneSeventhLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'One Seventh'**
+  String get oneSeventhLabel;
+
+  /// No description provided for @nightMiddleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Middle of the Night'**
+  String get nightMiddleLabel;
+
+  /// No description provided for @noneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get noneLabel;
 }
 
 class _AppLocalizationsDelegate

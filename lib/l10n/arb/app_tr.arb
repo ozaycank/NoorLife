@@ -83,5 +83,14 @@
   "locationGeocodingFailed": "Adres çözümlenemedi.",
   "timezoneLabel": "Zaman Dilimi",
   "coordinatesLabel": "Koordinatlar",
-  "unknownCountry": "Bilinmiyor"
+  "unknownCountry": "Bilinmiyor","prayerCalculationTitle": "Hesaplama Yöntemleri",
+  "calculationMethodLabel": "Hesaplama Yöntemi",
+  "madhabLabel": "Mezhep",
+  "highLatitudeStrategyLabel": "Yüksek Enlem Kuralı",
+  "calculationMethodSaved": "Ayarlar başarıyla kaydedildi.",
+  "settingsSaveFailed": "Ayarlar kaydedilirken hata oluştu.",
+  "angleBasedLabel": "Açı Tabanlı",
+  "oneSeventhLabel": "Yedide Bir",
+  "nightMiddleLabel": "Gecenin Yarısı",
+  "noneLabel": "Yok"
 }

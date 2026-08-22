@@ -280,4 +280,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unknownCountry => 'Unknown';
+
+  @override
+  String get prayerCalculationTitle => 'Prayer Calculation';
+
+  @override
+  String get calculationMethodLabel => 'Calculation Method';
+
+  @override
+  String get madhabLabel => 'Madhab / Juristic Method';
+
+  @override
+  String get highLatitudeStrategyLabel => 'High Latitude Strategy';
+
+  @override
+  String get calculationMethodSaved => 'Settings saved successfully.';
+
+  @override
+  String get settingsSaveFailed => 'Failed to save settings.';
+
+  @override
+  String get angleBasedLabel => 'Angle Based';
+
+  @override
+  String get oneSeventhLabel => 'One Seventh';
+
+  @override
+  String get nightMiddleLabel => 'Middle of the Night';
+
+  @override
+  String get noneLabel => 'None';
 }

@@ -304,24 +304,55 @@
   "prayerSettingsDesc": "Adjust your calculation methods and juristic preferences.",
   "@prayerSettingsDesc": {
     "description": "Prayer settings screen description"
-  },"locationTitle": "Location Settings",
-  "@locationTitle": { "description": "Location settings section title" },
+  },
+  "locationTitle": "Location Settings",
+  "@locationTitle": {
+    "description": "Location settings section title"
+  },
   "currentLocation": "Current Location",
-  "@currentLocation": { "description": "Fallback city name" },
+  "@currentLocation": {
+    "description": "Fallback city name"
+  },
   "refreshLocation": "Refresh Location",
-  "@refreshLocation": { "description": "Refresh location button text" },
+  "@refreshLocation": {
+    "description": "Refresh location button text"
+  },
   "locationUnavailable": "Location Unavailable",
-  "@locationUnavailable": { "description": "Location missing fallback" },
+  "@locationUnavailable": {
+    "description": "Location missing fallback"
+  },
   "locationPermissionDenied": "Location permission is required.",
-  "@locationPermissionDenied": { "description": "Location permission denied error" },
+  "@locationPermissionDenied": {
+    "description": "Location permission denied error"
+  },
   "locationServiceDisabled": "Location services are disabled.",
-  "@locationServiceDisabled": { "description": "Location service disabled error" },
+  "@locationServiceDisabled": {
+    "description": "Location service disabled error"
+  },
   "locationGeocodingFailed": "Failed to resolve address.",
-  "@locationGeocodingFailed": { "description": "Geocoding failure message" },
+  "@locationGeocodingFailed": {
+    "description": "Geocoding failure message"
+  },
   "timezoneLabel": "Timezone",
-  "@timezoneLabel": { "description": "Timezone display label" },
+  "@timezoneLabel": {
+    "description": "Timezone display label"
+  },
   "coordinatesLabel": "Coordinates",
-  "@coordinatesLabel": { "description": "Coordinates display label" },
+  "@coordinatesLabel": {
+    "description": "Coordinates display label"
+  },
   "unknownCountry": "Unknown",
-  "@unknownCountry": { "description": "Unknown country fallback" }
+  "@unknownCountry": {
+    "description": "Unknown country fallback"
+  },
+  "prayerCalculationTitle": "Prayer Calculation",
+  "calculationMethodLabel": "Calculation Method",
+  "madhabLabel": "Madhab / Juristic Method",
+  "highLatitudeStrategyLabel": "High Latitude Strategy",
+  "calculationMethodSaved": "Settings saved successfully.",
+  "settingsSaveFailed": "Failed to save settings.",
+  "angleBasedLabel": "Angle Based",
+  "oneSeventhLabel": "One Seventh",
+  "nightMiddleLabel": "Middle of the Night",
+  "noneLabel": "None"
 }

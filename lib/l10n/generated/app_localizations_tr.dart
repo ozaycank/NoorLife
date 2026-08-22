@@ -283,4 +283,34 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get unknownCountry => 'Bilinmiyor';
+
+  @override
+  String get prayerCalculationTitle => 'Hesaplama Yöntemleri';
+
+  @override
+  String get calculationMethodLabel => 'Hesaplama Yöntemi';
+
+  @override
+  String get madhabLabel => 'Mezhep';
+
+  @override
+  String get highLatitudeStrategyLabel => 'Yüksek Enlem Kuralı';
+
+  @override
+  String get calculationMethodSaved => 'Ayarlar başarıyla kaydedildi.';
+
+  @override
+  String get settingsSaveFailed => 'Ayarlar kaydedilirken hata oluştu.';
+
+  @override
+  String get angleBasedLabel => 'Açı Tabanlı';
+
+  @override
+  String get oneSeventhLabel => 'Yedide Bir';
+
+  @override
+  String get nightMiddleLabel => 'Gecenin Yarısı';
+
+  @override
+  String get noneLabel => 'Yok';
 }

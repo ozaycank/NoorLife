@@ -111,7 +111,10 @@ void main() {
     testWidgets('Error state navigates to Login', (tester) async {
       final router = createRouter(AppRoutes.splash);
       await tester.pumpWidget(
-        createTestWidget(const AsyncValue.error('err', StackTrace.empty), router),
+        createTestWidget(
+          const AsyncValue.error('err', StackTrace.empty),
+          router,
+        ),
       );
       await tester.pumpAndSettle();
 
