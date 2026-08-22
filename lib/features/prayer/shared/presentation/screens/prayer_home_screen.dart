@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../../core/extensions/context_extensions.dart';
+import '../../../../../core/routing/app_routes.dart';
 import '../../../../../shared/design_system/tokens/app_spacing.dart';
 import '../../../../../shared/widgets/section_header.dart';
 import '../../../location/application/providers/location_notifier.dart';
@@ -59,6 +61,11 @@ class PrayerHomeScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(l10n.prayerTitle),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.explore_outlined),
+            onPressed: () => context.push(AppRoutes.qibla),
+            tooltip: l10n.qiblaTitle,
+          ),
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () => _refreshData(context, ref),

@@ -313,4 +313,48 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get noneLabel => 'Yok';
+
+  @override
+  String get qiblaTitle => 'Kıble Yönü';
+
+  @override
+  String get qiblaDirection => 'Yön';
+
+  @override
+  String get qiblaBearing => 'Açı';
+
+  @override
+  String get qiblaLocation => 'Konum';
+
+  @override
+  String get qiblaUnavailable =>
+      'Kıble yönü hesaplanamıyor. Lütfen konumunuzun ayarlı olduğundan emin olun.';
+
+  @override
+  String get qiblaCalculationError =>
+      'Kıble yönü hesaplanırken bir hata oluştu.';
+
+  @override
+  String get dirNorth => 'K';
+
+  @override
+  String get dirNorthEast => 'KD';
+
+  @override
+  String get dirEast => 'D';
+
+  @override
+  String get dirSouthEast => 'GD';
+
+  @override
+  String get dirSouth => 'G';
+
+  @override
+  String get dirSouthWest => 'GB';
+
+  @override
+  String get dirWest => 'B';
+
+  @override
+  String get dirNorthWest => 'KB';
 }

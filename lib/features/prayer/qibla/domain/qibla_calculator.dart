@@ -28,8 +28,8 @@ class QiblaCalculator {
 
     final phi1 = latitude * (math.pi / 180.0);
     final lambda1 = longitude * (math.pi / 180.0);
-    final phi2 = KaabaConstants.latitude * (math.pi / 180.0);
-    final lambda2 = KaabaConstants.longitude * (math.pi / 180.0);
+    const phi2 = KaabaConstants.latitude * (math.pi / 180.0);
+    const lambda2 = KaabaConstants.longitude * (math.pi / 180.0);
 
     final deltaLambda = lambda2 - lambda1;
 
@@ -37,7 +37,7 @@ class QiblaCalculator {
     final x = math.cos(phi1) * math.sin(phi2) -
         math.sin(phi1) * math.cos(phi2) * math.cos(deltaLambda);
 
-    var bearingRadians = math.atan2(y, x);
+    final bearingRadians = math.atan2(y, x);
     var bearingDegrees = bearingRadians * (180.0 / math.pi);
 
     bearingDegrees = (bearingDegrees + 360.0) % 360.0;

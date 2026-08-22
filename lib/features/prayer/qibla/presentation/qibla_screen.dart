@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/extensions/context_extensions.dart';
-import '../../../../shared/design_system/tokens/app_spacing.dart';
-import '../../../../shared/widgets/app_card.dart';
-import '../../../../shared/widgets/error_state_widget.dart';
-import '../../../../shared/widgets/section_header.dart';
+import '../../../../../core/extensions/context_extensions.dart';
+import '../../../../../shared/design_system/tokens/app_spacing.dart';
+import '../../../../../shared/widgets/app_card.dart';
+import '../../../../../shared/widgets/error_state_widget.dart';
+import '../../../../../shared/widgets/section_header.dart';
 import '../application/qibla_provider.dart';
 
 class QiblaDirectionFormatter {

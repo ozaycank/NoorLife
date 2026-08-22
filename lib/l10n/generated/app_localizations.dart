@@ -667,6 +667,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'None'**
   String get noneLabel;
+
+  /// No description provided for @qiblaTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Qibla Direction'**
+  String get qiblaTitle;
+
+  /// No description provided for @qiblaDirection.
+  ///
+  /// In en, this message translates to:
+  /// **'Direction'**
+  String get qiblaDirection;
+
+  /// No description provided for @qiblaBearing.
+  ///
+  /// In en, this message translates to:
+  /// **'Bearing'**
+  String get qiblaBearing;
+
+  /// No description provided for @qiblaLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get qiblaLocation;
+
+  /// No description provided for @qiblaUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Qibla calculation unavailable. Please ensure your location is set.'**
+  String get qiblaUnavailable;
+
+  /// No description provided for @qiblaCalculationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to calculate Qibla direction.'**
+  String get qiblaCalculationError;
+
+  /// No description provided for @dirNorth.
+  ///
+  /// In en, this message translates to:
+  /// **'N'**
+  String get dirNorth;
+
+  /// No description provided for @dirNorthEast.
+  ///
+  /// In en, this message translates to:
+  /// **'NE'**
+  String get dirNorthEast;
+
+  /// No description provided for @dirEast.
+  ///
+  /// In en, this message translates to:
+  /// **'E'**
+  String get dirEast;
+
+  /// No description provided for @dirSouthEast.
+  ///
+  /// In en, this message translates to:
+  /// **'SE'**
+  String get dirSouthEast;
+
+  /// No description provided for @dirSouth.
+  ///
+  /// In en, this message translates to:
+  /// **'S'**
+  String get dirSouth;
+
+  /// No description provided for @dirSouthWest.
+  ///
+  /// In en, this message translates to:
+  /// **'SW'**
+  String get dirSouthWest;
+
+  /// No description provided for @dirWest.
+  ///
+  /// In en, this message translates to:
+  /// **'W'**
+  String get dirWest;
+
+  /// No description provided for @dirNorthWest.
+  ///
+  /// In en, this message translates to:
+  /// **'NW'**
+  String get dirNorthWest;
 }
 
 class _AppLocalizationsDelegate

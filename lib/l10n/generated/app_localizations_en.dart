@@ -310,4 +310,47 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noneLabel => 'None';
+
+  @override
+  String get qiblaTitle => 'Qibla Direction';
+
+  @override
+  String get qiblaDirection => 'Direction';
+
+  @override
+  String get qiblaBearing => 'Bearing';
+
+  @override
+  String get qiblaLocation => 'Location';
+
+  @override
+  String get qiblaUnavailable =>
+      'Qibla calculation unavailable. Please ensure your location is set.';
+
+  @override
+  String get qiblaCalculationError => 'Failed to calculate Qibla direction.';
+
+  @override
+  String get dirNorth => 'N';
+
+  @override
+  String get dirNorthEast => 'NE';
+
+  @override
+  String get dirEast => 'E';
+
+  @override
+  String get dirSouthEast => 'SE';
+
+  @override
+  String get dirSouth => 'S';
+
+  @override
+  String get dirSouthWest => 'SW';
+
+  @override
+  String get dirWest => 'W';
+
+  @override
+  String get dirNorthWest => 'NW';
 }

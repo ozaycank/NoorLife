@@ -18,6 +18,7 @@ import '../di/injection_container.dart';
 import '../logging/logger_service.dart';
 import 'app_navigation_observer.dart';
 import 'app_routes.dart';
+import '../../features/prayer/qibla/presentation/qibla_screen.dart';
 
 class AppRouter {
   AppRouter._();
@@ -95,6 +96,11 @@ class AppRouter {
           parentNavigatorKey: _rootNavigatorKey,
           path: AppRoutes.settings,
           builder: (context, state) => const SettingsScreen(),
+        ),
+        GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: AppRoutes.qibla,
+          builder: (context, state) => const QiblaScreen(),
         ),
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) {

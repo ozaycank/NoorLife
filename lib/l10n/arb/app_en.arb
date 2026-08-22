@@ -354,5 +354,18 @@
   "angleBasedLabel": "Angle Based",
   "oneSeventhLabel": "One Seventh",
   "nightMiddleLabel": "Middle of the Night",
-  "noneLabel": "None"
+  "noneLabel": "None","qiblaTitle": "Qibla Direction",
+  "qiblaDirection": "Direction",
+  "qiblaBearing": "Bearing",
+  "qiblaLocation": "Location",
+  "qiblaUnavailable": "Qibla calculation unavailable. Please ensure your location is set.",
+  "qiblaCalculationError": "Failed to calculate Qibla direction.",
+  "dirNorth": "N",
+  "dirNorthEast": "NE",
+  "dirEast": "E",
+  "dirSouthEast": "SE",
+  "dirSouth": "S",
+  "dirSouthWest": "SW",
+  "dirWest": "W",
+  "dirNorthWest": "NW"
 }

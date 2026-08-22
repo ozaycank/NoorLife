@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
-import '../../../../core/errors/failure.dart';
+import '../../../../../core/errors/failure.dart';
 
 class KaabaConstants {
   KaabaConstants._();
 
   static const double latitude = 21.4225;
-  static const double longitude = 39.82611;
+  static const double longitude = 39.8262;
 }
 
 class QiblaDirection extends Equatable {

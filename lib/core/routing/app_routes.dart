@@ -16,4 +16,5 @@ class AppRoutes {
 
   // Standalone Module Pages
   static const String settings = '/settings';
+  static const String qibla = '/qibla';
 }

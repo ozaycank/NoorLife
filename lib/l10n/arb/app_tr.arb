@@ -92,5 +92,19 @@
   "angleBasedLabel": "Açı Tabanlı",
   "oneSeventhLabel": "Yedide Bir",
   "nightMiddleLabel": "Gecenin Yarısı",
-  "noneLabel": "Yok"
+  "noneLabel": "Yok",
+  "qiblaTitle": "Kıble Yönü",
+  "qiblaDirection": "Yön",
+  "qiblaBearing": "Açı",
+  "qiblaLocation": "Konum",
+  "qiblaUnavailable": "Kıble yönü hesaplanamıyor. Lütfen konumunuzun ayarlı olduğundan emin olun.",
+  "qiblaCalculationError": "Kıble yönü hesaplanırken bir hata oluştu.",
+  "dirNorth": "K",
+  "dirNorthEast": "KD",
+  "dirEast": "D",
+  "dirSouthEast": "GD",
+  "dirSouth": "G",
+  "dirSouthWest": "GB",
+  "dirWest": "B",
+  "dirNorthWest": "KB"
 }
