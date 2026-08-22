@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/base/result.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../../prayer/calculation_methods/domain/repositories/calculation_method_repository.dart';
-import '../../../prayer/prayer_times/application/providers/prayer_times_notifier.dart';
 import '../../../prayer/prayer_times/domain/calculators/high_latitude_strategy.dart';
 import '../../../prayer/shared/domain/errors/prayer_failure.dart';
 import '../../../prayer/shared/infrastructure/datasources/prayer_local_data_source.dart';
@@ -55,35 +54,37 @@ class PrayerSettingsNotifier extends Notifier<PrayerSettingsState> {
     }
   }
 
-  Future<void> updateMethod(String id) async {
+  Future<bool> updateMethod(String id) async {
     state = state.copyWith(isSaving: true, failure: () => null);
     final result = await _repository.updateCalculationMethod(id);
     if (result is Success) {
       state = state.copyWith(isSaving: false, selectedMethodId: id);
-      ref.read(prayerTimesNotifierProvider.notifier).refreshTimes();
+      return true;
     } else {
       state = state.copyWith(
         isSaving: false,
         failure: () => (result as ResultFailure).failure as PrayerFailure,
       );
+      return false;
     }
   }
 
-  Future<void> updateMadhab(String id) async {
+  Future<bool> updateMadhab(String id) async {
     state = state.copyWith(isSaving: true, failure: () => null);
     final result = await _repository.updateMadhab(id);
     if (result is Success) {
       state = state.copyWith(isSaving: false, selectedMadhabId: id);
-      ref.read(prayerTimesNotifierProvider.notifier).refreshTimes();
+      return true;
     } else {
       state = state.copyWith(
         isSaving: false,
         failure: () => (result as ResultFailure).failure as PrayerFailure,
       );
+      return false;
     }
   }
 
-  Future<void> updateHighLatitudeStrategy(HighLatitudeStrategy strategy) async {
+  Future<bool> updateHighLatitudeStrategy(HighLatitudeStrategy strategy) async {
     state = state.copyWith(isSaving: true, failure: () => null);
     try {
       await _localDataSource.saveSelectedHighLatitudeStrategy(strategy);
@@ -91,12 +92,13 @@ class PrayerSettingsNotifier extends Notifier<PrayerSettingsState> {
         isSaving: false,
         selectedHighLatStrategy: strategy,
       );
-      ref.read(prayerTimesNotifierProvider.notifier).refreshTimes();
+      return true;
     } catch (e) {
       state = state.copyWith(
         isSaving: false,
         failure: () => PrayerCalculationFailure('Failed to save strategy: $e'),
       );
+      return false;
     }
   }
 }

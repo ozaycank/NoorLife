@@ -152,7 +152,9 @@ class _PrayerCalculationSection extends ConsumerWidget {
   }
 
   String _getHighLatLabel(
-      HighLatitudeStrategy? strategy, BuildContext context,) {
+    HighLatitudeStrategy? strategy,
+    BuildContext context,
+  ) {
     final l10n = context.l10n;
     switch (strategy) {
       case HighLatitudeStrategy.angleBased:
@@ -165,6 +167,17 @@ class _PrayerCalculationSection extends ConsumerWidget {
         return l10n.noneLabel;
       case null:
         return '-';
+    }
+  }
+
+  Future<void> _handleSettingChange(
+    BuildContext context,
+    WidgetRef ref,
+    Future<bool> Function() saveOperation,
+  ) async {
+    final success = await saveOperation();
+    if (success && context.mounted) {
+      await ref.read(prayerTimesNotifierProvider.notifier).refreshTimes();
     }
   }
 
@@ -224,7 +237,11 @@ class _PrayerCalculationSection extends ConsumerWidget {
                       .map((m) => SelectionItem(m.id, m.name, m.description))
                       .toList(),
                   state.selectedMethodId,
-                  (id) => notifier.updateMethod(id),
+                  (id) => _handleSettingChange(
+                    context,
+                    ref,
+                    () => notifier.updateMethod(id),
+                  ),
                 ),
               ),
               const Divider(height: 1),
@@ -239,7 +256,11 @@ class _PrayerCalculationSection extends ConsumerWidget {
                       .map((m) => SelectionItem(m.id, m.name))
                       .toList(),
                   state.selectedMadhabId,
-                  (id) => notifier.updateMadhab(id),
+                  (id) => _handleSettingChange(
+                    context,
+                    ref,
+                    () => notifier.updateMadhab(id),
+                  ),
                 ),
               ),
               const Divider(height: 1),
@@ -256,7 +277,11 @@ class _PrayerCalculationSection extends ConsumerWidget {
                     final strategy = HighLatitudeStrategy.values.firstWhere(
                       (s) => s.name == id,
                     );
-                    notifier.updateHighLatitudeStrategy(strategy);
+                    _handleSettingChange(
+                      context,
+                      ref,
+                      () => notifier.updateHighLatitudeStrategy(strategy),
+                    );
                   },
                 ),
               ),
