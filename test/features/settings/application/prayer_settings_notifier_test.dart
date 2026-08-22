@@ -65,8 +65,9 @@ void main() {
   group('PrayerSettingsNotifier Logic', () {
     test('Successfully loads initial persisted settings and lists', () async {
       final container = ProviderContainer();
-      // Microtask'in arkaplanda loadSettings'i bitirmesini bekle
-      await Future.delayed(Duration.zero);
+      final notifier = container.read(prayerSettingsNotifierProvider.notifier);
+
+      await notifier.loadSettings();
 
       final state = container.read(prayerSettingsNotifierProvider);
 
@@ -85,8 +86,7 @@ void main() {
       final container = ProviderContainer();
       final notifier = container.read(prayerSettingsNotifierProvider.notifier);
 
-      // Microtask'in arkaplanda loadSettings'i bitirmesini bekle
-      await Future.delayed(Duration.zero);
+      await notifier.loadSettings();
 
       final result = await notifier.updateMethod('isna');
 
@@ -106,8 +106,7 @@ void main() {
       final container = ProviderContainer();
       final notifier = container.read(prayerSettingsNotifierProvider.notifier);
 
-      // Microtask'in arkaplanda loadSettings'i bitirmesini bekle
-      await Future.delayed(Duration.zero);
+      await notifier.loadSettings();
 
       final result = await notifier.updateMadhab('hanafi');
 
