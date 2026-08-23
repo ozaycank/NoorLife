@@ -353,4 +353,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dirNorthWest => 'NW';
+
+  @override
+  String get qiblaDisclaimer =>
+      'Calculated from your current location. Turn-by-turn compass guidance is not enabled yet.';
+
+  @override
+  String get qiblaUndefinedAtKaaba =>
+      'You are at the Kaaba. Qibla direction is undefined.';
 }

@@ -1,27 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:noor_life/features/prayer/location/application/states/location_state.dart';
 import 'package:noor_life/features/prayer/location/domain/entities/prayer_location.dart';
-import 'package:noor_life/features/prayer/location/application/providers/location_notifier.dart';
 import 'package:noor_life/features/prayer/qibla/application/qibla_provider.dart';
-
-class FakeLocationNotifier extends LocationNotifier {
-  final LocationState _initialState;
-
-  FakeLocationNotifier(this._initialState);
-
-  @override
-  LocationState build() => _initialState;
-}
 
 void main() {
   group('QiblaProvider Flow Tests', () {
-    test('Returns failure state when location is null', () {
+    test('Returns failure state when pure location state is null', () {
       final container = ProviderContainer(
         overrides: [
-          locationNotifierProvider.overrideWith(
-            () => FakeLocationNotifier(const LocationState(location: null)),
-          ),
+          currentPrayerLocationProvider.overrideWithValue(null),
         ],
       );
 
@@ -41,9 +28,7 @@ void main() {
 
       final container = ProviderContainer(
         overrides: [
-          locationNotifierProvider.overrideWith(
-            () => FakeLocationNotifier(const LocationState(location: loc)),
-          ),
+          currentPrayerLocationProvider.overrideWithValue(loc),
         ],
       );
 

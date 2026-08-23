@@ -367,5 +367,7 @@
   "dirSouth": "S",
   "dirSouthWest": "SW",
   "dirWest": "W",
-  "dirNorthWest": "NW"
+  "dirNorthWest": "NW",
+  "qiblaDisclaimer": "Calculated from your current location. Turn-by-turn compass guidance is not enabled yet.",
+  "qiblaUndefinedAtKaaba": "You are at the Kaaba. Qibla direction is undefined."
 }

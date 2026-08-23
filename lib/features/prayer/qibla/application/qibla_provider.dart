@@ -1,9 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../../core/base/result.dart';
+import '../../../../core/base/result.dart';
 import '../../location/application/providers/location_notifier.dart';
+import '../../location/domain/entities/prayer_location.dart';
 import '../domain/qibla_calculator.dart';
 import '../domain/qibla_models.dart';
+
+final currentPrayerLocationProvider = Provider<PrayerLocation?>((ref) {
+  return ref.watch(locationNotifierProvider.select((state) => state.location));
+});
 
 enum QiblaStatus { initial, success, failure }
 
@@ -25,8 +30,7 @@ class QiblaState extends Equatable {
 }
 
 final qiblaProvider = Provider<QiblaState>((ref) {
-  final locState = ref.watch(locationNotifierProvider);
-  final location = locState.location;
+  final location = ref.watch(currentPrayerLocationProvider);
 
   if (location == null) {
     return const QiblaState(

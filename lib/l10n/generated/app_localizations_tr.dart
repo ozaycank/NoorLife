@@ -357,4 +357,11 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get dirNorthWest => 'KB';
+
+  @override
+  String get qiblaDisclaimer =>
+      'Konumunuza göre hesaplanmıştır. Telefon pusulası ile yönlendirme henüz etkin değildir.';
+
+  @override
+  String get qiblaUndefinedAtKaaba => 'Kâbe\'desiniz. Kıble yönü tanımsızdır.';
 }

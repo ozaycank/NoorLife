@@ -106,5 +106,7 @@
   "dirSouth": "G",
   "dirSouthWest": "GB",
   "dirWest": "B",
-  "dirNorthWest": "KB"
+  "dirNorthWest": "KB",
+  "qiblaDisclaimer": "Konumunuza göre hesaplanmıştır. Telefon pusulası ile yönlendirme henüz etkin değildir.",
+  "qiblaUndefinedAtKaaba": "Kâbe'desiniz. Kıble yönü tanımsızdır."
 }

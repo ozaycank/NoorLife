@@ -26,6 +26,16 @@ class QiblaCalculator {
       );
     }
 
+    if ((latitude - KaabaConstants.latitude).abs() < 0.00001 &&
+        (longitude - KaabaConstants.longitude).abs() < 0.00001) {
+      return const ResultFailure(
+        QiblaFailure(
+          'Qibla direction is undefined at the Kaaba.',
+          code: 'qiblaUndefinedAtKaaba',
+        ),
+      );
+    }
+
     final phi1 = latitude * (math.pi / 180.0);
     final lambda1 = longitude * (math.pi / 180.0);
     const phi2 = KaabaConstants.latitude * (math.pi / 180.0);
@@ -45,11 +55,20 @@ class QiblaCalculator {
     return Success(
       QiblaDirection(
         bearingDegrees: bearingDegrees,
-        sourceLatitude: latitude,
-        sourceLongitude: longitude,
-        kaabaLatitude: KaabaConstants.latitude,
-        kaabaLongitude: KaabaConstants.longitude,
+        compassDirection: getCompassDirection(bearingDegrees),
       ),
     );
+  }
+
+  static CompassDirection getCompassDirection(double bearing) {
+    final normalized = (bearing + 360.0) % 360.0;
+    if (normalized >= 337.5 || normalized < 22.5) return CompassDirection.n;
+    if (normalized >= 22.5 && normalized < 67.5) return CompassDirection.ne;
+    if (normalized >= 67.5 && normalized < 112.5) return CompassDirection.e;
+    if (normalized >= 112.5 && normalized < 157.5) return CompassDirection.se;
+    if (normalized >= 157.5 && normalized < 202.5) return CompassDirection.s;
+    if (normalized >= 202.5 && normalized < 247.5) return CompassDirection.sw;
+    if (normalized >= 247.5 && normalized < 292.5) return CompassDirection.w;
+    return CompassDirection.nw;
   }
 }

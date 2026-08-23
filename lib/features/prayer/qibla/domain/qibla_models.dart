@@ -1,36 +1,26 @@
 import 'package:equatable/equatable.dart';
-import '../../../../../core/errors/failure.dart';
+import '../../../../core/errors/failure.dart';
 
 class KaabaConstants {
   KaabaConstants._();
 
   static const double latitude = 21.4225;
-  static const double longitude = 39.8262;
+  static const double longitude = 39.82611;
 }
+
+enum CompassDirection { n, ne, e, se, s, sw, w, nw }
 
 class QiblaDirection extends Equatable {
   final double bearingDegrees;
-  final double sourceLatitude;
-  final double sourceLongitude;
-  final double kaabaLatitude;
-  final double kaabaLongitude;
+  final CompassDirection compassDirection;
 
   const QiblaDirection({
     required this.bearingDegrees,
-    required this.sourceLatitude,
-    required this.sourceLongitude,
-    required this.kaabaLatitude,
-    required this.kaabaLongitude,
+    required this.compassDirection,
   });
 
   @override
-  List<Object?> get props => [
-        bearingDegrees,
-        sourceLatitude,
-        sourceLongitude,
-        kaabaLatitude,
-        kaabaLongitude,
-      ];
+  List<Object?> get props => [bearingDegrees, compassDirection];
 }
 
 class QiblaFailure extends Failure {

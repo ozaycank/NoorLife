@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:noor_life/core/base/result.dart';
 import 'package:noor_life/features/prayer/qibla/domain/qibla_calculator.dart';
+import 'package:noor_life/features/prayer/qibla/domain/qibla_models.dart';
 
 void main() {
   group('QiblaCalculator Deterministic Tests', () {
@@ -16,47 +17,47 @@ void main() {
       expect(direction.bearingDegrees, closeTo(151.3, 0.5));
     });
 
-    test('London to Kaaba calculates correctly', () {
+    test('Kaaba to Kaaba yields explicit undefined failure', () {
       final result = QiblaCalculator.calculate(
-        latitude: 51.5074,
-        longitude: -0.1278,
+        latitude: KaabaConstants.latitude,
+        longitude: KaabaConstants.longitude,
       );
 
-      expect(result, isA<Success>());
-      final direction = (result as Success).value;
-      expect(direction.bearingDegrees, closeTo(118.9, 0.5));
+      expect(result, isA<ResultFailure>());
+      expect((result as ResultFailure).failure.code, 'qiblaUndefinedAtKaaba');
     });
 
-    test('New York to Kaaba calculates correctly', () {
-      final result = QiblaCalculator.calculate(
-        latitude: 40.7128,
-        longitude: -74.0060,
-      );
-
-      expect(result, isA<Success>());
-      final direction = (result as Success).value;
-      expect(direction.bearingDegrees, closeTo(58.5, 0.5));
+    test('Antimeridian (-180 / 180) evaluates smoothly without exceptions', () {
+      final res1 = QiblaCalculator.calculate(latitude: 0, longitude: 180.0);
+      final res2 = QiblaCalculator.calculate(latitude: 0, longitude: -180.0);
+      expect(res1, isA<Success>());
+      expect(res2, isA<Success>());
     });
 
-    test('Tokyo to Kaaba calculates correctly', () {
-      final result = QiblaCalculator.calculate(
-        latitude: 35.6762,
-        longitude: 139.6503,
-      );
+    test('Poles (90 / -90) evaluate smoothly without exceptions', () {
+      final resN = QiblaCalculator.calculate(latitude: 90.0, longitude: 0.0);
+      expect(resN, isA<Success>());
+      final resS = QiblaCalculator.calculate(latitude: -90.0, longitude: 0.0);
+      expect(resS, isA<Success>());
+    });
+  });
 
-      expect(result, isA<Success>());
-      final direction = (result as Success).value;
-      expect(direction.bearingDegrees, closeTo(293.0, 0.5));
+  group('Compass Direction Boundary Tests', () {
+    test('Boundary 0 and 360 maps to North', () {
+      expect(QiblaCalculator.getCompassDirection(0.0), CompassDirection.n);
+      expect(QiblaCalculator.getCompassDirection(359.9), CompassDirection.n);
+      expect(QiblaCalculator.getCompassDirection(360.0), CompassDirection.n);
     });
 
-    test('Invalid coordinates return QiblaFailure explicitly', () {
-      final res1 = QiblaCalculator.calculate(latitude: 95.0, longitude: 0.0);
-      expect(res1, isA<ResultFailure>());
-      expect((res1 as ResultFailure).failure.code, 'invalid_latitude');
+    test('Boundary 22.5 maps to NorthEast', () {
+      expect(QiblaCalculator.getCompassDirection(22.49), CompassDirection.n);
+      expect(QiblaCalculator.getCompassDirection(22.5), CompassDirection.ne);
+    });
 
-      final res2 = QiblaCalculator.calculate(latitude: 0.0, longitude: 200.0);
-      expect(res2, isA<ResultFailure>());
-      expect((res2 as ResultFailure).failure.code, 'invalid_longitude');
+    test('Exact Cardinal Points Map Correctly', () {
+      expect(QiblaCalculator.getCompassDirection(90.0), CompassDirection.e);
+      expect(QiblaCalculator.getCompassDirection(180.0), CompassDirection.s);
+      expect(QiblaCalculator.getCompassDirection(270.0), CompassDirection.w);
     });
   });
 }

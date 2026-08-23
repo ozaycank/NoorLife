@@ -751,6 +751,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'NW'**
   String get dirNorthWest;
+
+  /// No description provided for @qiblaDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculated from your current location. Turn-by-turn compass guidance is not enabled yet.'**
+  String get qiblaDisclaimer;
+
+  /// No description provided for @qiblaUndefinedAtKaaba.
+  ///
+  /// In en, this message translates to:
+  /// **'You are at the Kaaba. Qibla direction is undefined.'**
+  String get qiblaUndefinedAtKaaba;
 }
 
 class _AppLocalizationsDelegate

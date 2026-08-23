@@ -1,32 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../../core/extensions/context_extensions.dart';
-import '../../../../../shared/design_system/tokens/app_spacing.dart';
-import '../../../../../shared/widgets/app_card.dart';
-import '../../../../../shared/widgets/error_state_widget.dart';
-import '../../../../../shared/widgets/section_header.dart';
+import '../../../../core/extensions/context_extensions.dart';
+import '../../../../l10n/generated/app_localizations.dart';
+import '../../../../shared/design_system/tokens/app_spacing.dart';
+import '../../../../shared/widgets/app_card.dart';
+import '../../../../shared/widgets/error_state_widget.dart';
+import '../../../../shared/widgets/section_header.dart';
 import '../application/qibla_provider.dart';
-
-class QiblaDirectionFormatter {
-  QiblaDirectionFormatter._();
-
-  static String format(BuildContext context, double bearing) {
-    final l10n = context.l10n;
-    final normalized = (bearing + 360.0) % 360.0;
-
-    if (normalized >= 337.5 || normalized < 22.5) return l10n.dirNorth;
-    if (normalized >= 22.5 && normalized < 67.5) return l10n.dirNorthEast;
-    if (normalized >= 67.5 && normalized < 112.5) return l10n.dirEast;
-    if (normalized >= 112.5 && normalized < 157.5) return l10n.dirSouthEast;
-    if (normalized >= 157.5 && normalized < 202.5) return l10n.dirSouth;
-    if (normalized >= 202.5 && normalized < 247.5) return l10n.dirSouthWest;
-    if (normalized >= 247.5 && normalized < 292.5) return l10n.dirWest;
-    return l10n.dirNorthWest;
-  }
-}
+import '../domain/qibla_models.dart';
 
 class QiblaScreen extends ConsumerWidget {
   const QiblaScreen({super.key});
+
+  String _getLocalizedDirection(CompassDirection dir, AppLocalizations l10n) {
+    switch (dir) {
+      case CompassDirection.n:
+        return l10n.dirNorth;
+      case CompassDirection.ne:
+        return l10n.dirNorthEast;
+      case CompassDirection.e:
+        return l10n.dirEast;
+      case CompassDirection.se:
+        return l10n.dirSouthEast;
+      case CompassDirection.s:
+        return l10n.dirSouth;
+      case CompassDirection.sw:
+        return l10n.dirSouthWest;
+      case CompassDirection.w:
+        return l10n.dirWest;
+      case CompassDirection.nw:
+        return l10n.dirNorthWest;
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -43,7 +48,9 @@ class QiblaScreen extends ConsumerWidget {
         child: state.status == QiblaStatus.failure || state.direction == null
             ? ErrorStateWidget(
                 title: l10n.qiblaUnavailable,
-                message: state.failure?.message ?? l10n.qiblaCalculationError,
+                message: state.failure?.code == 'qiblaUndefinedAtKaaba'
+                    ? l10n.qiblaUndefinedAtKaaba
+                    : (state.failure?.message ?? l10n.qiblaCalculationError),
                 retryText: l10n.retryButton,
               )
             : ListView(
@@ -85,15 +92,24 @@ class QiblaScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: AppSpacing.sm),
                         Text(
-                          QiblaDirectionFormatter.format(
-                            context,
-                            state.direction!.bearingDegrees,
+                          _getLocalizedDirection(
+                            state.direction!.compassDirection,
+                            l10n,
                           ),
                           style: textTheme.titleLarge?.copyWith(
                             color: colorScheme.onSurfaceVariant,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                        const SizedBox(height: AppSpacing.xl),
+                        const SizedBox(height: AppSpacing.xxl),
+                        Text(
+                          l10n.qiblaDisclaimer,
+                          textAlign: TextAlign.center,
+                          style: textTheme.bodySmall?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
                       ],
                     ),
                   ),
