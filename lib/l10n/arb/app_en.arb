@@ -435,5 +435,12 @@
   "hijriShawwal": "Shawwal",
   "hijriDhuAlQiDah": "Dhu al-Qi'dah",
   "hijriDhuAlHijjah": "Dhu al-Hijjah",
-  "asrConventionDesc": "Asr calculation convention"
+  "asrConventionDesc": "Asr calculation convention","homeGreeting": "Assalamu Alaikum",
+  "homeToday": "Today's Schedule",
+  "nextPrayerHeader": "Next Prayer",
+  "viewQibla": "Qibla Direction",
+  "openSettings": "App Settings",
+  "homePrayerError": "Prayer times unavailable.",
+  "homePrayerRetry": "Retry Location",
+  "homeComingSoon": "Coming Soon"
 }

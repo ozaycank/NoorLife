@@ -523,4 +523,28 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get asrConventionDesc => 'İkindi vakti hesaplama kuralı';
+
+  @override
+  String get homeGreeting => 'Selamun Aleyküm';
+
+  @override
+  String get homeToday => 'Bugünün Vakitleri';
+
+  @override
+  String get nextPrayerHeader => 'Sıradaki Vakit';
+
+  @override
+  String get viewQibla => 'Kıble Yönü';
+
+  @override
+  String get openSettings => 'Uygulama Ayarları';
+
+  @override
+  String get homePrayerError => 'Namaz vakitleri yüklenemedi.';
+
+  @override
+  String get homePrayerRetry => 'Konumu Yenile';
+
+  @override
+  String get homeComingSoon => 'Yakında';
 }

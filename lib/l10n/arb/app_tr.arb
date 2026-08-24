@@ -161,5 +161,13 @@
   "hijriShawwal": "Şevval",
   "hijriDhuAlQiDah": "Zilkade",
   "hijriDhuAlHijjah": "Zilhicce",
-  "asrConventionDesc": "İkindi vakti hesaplama kuralı"
+  "asrConventionDesc": "İkindi vakti hesaplama kuralı",
+  "homeGreeting": "Selamun Aleyküm",
+  "homeToday": "Bugünün Vakitleri",
+  "nextPrayerHeader": "Sıradaki Vakit",
+  "viewQibla": "Kıble Yönü",
+  "openSettings": "Uygulama Ayarları",
+  "homePrayerError": "Namaz vakitleri yüklenemedi.",
+  "homePrayerRetry": "Konumu Yenile",
+  "homeComingSoon": "Yakında"
 }

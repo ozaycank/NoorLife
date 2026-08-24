@@ -520,4 +520,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get asrConventionDesc => 'Asr calculation convention';
+
+  @override
+  String get homeGreeting => 'Assalamu Alaikum';
+
+  @override
+  String get homeToday => 'Today\'s Schedule';
+
+  @override
+  String get nextPrayerHeader => 'Next Prayer';
+
+  @override
+  String get viewQibla => 'Qibla Direction';
+
+  @override
+  String get openSettings => 'App Settings';
+
+  @override
+  String get homePrayerError => 'Prayer times unavailable.';
+
+  @override
+  String get homePrayerRetry => 'Retry Location';
+
+  @override
+  String get homeComingSoon => 'Coming Soon';
 }

@@ -1069,6 +1069,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Asr calculation convention'**
   String get asrConventionDesc;
+
+  /// No description provided for @homeGreeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Assalamu Alaikum'**
+  String get homeGreeting;
+
+  /// No description provided for @homeToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s Schedule'**
+  String get homeToday;
+
+  /// No description provided for @nextPrayerHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Next Prayer'**
+  String get nextPrayerHeader;
+
+  /// No description provided for @viewQibla.
+  ///
+  /// In en, this message translates to:
+  /// **'Qibla Direction'**
+  String get viewQibla;
+
+  /// No description provided for @openSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'App Settings'**
+  String get openSettings;
+
+  /// No description provided for @homePrayerError.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer times unavailable.'**
+  String get homePrayerError;
+
+  /// No description provided for @homePrayerRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry Location'**
+  String get homePrayerRetry;
+
+  /// No description provided for @homeComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming Soon'**
+  String get homeComingSoon;
 }
 
 class _AppLocalizationsDelegate
