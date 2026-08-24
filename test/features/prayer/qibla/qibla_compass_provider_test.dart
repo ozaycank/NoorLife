@@ -12,7 +12,6 @@ import 'package:noor_life/features/prayer/qibla/domain/compass_models.dart';
 import 'package:noor_life/features/prayer/qibla/domain/interfaces/device_heading_service.dart';
 import 'package:noor_life/features/prayer/qibla/application/qibla_compass_provider.dart';
 
-
 class MockDeviceHeadingService extends Mock implements DeviceHeadingService {}
 
 class FakeLocationNotifier extends LocationNotifier {
