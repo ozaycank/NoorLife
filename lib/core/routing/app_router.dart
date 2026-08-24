@@ -8,7 +8,6 @@ import '../../features/authentication/presentation/screens/forgot_password_scree
 import '../../features/authentication/presentation/screens/login_screen.dart';
 import '../../features/authentication/presentation/screens/register_screen.dart';
 import '../../features/authentication/presentation/screens/splash_auth_decision_screen.dart';
-import '../../features/home/presentation/screens/home_placeholder_screen.dart';
 import '../../features/prayer/shared/presentation/screens/prayer_home_screen.dart';
 import '../../features/profile/presentation/screens/profile_placeholder_screen.dart';
 import '../../features/quran/presentation/screens/quran_placeholder_screen.dart';
@@ -19,6 +18,7 @@ import '../logging/logger_service.dart';
 import 'app_navigation_observer.dart';
 import 'app_routes.dart';
 import '../../features/prayer/qibla/presentation/qibla_screen.dart';
+import '../../features/home/presentation/screens/home_screen.dart';
 
 class AppRouter {
   AppRouter._();
@@ -111,7 +111,7 @@ class AppRouter {
               routes: [
                 GoRoute(
                   path: AppRoutes.home,
-                  builder: (context, state) => const HomePlaceholderScreen(),
+                  builder: (context, state) => const HomeScreen(),
                 ),
               ],
             ),
