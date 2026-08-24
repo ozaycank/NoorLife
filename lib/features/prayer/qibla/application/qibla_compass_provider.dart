@@ -3,6 +3,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/base/result.dart';
 import '../../../../core/di/injection_container.dart';
+import '../domain/circular_smoothing_filter.dart';
+import '../domain/compass_alignment_rules.dart';
 import '../domain/compass_models.dart';
 import '../domain/interfaces/device_heading_service.dart';
 import '../domain/relative_qibla_calculator.dart';
@@ -22,6 +24,7 @@ class QiblaCompassState extends Equatable {
   final double? qiblaBearing;
   final double? deviceHeading;
   final double? relativeQiblaAngle;
+  final QiblaAlignmentStatus? alignmentStatus;
   final CompassFailure? failure;
 
   const QiblaCompassState({
@@ -29,6 +32,7 @@ class QiblaCompassState extends Equatable {
     this.qiblaBearing,
     this.deviceHeading,
     this.relativeQiblaAngle,
+    this.alignmentStatus,
     this.failure,
   });
 
@@ -37,6 +41,7 @@ class QiblaCompassState extends Equatable {
     double? Function()? qiblaBearing,
     double? Function()? deviceHeading,
     double? Function()? relativeQiblaAngle,
+    QiblaAlignmentStatus? Function()? alignmentStatus,
     CompassFailure? Function()? failure,
   }) {
     return QiblaCompassState(
@@ -47,6 +52,8 @@ class QiblaCompassState extends Equatable {
       relativeQiblaAngle: relativeQiblaAngle != null
           ? relativeQiblaAngle()
           : this.relativeQiblaAngle,
+      alignmentStatus:
+          alignmentStatus != null ? alignmentStatus() : this.alignmentStatus,
       failure: failure != null ? failure() : this.failure,
     );
   }
@@ -57,6 +64,7 @@ class QiblaCompassState extends Equatable {
         qiblaBearing,
         deviceHeading,
         relativeQiblaAngle,
+        alignmentStatus,
         failure,
       ];
 }
@@ -69,10 +77,12 @@ final qiblaCompassProvider =
 class QiblaCompassNotifier extends AutoDisposeNotifier<QiblaCompassState> {
   StreamSubscription<Result<DeviceHeading?, CompassFailure>>? _subscription;
   late final DeviceHeadingService _headingService;
+  late final CircularSmoothingFilter _smoothingFilter;
 
   @override
   QiblaCompassState build() {
     _headingService = getIt<DeviceHeadingService>();
+    _smoothingFilter = CircularSmoothingFilter(alpha: 0.2);
 
     ref.listen(qiblaProvider, (previous, next) {
       if (next.status == QiblaStatus.success && next.direction != null) {
@@ -82,6 +92,7 @@ class QiblaCompassNotifier extends AutoDisposeNotifier<QiblaCompassState> {
           status: CompassStatus.locationUnavailable,
           qiblaBearing: () => null,
           relativeQiblaAngle: () => null,
+          alignmentStatus: () => null,
         );
       }
     });
@@ -118,15 +129,20 @@ class QiblaCompassNotifier extends AutoDisposeNotifier<QiblaCompassState> {
               ),
             );
           } else {
+            final smoothedHeading =
+                _smoothingFilter.smooth(heading.headingDegrees);
+
             final bearing = state.qiblaBearing;
             double? relative;
+            QiblaAlignmentStatus? alignment;
             CompassStatus nextStatus = state.status;
 
             if (bearing != null) {
               relative = RelativeQiblaCalculator.calculate(
                 bearing,
-                heading.headingDegrees,
+                smoothedHeading,
               );
+              alignment = CompassAlignmentRules.evaluate(relative);
               nextStatus = CompassStatus.ready;
             } else {
               nextStatus = CompassStatus.locationUnavailable;
@@ -134,8 +150,9 @@ class QiblaCompassNotifier extends AutoDisposeNotifier<QiblaCompassState> {
 
             state = state.copyWith(
               status: nextStatus,
-              deviceHeading: () => heading.headingDegrees,
+              deviceHeading: () => smoothedHeading,
               relativeQiblaAngle: () => relative,
+              alignmentStatus: () => alignment,
               failure: () => null,
             );
           }
@@ -154,11 +171,13 @@ class QiblaCompassNotifier extends AutoDisposeNotifier<QiblaCompassState> {
 
   void _updateQiblaBearing(double newBearing) {
     double? relative;
+    QiblaAlignmentStatus? alignment;
     final heading = state.deviceHeading;
     CompassStatus nextStatus = state.status;
 
     if (heading != null) {
       relative = RelativeQiblaCalculator.calculate(newBearing, heading);
+      alignment = CompassAlignmentRules.evaluate(relative);
       if (state.status == CompassStatus.locationUnavailable ||
           state.status == CompassStatus.initial) {
         nextStatus = CompassStatus.ready;
@@ -171,6 +190,7 @@ class QiblaCompassNotifier extends AutoDisposeNotifier<QiblaCompassState> {
       status: nextStatus,
       qiblaBearing: () => newBearing,
       relativeQiblaAngle: () => relative,
+      alignmentStatus: () => alignment,
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/extensions/context_extensions.dart';
@@ -8,6 +9,7 @@ import '../../../../shared/widgets/error_state_widget.dart';
 import '../../../../shared/widgets/section_header.dart';
 import '../application/qibla_compass_provider.dart';
 import '../application/qibla_provider.dart';
+import '../domain/compass_alignment_rules.dart';
 import '../domain/qibla_models.dart';
 
 class QiblaScreen extends ConsumerWidget {
@@ -39,6 +41,9 @@ class QiblaScreen extends ConsumerWidget {
     final colorScheme = context.colorScheme;
     final textTheme = context.textTheme;
 
+    if (state.status == CompassStatus.locationUnavailable) {
+      return Text(l10n.qiblaUnavailable);
+    }
     if (state.status == CompassStatus.unsupportedPlatform) {
       return Text(l10n.compassUnsupportedPlatform);
     }
@@ -48,29 +53,28 @@ class QiblaScreen extends ConsumerWidget {
     if (state.status == CompassStatus.error) {
       return Text(state.failure?.message ?? l10n.compassError);
     }
-    if (state.deviceHeading == null || state.relativeQiblaAngle == null) {
+    if (state.deviceHeading == null ||
+        state.relativeQiblaAngle == null ||
+        state.alignmentStatus == null) {
       return const Center(child: CircularProgressIndicator());
-    }
-    if (state.status == CompassStatus.locationUnavailable) {
-      return Text(l10n.qiblaUnavailable);
-    }
-    if (state.status == CompassStatus.unsupportedPlatform) {
-      return Text(l10n.compassUnsupportedPlatform);
     }
 
     final relative = state.relativeQiblaAngle!;
-    String directionText;
-    IconData dirIcon;
+    final alignment = state.alignmentStatus!;
 
-    if (relative.abs() < 2.0) {
-      directionText = l10n.qiblaAligned;
-      dirIcon = Icons.check_circle;
-    } else if (relative > 0) {
-      directionText = l10n.turnRight(relative.abs().toStringAsFixed(1));
-      dirIcon = Icons.turn_right;
-    } else {
-      directionText = l10n.turnLeft(relative.abs().toStringAsFixed(1));
-      dirIcon = Icons.turn_left;
+    String directionText;
+    Color indicatorColor;
+
+    switch (alignment) {
+      case QiblaAlignmentStatus.aligned:
+        directionText = l10n.qiblaAligned;
+        indicatorColor = colorScheme.primary;
+      case QiblaAlignmentStatus.turnRight:
+        directionText = l10n.turnRight(relative.abs().toStringAsFixed(1));
+        indicatorColor = colorScheme.secondary;
+      case QiblaAlignmentStatus.turnLeft:
+        directionText = l10n.turnLeft(relative.abs().toStringAsFixed(1));
+        indicatorColor = colorScheme.secondary;
     }
 
     return Column(
@@ -83,13 +87,33 @@ class QiblaScreen extends ConsumerWidget {
           label: l10n.qiblaRelativeAngle,
           value: '${relative > 0 ? '+' : ''}${relative.toStringAsFixed(1)}°',
         ),
+        const SizedBox(height: AppSpacing.xxl),
+        Transform.rotate(
+          angle: relative * (math.pi / 180.0),
+          child: Icon(
+            Icons.navigation,
+            color: indicatorColor,
+            size: 100,
+          ),
+        ),
         const SizedBox(height: AppSpacing.xl),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(dirIcon, color: colorScheme.primary, size: 28),
+            if (alignment == QiblaAlignmentStatus.aligned)
+              Icon(Icons.check_circle, color: indicatorColor, size: 28),
+            if (alignment == QiblaAlignmentStatus.turnRight)
+              Icon(Icons.turn_right, color: indicatorColor, size: 28),
+            if (alignment == QiblaAlignmentStatus.turnLeft)
+              Icon(Icons.turn_left, color: indicatorColor, size: 28),
             const SizedBox(width: AppSpacing.sm),
-            Text(directionText, style: textTheme.titleLarge),
+            Text(
+              directionText,
+              style: textTheme.titleLarge?.copyWith(
+                color: indicatorColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ],
         ),
       ],
