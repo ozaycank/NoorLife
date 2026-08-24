@@ -361,4 +361,40 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get qiblaUndefinedAtKaaba =>
       'You are at the Kaaba. Qibla direction is undefined.';
+
+  @override
+  String get qiblaCompass => 'Qibla Compass';
+
+  @override
+  String get qiblaHeading => 'Device Heading';
+
+  @override
+  String get qiblaRelativeAngle => 'Relative Angle';
+
+  @override
+  String turnLeft(String degrees) {
+    return 'Turn left $degrees°';
+  }
+
+  @override
+  String turnRight(String degrees) {
+    return 'Turn right $degrees°';
+  }
+
+  @override
+  String get qiblaAligned => 'Aligned with Qibla';
+
+  @override
+  String get compassUnavailable => 'Compass Unavailable';
+
+  @override
+  String get compassSensorUnavailable =>
+      'Your device does not have a compass sensor.';
+
+  @override
+  String get compassUnsupportedPlatform =>
+      'Compass is not supported on this platform.';
+
+  @override
+  String get compassError => 'Failed to read compass sensor.';
 }

@@ -45,6 +45,12 @@ import '../../features/prayer/prayer_times/domain/repositories/prayer_times_repo
     as _i621;
 import '../../features/prayer/prayer_times/infrastructure/repositories/prayer_times_repository_impl.dart'
     as _i887;
+import '../../features/prayer/qibla/domain/interfaces/device_heading_service.dart'
+    as _i570;
+import '../../features/prayer/qibla/infrastructure/datasources/flutter_compass_data_source.dart'
+    as _i321;
+import '../../features/prayer/qibla/infrastructure/services/device_heading_service_impl.dart'
+    as _i388;
 import '../../features/prayer/shared/infrastructure/datasources/prayer_local_data_source.dart'
     as _i260;
 import '../../features/prayer/shared/infrastructure/datasources/prayer_secure_storage_data_source.dart'
@@ -76,6 +82,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i557.GeocodingDataSource());
     gh.lazySingleton<_i599.GeolocatorDataSource>(
         () => _i599.GeolocatorDataSource());
+    gh.lazySingleton<_i321.FlutterCompassDataSource>(
+        () => _i321.FlutterCompassDataSource());
     gh.lazySingleton<_i260.PrayerLocalDataSource>(
         () => _i949.PrayerSecureStorageDataSource());
     gh.lazySingleton<_i612.CalculationMethodRepository>(() =>
@@ -86,6 +94,8 @@ extension GetItInjectableX on _i174.GetIt {
         _i768.LocationGeocodingServiceImpl(gh<_i557.GeocodingDataSource>()));
     gh.lazySingleton<_i643.LocationPermissionService>(() =>
         _i493.LocationPermissionServiceImpl(gh<_i599.GeolocatorDataSource>()));
+    gh.lazySingleton<_i570.DeviceHeadingService>(() =>
+        _i388.DeviceHeadingServiceImpl(gh<_i321.FlutterCompassDataSource>()));
     gh.lazySingleton<_i1048.FirebaseAuthDataSource>(
         () => _i1048.FirebaseAuthDataSource(gh<_i59.FirebaseAuth>()));
     gh.lazySingleton<_i667.DioClient>(

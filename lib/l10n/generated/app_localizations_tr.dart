@@ -364,4 +364,40 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get qiblaUndefinedAtKaaba => 'Kâbe\'desiniz. Kıble yönü tanımsızdır.';
+
+  @override
+  String get qiblaCompass => 'Kıble Pusulası';
+
+  @override
+  String get qiblaHeading => 'Cihaz Yönü';
+
+  @override
+  String get qiblaRelativeAngle => 'Göreceli Açı';
+
+  @override
+  String turnLeft(String degrees) {
+    return '$degrees° sola dönün';
+  }
+
+  @override
+  String turnRight(String degrees) {
+    return '$degrees° sağa dönün';
+  }
+
+  @override
+  String get qiblaAligned => 'Kıble yönündesiniz';
+
+  @override
+  String get compassUnavailable => 'Pusula Kullanılamıyor';
+
+  @override
+  String get compassSensorUnavailable =>
+      'Cihazınızda pusula sensörü bulunmuyor.';
+
+  @override
+  String get compassUnsupportedPlatform =>
+      'Pusula bu platformda desteklenmiyor.';
+
+  @override
+  String get compassError => 'Pusula sensörü okunamadı.';
 }

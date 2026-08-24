@@ -369,5 +369,16 @@
   "dirWest": "W",
   "dirNorthWest": "NW",
   "qiblaDisclaimer": "Calculated from your current location. Turn-by-turn compass guidance is not enabled yet.",
-  "qiblaUndefinedAtKaaba": "You are at the Kaaba. Qibla direction is undefined."
+  "qiblaUndefinedAtKaaba": "You are at the Kaaba. Qibla direction is undefined.","qiblaCompass": "Qibla Compass",
+  "qiblaHeading": "Device Heading",
+  "qiblaRelativeAngle": "Relative Angle",
+  "turnLeft": "Turn left {degrees}°",
+  "@turnLeft": { "placeholders": { "degrees": { "type": "String" } } },
+  "turnRight": "Turn right {degrees}°",
+  "@turnRight": { "placeholders": { "degrees": { "type": "String" } } },
+  "qiblaAligned": "Aligned with Qibla",
+  "compassUnavailable": "Compass Unavailable",
+  "compassSensorUnavailable": "Your device does not have a compass sensor.",
+  "compassUnsupportedPlatform": "Compass is not supported on this platform.",
+  "compassError": "Failed to read compass sensor."
 }

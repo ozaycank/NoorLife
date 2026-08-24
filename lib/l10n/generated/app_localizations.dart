@@ -763,6 +763,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You are at the Kaaba. Qibla direction is undefined.'**
   String get qiblaUndefinedAtKaaba;
+
+  /// No description provided for @qiblaCompass.
+  ///
+  /// In en, this message translates to:
+  /// **'Qibla Compass'**
+  String get qiblaCompass;
+
+  /// No description provided for @qiblaHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Device Heading'**
+  String get qiblaHeading;
+
+  /// No description provided for @qiblaRelativeAngle.
+  ///
+  /// In en, this message translates to:
+  /// **'Relative Angle'**
+  String get qiblaRelativeAngle;
+
+  /// No description provided for @turnLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn left {degrees}°'**
+  String turnLeft(String degrees);
+
+  /// No description provided for @turnRight.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn right {degrees}°'**
+  String turnRight(String degrees);
+
+  /// No description provided for @qiblaAligned.
+  ///
+  /// In en, this message translates to:
+  /// **'Aligned with Qibla'**
+  String get qiblaAligned;
+
+  /// No description provided for @compassUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Compass Unavailable'**
+  String get compassUnavailable;
+
+  /// No description provided for @compassSensorUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Your device does not have a compass sensor.'**
+  String get compassSensorUnavailable;
+
+  /// No description provided for @compassUnsupportedPlatform.
+  ///
+  /// In en, this message translates to:
+  /// **'Compass is not supported on this platform.'**
+  String get compassUnsupportedPlatform;
+
+  /// No description provided for @compassError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to read compass sensor.'**
+  String get compassError;
 }
 
 class _AppLocalizationsDelegate

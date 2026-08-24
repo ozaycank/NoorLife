@@ -6,6 +6,7 @@ import '../../../../shared/design_system/tokens/app_spacing.dart';
 import '../../../../shared/widgets/app_card.dart';
 import '../../../../shared/widgets/error_state_widget.dart';
 import '../../../../shared/widgets/section_header.dart';
+import '../application/qibla_compass_provider.dart';
 import '../application/qibla_provider.dart';
 import '../domain/qibla_models.dart';
 
@@ -33,10 +34,67 @@ class QiblaScreen extends ConsumerWidget {
     }
   }
 
+  Widget _buildCompassSection(BuildContext context, QiblaCompassState state) {
+    final l10n = context.l10n;
+    final colorScheme = context.colorScheme;
+    final textTheme = context.textTheme;
+
+    if (state.status == CompassStatus.unsupportedPlatform) {
+      return Text(l10n.compassUnsupportedPlatform);
+    }
+    if (state.status == CompassStatus.sensorUnavailable) {
+      return Text(l10n.compassSensorUnavailable);
+    }
+    if (state.status == CompassStatus.error) {
+      return Text(state.failure?.message ?? l10n.compassError);
+    }
+    if (state.deviceHeading == null || state.relativeQiblaAngle == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    final relative = state.relativeQiblaAngle!;
+    String directionText;
+    IconData dirIcon;
+
+    if (relative.abs() < 2.0) {
+      directionText = l10n.qiblaAligned;
+      dirIcon = Icons.check_circle;
+    } else if (relative > 0) {
+      directionText = l10n.turnRight(relative.abs().toStringAsFixed(1));
+      dirIcon = Icons.turn_right;
+    } else {
+      directionText = l10n.turnLeft(relative.abs().toStringAsFixed(1));
+      dirIcon = Icons.turn_left;
+    }
+
+    return Column(
+      children: [
+        _InfoRow(
+          label: l10n.qiblaHeading,
+          value: '${state.deviceHeading!.toStringAsFixed(1)}°',
+        ),
+        _InfoRow(
+          label: l10n.qiblaRelativeAngle,
+          value: '${relative > 0 ? '+' : ''}${relative.toStringAsFixed(1)}°',
+        ),
+        const SizedBox(height: AppSpacing.xl),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(dirIcon, color: colorScheme.primary, size: 28),
+            const SizedBox(width: AppSpacing.sm),
+            Text(directionText, style: textTheme.titleLarge),
+          ],
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final state = ref.watch(qiblaProvider);
+    final compassState = ref.watch(qiblaCompassProvider);
     final colorScheme = context.colorScheme;
     final textTheme = context.textTheme;
 
@@ -113,8 +171,49 @@ class QiblaScreen extends ConsumerWidget {
                       ],
                     ),
                   ),
+                  const SizedBox(height: AppSpacing.xxl),
+                  SectionHeader(title: l10n.qiblaCompass),
+                  AppCard(
+                    child: _buildCompassSection(context, compassState),
+                  ),
                 ],
               ),
+      ),
+    );
+  }
+}
+
+class _InfoRow extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _InfoRow({
+    required this.label,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = context.textTheme;
+    final colorScheme = context.colorScheme;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: textTheme.bodyMedium?.copyWith(
+              color: colorScheme.onSurfaceVariant,
+            ),
+          ),
+          Text(
+            value,
+            style: textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
       ),
     );
   }

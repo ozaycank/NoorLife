@@ -108,5 +108,15 @@
   "dirWest": "B",
   "dirNorthWest": "KB",
   "qiblaDisclaimer": "Konumunuza göre hesaplanmıştır. Telefon pusulası ile yönlendirme henüz etkin değildir.",
-  "qiblaUndefinedAtKaaba": "Kâbe'desiniz. Kıble yönü tanımsızdır."
+  "qiblaUndefinedAtKaaba": "Kâbe'desiniz. Kıble yönü tanımsızdır.",
+  "qiblaCompass": "Kıble Pusulası",
+  "qiblaHeading": "Cihaz Yönü",
+  "qiblaRelativeAngle": "Göreceli Açı",
+  "turnLeft": "{degrees}° sola dönün",
+  "turnRight": "{degrees}° sağa dönün",
+  "qiblaAligned": "Kıble yönündesiniz",
+  "compassUnavailable": "Pusula Kullanılamıyor",
+  "compassSensorUnavailable": "Cihazınızda pusula sensörü bulunmuyor.",
+  "compassUnsupportedPlatform": "Pusula bu platformda desteklenmiyor.",
+  "compassError": "Pusula sensörü okunamadı."
 }
