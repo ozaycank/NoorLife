@@ -1,10 +1,10 @@
 name: noor_life
 description: Production-ready foundation for NoorLife.
-publish_to: 'none'
+publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.3.0 <4.0.0'
+  sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -31,6 +31,7 @@ dependencies:
   geolocator: ^11.1.0
   lat_lng_to_timezone: ^0.2.0
   geocoding: ^3.0.0
+  flutter_compass: ^0.8.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
