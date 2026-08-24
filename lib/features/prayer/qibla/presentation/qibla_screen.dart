@@ -51,6 +51,12 @@ class QiblaScreen extends ConsumerWidget {
     if (state.deviceHeading == null || state.relativeQiblaAngle == null) {
       return const Center(child: CircularProgressIndicator());
     }
+    if (state.status == CompassStatus.locationUnavailable) {
+      return Text(l10n.qiblaUnavailable);
+    }
+    if (state.status == CompassStatus.unsupportedPlatform) {
+      return Text(l10n.compassUnsupportedPlatform);
+    }
 
     final relative = state.relativeQiblaAngle!;
     String directionText;

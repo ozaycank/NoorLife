@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_compass/flutter_compass.dart';
 import 'package:injectable/injectable.dart';
 import '../../../../../core/base/result.dart';
 import '../../domain/compass_models.dart';
@@ -36,23 +38,36 @@ class DeviceHeadingServiceImpl implements DeviceHeadingService {
       );
     }
 
-    return stream.map<Result<DeviceHeading?, CompassFailure>>((event) {
-      final rawHeading = event.heading;
-      if (rawHeading == null) {
-        return const ResultFailure(
-          CompassFailure(
-            'Compass sensor data is null.',
-            code: 'sensor_unavailable',
-          ),
-        );
-      }
-
-      final normalized = (rawHeading % 360.0 + 360.0) % 360.0;
-      return Success(DeviceHeading(normalized));
-    }).handleError((error) {
-      return ResultFailure(
-        CompassFailure('Compass stream error: $error', code: 'stream_error'),
-      );
-    });
+    return stream.transform(
+      StreamTransformer<CompassEvent,
+          Result<DeviceHeading?, CompassFailure>>.fromHandlers(
+        handleData: (event, sink) {
+          final rawHeading = event.heading;
+          if (rawHeading == null) {
+            sink.add(
+              const ResultFailure(
+                CompassFailure(
+                  'Compass sensor data is null.',
+                  code: 'sensor_unavailable',
+                ),
+              ),
+            );
+          } else {
+            final normalized = (rawHeading % 360.0 + 360.0) % 360.0;
+            sink.add(Success(DeviceHeading(normalized)));
+          }
+        },
+        handleError: (error, stackTrace, sink) {
+          sink.add(
+            ResultFailure(
+              CompassFailure(
+                'Compass stream error: $error',
+                code: 'stream_error',
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 }

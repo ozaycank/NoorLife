@@ -68,5 +68,7 @@
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>NoorLife needs your location to accurately calculate prayer times based on your current timezone.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>NoorLife needs your location to accurately calculate prayer times based on your current timezone.</string>
 </dict>
 </plist>

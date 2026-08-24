@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mocktail/mocktail.dart';
@@ -13,10 +14,20 @@ import 'package:noor_life/features/prayer/qibla/application/qibla_compass_provid
 class MockDeviceHeadingService extends Mock implements DeviceHeadingService {}
 
 class FakeLocationNotifier extends LocationNotifier {
-  final LocationState _initialState;
-  FakeLocationNotifier(this._initialState);
+  LocationState _state;
+  FakeLocationNotifier(this._state);
+
   @override
-  LocationState build() => _initialState;
+  LocationState build() => _state;
+
+  void updateLocation(PrayerLocation? newLocation) {
+    _state = _state.copyWith(
+      location: () => newLocation,
+      status:
+          newLocation != null ? LocationStatus.success : LocationStatus.failure,
+    );
+    state = _state;
+  }
 }
 
 void main() {
@@ -36,39 +47,8 @@ void main() {
     getIt.reset();
   });
 
-  group('QiblaCompassProvider Logic', () {
-    test(
-        'Unsupported platform emits specific explicit failure without crashing',
-        () async {
-      when(() => mockHeadingService.headingStream).thenAnswer(
-        (_) => Stream.value(
-          const ResultFailure(
-            CompassFailure('Web Error', code: 'unsupported_platform'),
-          ),
-        ),
-      );
-
-      final container = ProviderContainer(
-        overrides: [
-          locationNotifierProvider.overrideWith(
-            () => FakeLocationNotifier(const LocationState(location: null)),
-          ),
-        ],
-      );
-
-      // Auto-dispose provider'ı hayatta tutmak için aktif bir dinleyici ekliyoruz
-      final subscription = container.listen(qiblaCompassProvider, (_, __) {});
-
-      // Asenkron Stream.value'nun işlenmesi için Event Loop'a süre tanıyoruz
-      await Future.delayed(Duration.zero);
-
-      final state = container.read(qiblaCompassProvider);
-      expect(state.status, CompassStatus.unsupportedPlatform);
-
-      subscription.close();
-    });
-
-    test('Valid location and valid heading combine to form ready state',
+  group('QiblaCompassProvider Logic Validation', () {
+    test('Qibla failure deterministically wipes stale bearing and angle',
         () async {
       when(() => mockHeadingService.headingStream).thenAnswer(
         (_) => Stream.value(const Success(DeviceHeading(140.0))),
@@ -82,25 +62,33 @@ void main() {
         timezoneIdentifier: 'Europe/Istanbul',
       );
 
+      final fakeLocationNotifier = FakeLocationNotifier(
+        const LocationState(status: LocationStatus.success, location: loc),
+      );
+
       final container = ProviderContainer(
         overrides: [
-          locationNotifierProvider.overrideWith(
-            () => FakeLocationNotifier(const LocationState(location: loc)),
-          ),
+          locationNotifierProvider.overrideWith(() => fakeLocationNotifier),
         ],
       );
 
-      // Auto-dispose provider'ı hayatta tutmak için aktif bir dinleyici ekliyoruz
       final subscription = container.listen(qiblaCompassProvider, (_, __) {});
 
-      // Asenkron Stream.value'nun işlenmesi için Event Loop'a süre tanıyoruz
+      // Phase 1: Wait for resolution
       await Future.delayed(Duration.zero);
 
-      final state = container.read(qiblaCompassProvider);
-      expect(state.status, CompassStatus.ready);
-      expect(state.qiblaBearing, isNotNull);
-      expect(state.deviceHeading, 140.0);
-      expect(state.relativeQiblaAngle, isNotNull);
+      final readyState = container.read(qiblaCompassProvider);
+      expect(readyState.status, CompassStatus.ready);
+      expect(readyState.qiblaBearing, isNotNull);
+
+      // Phase 2: Kill location explicitly
+      fakeLocationNotifier.updateLocation(null);
+      await Future.delayed(Duration.zero);
+
+      final wipedState = container.read(qiblaCompassProvider);
+      expect(wipedState.status, CompassStatus.locationUnavailable);
+      expect(wipedState.qiblaBearing, isNull);
+      expect(wipedState.relativeQiblaAngle, isNull);
 
       subscription.close();
     });

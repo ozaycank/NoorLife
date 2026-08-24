@@ -14,6 +14,7 @@ enum CompassStatus {
   sensorUnavailable,
   error,
   unsupportedPlatform,
+  locationUnavailable,
 }
 
 class QiblaCompassState extends Equatable {
@@ -33,16 +34,19 @@ class QiblaCompassState extends Equatable {
 
   QiblaCompassState copyWith({
     CompassStatus? status,
-    double? qiblaBearing,
-    double? deviceHeading,
-    double? relativeQiblaAngle,
+    double? Function()? qiblaBearing,
+    double? Function()? deviceHeading,
+    double? Function()? relativeQiblaAngle,
     CompassFailure? Function()? failure,
   }) {
     return QiblaCompassState(
       status: status ?? this.status,
-      qiblaBearing: qiblaBearing ?? this.qiblaBearing,
-      deviceHeading: deviceHeading ?? this.deviceHeading,
-      relativeQiblaAngle: relativeQiblaAngle ?? this.relativeQiblaAngle,
+      qiblaBearing: qiblaBearing != null ? qiblaBearing() : this.qiblaBearing,
+      deviceHeading:
+          deviceHeading != null ? deviceHeading() : this.deviceHeading,
+      relativeQiblaAngle: relativeQiblaAngle != null
+          ? relativeQiblaAngle()
+          : this.relativeQiblaAngle,
       failure: failure != null ? failure() : this.failure,
     );
   }
@@ -73,6 +77,12 @@ class QiblaCompassNotifier extends AutoDisposeNotifier<QiblaCompassState> {
     ref.listen(qiblaProvider, (previous, next) {
       if (next.status == QiblaStatus.success && next.direction != null) {
         _updateQiblaBearing(next.direction!.bearingDegrees);
+      } else {
+        state = state.copyWith(
+          status: CompassStatus.locationUnavailable,
+          qiblaBearing: () => null,
+          relativeQiblaAngle: () => null,
+        );
       }
     });
 
@@ -88,6 +98,9 @@ class QiblaCompassNotifier extends AutoDisposeNotifier<QiblaCompassState> {
     _initStream();
 
     return QiblaCompassState(
+      status: initialBearing != null
+          ? CompassStatus.initial
+          : CompassStatus.locationUnavailable,
       qiblaBearing: initialBearing,
     );
   }
@@ -107,16 +120,22 @@ class QiblaCompassNotifier extends AutoDisposeNotifier<QiblaCompassState> {
           } else {
             final bearing = state.qiblaBearing;
             double? relative;
+            CompassStatus nextStatus = state.status;
+
             if (bearing != null) {
               relative = RelativeQiblaCalculator.calculate(
                 bearing,
                 heading.headingDegrees,
               );
+              nextStatus = CompassStatus.ready;
+            } else {
+              nextStatus = CompassStatus.locationUnavailable;
             }
+
             state = state.copyWith(
-              status: CompassStatus.ready,
-              deviceHeading: heading.headingDegrees,
-              relativeQiblaAngle: relative,
+              status: nextStatus,
+              deviceHeading: () => heading.headingDegrees,
+              relativeQiblaAngle: () => relative,
               failure: () => null,
             );
           }
@@ -136,12 +155,22 @@ class QiblaCompassNotifier extends AutoDisposeNotifier<QiblaCompassState> {
   void _updateQiblaBearing(double newBearing) {
     double? relative;
     final heading = state.deviceHeading;
+    CompassStatus nextStatus = state.status;
+
     if (heading != null) {
       relative = RelativeQiblaCalculator.calculate(newBearing, heading);
+      if (state.status == CompassStatus.locationUnavailable ||
+          state.status == CompassStatus.initial) {
+        nextStatus = CompassStatus.ready;
+      }
+    } else if (state.status == CompassStatus.locationUnavailable) {
+      nextStatus = CompassStatus.initial;
     }
+
     state = state.copyWith(
-      qiblaBearing: newBearing,
-      relativeQiblaAngle: relative,
+      status: nextStatus,
+      qiblaBearing: () => newBearing,
+      relativeQiblaAngle: () => relative,
     );
   }
 }
