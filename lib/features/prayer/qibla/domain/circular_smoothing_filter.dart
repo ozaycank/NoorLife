@@ -1,13 +1,24 @@
 import 'dart:math' as math;
 
+class CompassConfiguration {
+  CompassConfiguration._();
+  static const double defaultSmoothingFactor = 0.2;
+}
+
 class CircularSmoothingFilter {
   final double alpha;
   double? _previousHeading;
 
-  CircularSmoothingFilter({this.alpha = 0.2}) {
+  CircularSmoothingFilter({
+    this.alpha = CompassConfiguration.defaultSmoothingFactor,
+  }) {
     if (alpha <= 0.0 || alpha > 1.0) {
       throw ArgumentError('Smoothing factor must be > 0 and <= 1.0');
     }
+  }
+
+  void reset() {
+    _previousHeading = null;
   }
 
   double smooth(double newHeading) {

@@ -22,7 +22,7 @@ enum CompassStatus {
 class QiblaCompassState extends Equatable {
   final CompassStatus status;
   final double? qiblaBearing;
-  final double? deviceHeading;
+  final double? smoothedHeading;
   final double? relativeQiblaAngle;
   final QiblaAlignmentStatus? alignmentStatus;
   final CompassFailure? failure;
@@ -30,7 +30,7 @@ class QiblaCompassState extends Equatable {
   const QiblaCompassState({
     this.status = CompassStatus.initial,
     this.qiblaBearing,
-    this.deviceHeading,
+    this.smoothedHeading,
     this.relativeQiblaAngle,
     this.alignmentStatus,
     this.failure,
@@ -39,7 +39,7 @@ class QiblaCompassState extends Equatable {
   QiblaCompassState copyWith({
     CompassStatus? status,
     double? Function()? qiblaBearing,
-    double? Function()? deviceHeading,
+    double? Function()? smoothedHeading,
     double? Function()? relativeQiblaAngle,
     QiblaAlignmentStatus? Function()? alignmentStatus,
     CompassFailure? Function()? failure,
@@ -47,8 +47,8 @@ class QiblaCompassState extends Equatable {
     return QiblaCompassState(
       status: status ?? this.status,
       qiblaBearing: qiblaBearing != null ? qiblaBearing() : this.qiblaBearing,
-      deviceHeading:
-          deviceHeading != null ? deviceHeading() : this.deviceHeading,
+      smoothedHeading:
+          smoothedHeading != null ? smoothedHeading() : this.smoothedHeading,
       relativeQiblaAngle: relativeQiblaAngle != null
           ? relativeQiblaAngle()
           : this.relativeQiblaAngle,
@@ -62,7 +62,7 @@ class QiblaCompassState extends Equatable {
   List<Object?> get props => [
         status,
         qiblaBearing,
-        deviceHeading,
+        smoothedHeading,
         relativeQiblaAngle,
         alignmentStatus,
         failure,
@@ -82,7 +82,7 @@ class QiblaCompassNotifier extends AutoDisposeNotifier<QiblaCompassState> {
   @override
   QiblaCompassState build() {
     _headingService = getIt<DeviceHeadingService>();
-    _smoothingFilter = CircularSmoothingFilter(alpha: 0.2);
+    _smoothingFilter = CircularSmoothingFilter();
 
     ref.listen(qiblaProvider, (previous, next) {
       if (next.status == QiblaStatus.success && next.direction != null) {
@@ -121,15 +121,19 @@ class QiblaCompassNotifier extends AutoDisposeNotifier<QiblaCompassState> {
       switch (result) {
         case Success(value: final heading):
           if (heading == null) {
+            _smoothingFilter.reset();
             state = state.copyWith(
               status: CompassStatus.sensorUnavailable,
+              smoothedHeading: () => null,
+              relativeQiblaAngle: () => null,
+              alignmentStatus: () => null,
               failure: () => const CompassFailure(
                 'Sensor unavailable',
                 code: 'sensor_unavailable',
               ),
             );
           } else {
-            final smoothedHeading =
+            final calculatedSmoothedHeading =
                 _smoothingFilter.smooth(heading.headingDegrees);
 
             final bearing = state.qiblaBearing;
@@ -140,7 +144,7 @@ class QiblaCompassNotifier extends AutoDisposeNotifier<QiblaCompassState> {
             if (bearing != null) {
               relative = RelativeQiblaCalculator.calculate(
                 bearing,
-                smoothedHeading,
+                calculatedSmoothedHeading,
               );
               alignment = CompassAlignmentRules.evaluate(relative);
               nextStatus = CompassStatus.ready;
@@ -150,19 +154,23 @@ class QiblaCompassNotifier extends AutoDisposeNotifier<QiblaCompassState> {
 
             state = state.copyWith(
               status: nextStatus,
-              deviceHeading: () => smoothedHeading,
+              smoothedHeading: () => calculatedSmoothedHeading,
               relativeQiblaAngle: () => relative,
               alignmentStatus: () => alignment,
               failure: () => null,
             );
           }
         case ResultFailure(failure: final f):
+          _smoothingFilter.reset();
           state = state.copyWith(
             status: f.code == 'unsupported_platform'
                 ? CompassStatus.unsupportedPlatform
                 : (f.code == 'sensor_unavailable'
                     ? CompassStatus.sensorUnavailable
                     : CompassStatus.error),
+            smoothedHeading: () => null,
+            relativeQiblaAngle: () => null,
+            alignmentStatus: () => null,
             failure: () => f,
           );
       }
@@ -172,11 +180,11 @@ class QiblaCompassNotifier extends AutoDisposeNotifier<QiblaCompassState> {
   void _updateQiblaBearing(double newBearing) {
     double? relative;
     QiblaAlignmentStatus? alignment;
-    final heading = state.deviceHeading;
+    final smoothHeading = state.smoothedHeading;
     CompassStatus nextStatus = state.status;
 
-    if (heading != null) {
-      relative = RelativeQiblaCalculator.calculate(newBearing, heading);
+    if (smoothHeading != null) {
+      relative = RelativeQiblaCalculator.calculate(newBearing, smoothHeading);
       alignment = CompassAlignmentRules.evaluate(relative);
       if (state.status == CompassStatus.locationUnavailable ||
           state.status == CompassStatus.initial) {

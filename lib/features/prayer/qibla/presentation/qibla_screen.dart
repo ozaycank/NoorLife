@@ -53,7 +53,7 @@ class QiblaScreen extends ConsumerWidget {
     if (state.status == CompassStatus.error) {
       return Text(state.failure?.message ?? l10n.compassError);
     }
-    if (state.deviceHeading == null ||
+    if (state.smoothedHeading == null ||
         state.relativeQiblaAngle == null ||
         state.alignmentStatus == null) {
       return const Center(child: CircularProgressIndicator());
@@ -81,7 +81,7 @@ class QiblaScreen extends ConsumerWidget {
       children: [
         _InfoRow(
           label: l10n.qiblaHeading,
-          value: '${state.deviceHeading!.toStringAsFixed(1)}°',
+          value: '${state.smoothedHeading!.toStringAsFixed(1)}°',
         ),
         _InfoRow(
           label: l10n.qiblaRelativeAngle,

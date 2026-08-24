@@ -7,6 +7,7 @@ import 'package:noor_life/core/di/injection_container.dart';
 import 'package:noor_life/features/prayer/location/application/states/location_state.dart';
 import 'package:noor_life/features/prayer/location/domain/entities/prayer_location.dart';
 import 'package:noor_life/features/prayer/location/application/providers/location_notifier.dart';
+import 'package:noor_life/features/prayer/qibla/domain/compass_alignment_rules.dart';
 import 'package:noor_life/features/prayer/qibla/domain/compass_models.dart';
 import 'package:noor_life/features/prayer/qibla/domain/interfaces/device_heading_service.dart';
 import 'package:noor_life/features/prayer/qibla/application/qibla_compass_provider.dart';
@@ -32,9 +33,16 @@ class FakeLocationNotifier extends LocationNotifier {
 
 void main() {
   late MockDeviceHeadingService mockHeadingService;
+  late StreamController<Result<DeviceHeading?, CompassFailure>>
+      streamController;
 
   setUp(() {
     mockHeadingService = MockDeviceHeadingService();
+    streamController =
+        StreamController<Result<DeviceHeading?, CompassFailure>>.broadcast();
+    when(() => mockHeadingService.headingStream)
+        .thenAnswer((_) => streamController.stream);
+
     if (!getIt.isRegistered<DeviceHeadingService>()) {
       getIt.registerSingleton<DeviceHeadingService>(mockHeadingService);
     } else {
@@ -45,18 +53,14 @@ void main() {
 
   tearDown(() {
     getIt.reset();
+    streamController.close();
   });
 
-  group('QiblaCompassProvider Logic Validation', () {
-    test('Qibla failure deterministically wipes stale bearing and angle',
-        () async {
-      when(() => mockHeadingService.headingStream).thenAnswer(
-        (_) => Stream.value(const Success(DeviceHeading(140.0))),
-      );
-
+  group('QiblaCompassProvider Advanced Flow Validation', () {
+    test('First valid reading initializes smoothly', () async {
       const loc = PrayerLocation(
         latitude: 41.0082,
-        longitude: 28.9784,
+        longitude: 28.9784, // Istanbul, Qibla roughly 151.3
         cityName: 'Istanbul',
         countryName: 'Turkiye',
         timezoneIdentifier: 'Europe/Istanbul',
@@ -74,21 +78,113 @@ void main() {
 
       final subscription = container.listen(qiblaCompassProvider, (_, __) {});
 
-      // Phase 1: Wait for resolution
+      // Simulate first heading reading
+      streamController.add(const Success(DeviceHeading(100.0)));
       await Future.delayed(Duration.zero);
 
-      final readyState = container.read(qiblaCompassProvider);
-      expect(readyState.status, CompassStatus.ready);
-      expect(readyState.qiblaBearing, isNotNull);
+      final state = container.read(qiblaCompassProvider);
+      expect(state.status, CompassStatus.ready);
+      expect(state.smoothedHeading, 100.0);
+      expect(state.relativeQiblaAngle, closeTo(51.3, 0.5));
+      expect(state.alignmentStatus, QiblaAlignmentStatus.turnRight);
 
-      // Phase 2: Kill location explicitly
-      fakeLocationNotifier.updateLocation(null);
+      subscription.close();
+    });
+
+    test('Alignment dynamically tracks threshold logic correctly', () async {
+      const loc = PrayerLocation(
+        latitude: 41.0082,
+        longitude: 28.9784, // Istanbul, Qibla roughly 151.3
+        cityName: 'Istanbul',
+        countryName: 'Turkiye',
+        timezoneIdentifier: 'Europe/Istanbul',
+      );
+
+      final fakeLocationNotifier = FakeLocationNotifier(
+        const LocationState(status: LocationStatus.success, location: loc),
+      );
+
+      final container = ProviderContainer(
+        overrides: [
+          locationNotifierProvider.overrideWith(() => fakeLocationNotifier),
+        ],
+      );
+
+      final subscription = container.listen(qiblaCompassProvider, (_, __) {});
+
+      // Point slightly left of Qibla (inside threshold)
+      streamController.add(const Success(DeviceHeading(150.0)));
       await Future.delayed(Duration.zero);
 
-      final wipedState = container.read(qiblaCompassProvider);
-      expect(wipedState.status, CompassStatus.locationUnavailable);
-      expect(wipedState.qiblaBearing, isNull);
-      expect(wipedState.relativeQiblaAngle, isNull);
+      var state = container.read(qiblaCompassProvider);
+      expect(state.alignmentStatus, QiblaAlignmentStatus.aligned);
+
+      // Point further left (outside threshold)
+      streamController.add(const Success(DeviceHeading(140.0)));
+      await Future.delayed(Duration.zero);
+
+      state = container.read(qiblaCompassProvider);
+      expect(state.alignmentStatus, QiblaAlignmentStatus.turnRight);
+
+      // Point right (outside threshold)
+      streamController.add(const Success(DeviceHeading(160.0)));
+      await Future.delayed(Duration.zero);
+
+      state = container.read(qiblaCompassProvider);
+      expect(state.alignmentStatus, QiblaAlignmentStatus.turnLeft);
+
+      subscription.close();
+    });
+
+    test(
+        'Sensor interruption explicitly wipes mathematical states and recovers cleanly',
+        () async {
+      const loc = PrayerLocation(
+        latitude: 41.0082,
+        longitude: 28.9784, // Istanbul
+        cityName: 'Istanbul',
+        countryName: 'Turkiye',
+        timezoneIdentifier: 'Europe/Istanbul',
+      );
+
+      final fakeLocationNotifier = FakeLocationNotifier(
+        const LocationState(status: LocationStatus.success, location: loc),
+      );
+
+      final container = ProviderContainer(
+        overrides: [
+          locationNotifierProvider.overrideWith(() => fakeLocationNotifier),
+        ],
+      );
+
+      final subscription = container.listen(qiblaCompassProvider, (_, __) {});
+
+      // Good
+      streamController.add(const Success(DeviceHeading(100.0)));
+      await Future.delayed(Duration.zero);
+      expect(container.read(qiblaCompassProvider).status, CompassStatus.ready);
+
+      // Dead
+      streamController.add(const Success(null));
+      await Future.delayed(Duration.zero);
+
+      final deadState = container.read(qiblaCompassProvider);
+      expect(deadState.status, CompassStatus.sensorUnavailable);
+      expect(deadState.smoothedHeading, isNull);
+      expect(deadState.relativeQiblaAngle, isNull);
+      expect(deadState.alignmentStatus, isNull);
+
+      // Recover
+      streamController.add(const Success(DeviceHeading(200.0)));
+      await Future.delayed(Duration.zero);
+
+      final recoveryState = container.read(qiblaCompassProvider);
+      expect(recoveryState.status, CompassStatus.ready);
+      expect(
+        recoveryState.smoothedHeading,
+        200.0,
+      ); // Reset filter correctly utilized new baseline
+      expect(recoveryState.alignmentStatus, isNotNull);
 
       subscription.close();
     });
