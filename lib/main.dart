@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+// Saat dilimi (timezone) veritabanı başlatıcısı
+import 'package:timezone/data/latest_all.dart' as tz;
+
+import 'firebase_options.dart';
 import 'core/di/injection_container.dart';
 import 'core/routing/app_router.dart';
 import 'core/theme/light_theme.dart';
 import 'core/theme/dark_theme.dart';
-
 import 'features/settings/application/providers/language_settings_notifier.dart';
 import 'l10n/generated/app_localizations.dart';
 
@@ -17,15 +19,21 @@ void main() async {
   // 1. Flutter widget binding'i başlat
   WidgetsFlutterBinding.ensureInitialized();
 
-  // 2. DI veya FirebaseAuth.instance çağrılmadan önce KESİNLİKLE Firebase'i başlat
+  // 2. Çevresel değişkenleri (.env dosyasını) yükle.
+  await dotenv.load(fileName: '.env');
+
+  // 3. Saat dilimleri veritabanını başlat (Burası "Timezone conversion failed" hatasını çözer)
+  tz.initializeTimeZones();
+
+  // 4. Firebase'i başlat
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // 3. DI yapılandırmasını başlat (Artık Firebase hata vermeden inject edilebilir)
+  // 5. DI (Dependency Injection) yapılandırmasını başlat
   await configureDependencies();
 
-  // 4. Uygulamayı çalıştır
+  // 6. Uygulamayı çalıştır
   runApp(
     const ProviderScope(
       child: NoorLifeApp(),
