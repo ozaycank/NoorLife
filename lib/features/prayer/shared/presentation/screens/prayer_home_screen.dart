@@ -83,8 +83,20 @@ class PrayerHomeScreen extends ConsumerWidget {
                 PrayerHeader(
                   cityName: location.cityName,
                   countryName: location.countryName,
-                  hijriDate: today.hijriDateString ?? '-',
-                  nextPrayerName: liveState.nextPrayer?.name.name.toUpperCase(),
+                  // Fixed to match the actual parameters in PrayerHeader
+                  hijriYear: int.tryParse(
+                    today.hijriDateString?.split('-').first ?? '',
+                  ),
+                  hijriMonthIndex: int.tryParse(
+                    today.hijriDateString?.split('-').length == 3
+                        ? today.hijriDateString!.split('-')[1]
+                        : '',
+                  ),
+                  hijriDay: int.tryParse(
+                    today.hijriDateString?.split('-').last ?? '',
+                  ),
+                  nextPrayerNameRaw:
+                      liveState.nextPrayer?.name.name.toUpperCase(),
                   timeRemaining: timeRemainingStr,
                 ),
               const SizedBox(height: AppSpacing.lg),

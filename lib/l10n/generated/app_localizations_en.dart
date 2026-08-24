@@ -397,4 +397,127 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get compassError => 'Failed to read compass sensor.';
+
+  @override
+  String get languageLabel => 'App Language';
+
+  @override
+  String get languageEnglish => 'English';
+
+  @override
+  String get languageTurkish => 'Türkçe';
+
+  @override
+  String get methodMWL => 'Muslim World League';
+
+  @override
+  String get methodISNA => 'Islamic Society of North America';
+
+  @override
+  String get methodEgypt => 'Egyptian General Authority';
+
+  @override
+  String get methodMakkah => 'Umm Al-Qura';
+
+  @override
+  String get methodKarachi => 'University of Islamic Sciences, Karachi';
+
+  @override
+  String get methodTehran => 'Institute of Geophysics, University of Tehran';
+
+  @override
+  String get methodShia => 'Shia Ithna-Ashari';
+
+  @override
+  String get methodGulf => 'Gulf Region';
+
+  @override
+  String get methodKuwait => 'Kuwait';
+
+  @override
+  String get methodQatar => 'Qatar';
+
+  @override
+  String get methodSingapore => 'Majlis Ugama Islam Singapura';
+
+  @override
+  String get methodFrance => 'Union des Organisations Islamiques de France';
+
+  @override
+  String get methodTurkey => 'Diyanet Approximation Profile';
+
+  @override
+  String get methodRussia => 'Spiritual Administration of Muslims of Russia';
+
+  @override
+  String get methodMoonsighting => 'Moonsighting Committee Worldwide';
+
+  @override
+  String get methodDubai => 'Dubai';
+
+  @override
+  String get methodJakim => 'Jabatan Kemajuan Islam Malaysia';
+
+  @override
+  String get methodTunisia => 'Tunisian Ministry of Religious Affairs';
+
+  @override
+  String get methodAlgeria => 'Algerian Ministry of Religious Affairs';
+
+  @override
+  String get methodKemenag => 'Indonesian Ministry of Religious Affairs';
+
+  @override
+  String get methodMorocco => 'Moroccan Ministry of Habous and Islamic Affairs';
+
+  @override
+  String get methodPortugal => 'Great Mosque of Paris';
+
+  @override
+  String get methodJafari => 'Shia Ithna-Ashari';
+
+  @override
+  String get madhabStandard => 'Standard (Shafi / Maliki / Hanbali)';
+
+  @override
+  String get madhabHanafi => 'Hanafi';
+
+  @override
+  String get hijriMuharram => 'Muharram';
+
+  @override
+  String get hijriSafar => 'Safar';
+
+  @override
+  String get hijriRabiAlAwwal => 'Rabi\' al-Awwal';
+
+  @override
+  String get hijriRabiAlThani => 'Rabi\' al-Thani';
+
+  @override
+  String get hijriJumadaAlAwwal => 'Jumada al-Awwal';
+
+  @override
+  String get hijriJumadaAlThani => 'Jumada al-Thani';
+
+  @override
+  String get hijriRajab => 'Rajab';
+
+  @override
+  String get hijriShaaban => 'Sha\'ban';
+
+  @override
+  String get hijriRamadan => 'Ramadan';
+
+  @override
+  String get hijriShawwal => 'Shawwal';
+
+  @override
+  String get hijriDhuAlQiDah => 'Dhu al-Qi\'dah';
+
+  @override
+  String get hijriDhuAlHijjah => 'Dhu al-Hijjah';
+
+  @override
+  String get asrConventionDesc => 'Asr calculation convention';
 }

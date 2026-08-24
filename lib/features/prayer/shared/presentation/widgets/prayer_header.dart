@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
 import '../../../../../core/extensions/context_extensions.dart';
-import '../../../../../shared/design_system/tokens/app_border_radius.dart';
-import '../../../../../shared/design_system/tokens/app_icons.dart';
 import '../../../../../shared/design_system/tokens/app_spacing.dart';
-import '../../../../../shared/widgets/app_card.dart';
+import '../utils/presentation_localizer.dart';
 
 class PrayerHeader extends StatelessWidget {
-  final String cityName;
-  final String countryName;
-  final String hijriDate;
-  final String? nextPrayerName;
-  final String? timeRemaining;
+  final String? cityName;
+  final String? countryName;
+  final String? subAdministrativeArea;
+  final int? hijriMonthIndex;
+  final int? hijriDay;
+  final int? hijriYear;
+  final String? nextPrayerNameRaw;
+  final String timeRemaining;
 
   const PrayerHeader({
     super.key,
-    required this.cityName,
-    required this.countryName,
-    required this.hijriDate,
-    this.nextPrayerName,
-    this.timeRemaining,
+    this.cityName,
+    this.countryName,
+    this.subAdministrativeArea,
+    this.hijriMonthIndex,
+    this.hijriDay,
+    this.hijriYear,
+    this.nextPrayerNameRaw,
+    required this.timeRemaining,
   });
 
   @override
@@ -27,89 +31,82 @@ class PrayerHeader extends StatelessWidget {
     final textTheme = context.textTheme;
     final colorScheme = context.colorScheme;
 
-    return AppCard(
-      backgroundColor: colorScheme.primaryContainer,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final formattedLocation = PresentationLocalizer.formatLocation(
+      context: context,
+      cityName: cityName,
+      subAdminArea: subAdministrativeArea,
+      countryName: countryName,
+    );
+
+    String formattedHijri = '-';
+    if (hijriDay != null && hijriMonthIndex != null && hijriYear != null) {
+      final monthName = PresentationLocalizer.localizeHijriMonth(
+        context,
+        hijriMonthIndex!,
+      );
+      formattedHijri = '$hijriDay $monthName $hijriYear';
+    }
+
+    final localizedNextPrayer = nextPrayerNameRaw != null
+        ? PresentationLocalizer.localizePrayerNameRaw(
+            context,
+            nextPrayerNameRaw!,
+          )
+        : '-';
+
+    return Column(
+      children: [
+        Text(
+          formattedLocation,
+          style: textTheme.headlineSmall?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: AppSpacing.xs),
+        Text(
+          formattedHijri,
+          style: textTheme.titleMedium?.copyWith(
+            color: colorScheme.onSurfaceVariant,
+          ),
+        ),
+        const SizedBox(height: AppSpacing.xl),
+        Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.xl,
+            vertical: AppSpacing.lg,
+          ),
+          decoration: BoxDecoration(
+            color: colorScheme.primaryContainer,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Column(
             children: [
-              Row(
-                children: [
-                  Icon(AppIcons.mosque, color: colorScheme.primary, size: 24),
-                  const SizedBox(width: AppSpacing.sm),
-                  Text(
-                    '$cityName, $countryName',
-                    style: textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: colorScheme.onPrimaryContainer,
-                    ),
-                  ),
-                ],
-              ),
               Text(
-                hijriDate,
-                style: textTheme.labelMedium?.copyWith(
+                l10n.prayerNextPrayer,
+                style: textTheme.titleSmall?.copyWith(
                   color: colorScheme.onPrimaryContainer,
-                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.xs),
+              Text(
+                localizedNextPrayer,
+                style: textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: colorScheme.onPrimaryContainer,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.xs),
+              Text(
+                '${l10n.prayerRemainingTime}: $timeRemaining',
+                style: textTheme.bodyLarge?.copyWith(
+                  color: colorScheme.onPrimaryContainer,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.lg),
-          Container(
-            padding: const EdgeInsets.all(AppSpacing.md),
-            decoration: BoxDecoration(
-              color: colorScheme.surface.withValues(alpha: 0.6),
-              borderRadius: AppBorderRadius.medium,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      l10n.prayerNextPrayer,
-                      style: textTheme.labelSmall?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.xs),
-                    Text(
-                      nextPrayerName ?? '-',
-                      style: textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: colorScheme.primary,
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      l10n.prayerRemainingTime,
-                      style: textTheme.labelSmall?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.xs),
-                    Text(
-                      timeRemaining ?? '-',
-                      style: textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: colorScheme.secondary,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

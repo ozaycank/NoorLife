@@ -18,6 +18,18 @@ class SecureStorageService {
   static const String keyRememberedEmail = 'sec_key_remembered_email';
   static const String keyRememberMeStatus = 'sec_key_remember_me_status';
 
+  Future<void> write({required String key, required String value}) async {
+    await _storage.write(key: key, value: value);
+  }
+
+  Future<String?> read({required String key}) async {
+    return await _storage.read(key: key);
+  }
+
+  Future<void> delete({required String key}) async {
+    await _storage.delete(key: key);
+  }
+
   Future<void> saveRememberMe({
     required bool rememberMe,
     required String email,

@@ -12,6 +12,7 @@ import 'package:noor_life/features/prayer/qibla/domain/compass_models.dart';
 import 'package:noor_life/features/prayer/qibla/domain/interfaces/device_heading_service.dart';
 import 'package:noor_life/features/prayer/qibla/application/qibla_compass_provider.dart';
 
+
 class MockDeviceHeadingService extends Mock implements DeviceHeadingService {}
 
 class FakeLocationNotifier extends LocationNotifier {
@@ -78,7 +79,6 @@ void main() {
 
       final subscription = container.listen(qiblaCompassProvider, (_, __) {});
 
-      // Simulate first heading reading
       streamController.add(const Success(DeviceHeading(100.0)));
       await Future.delayed(Duration.zero);
 
@@ -112,22 +112,26 @@ void main() {
 
       final subscription = container.listen(qiblaCompassProvider, (_, __) {});
 
-      // Point slightly left of Qibla (inside threshold)
-      streamController.add(const Success(DeviceHeading(150.0)));
+      // 1. Initial State (Filter resets to direct value)
+      streamController.add(const Success(DeviceHeading(151.0)));
       await Future.delayed(Duration.zero);
 
       var state = container.read(qiblaCompassProvider);
       expect(state.alignmentStatus, QiblaAlignmentStatus.aligned);
 
-      // Point further left (outside threshold)
-      streamController.add(const Success(DeviceHeading(140.0)));
+      // 2. TURN RIGHT (Filter'ı geçmek için aynı hedefi art arda defalarca besliyoruz)
+      for (int i = 0; i < 20; i++) {
+        streamController.add(const Success(DeviceHeading(130.0)));
+      }
       await Future.delayed(Duration.zero);
 
       state = container.read(qiblaCompassProvider);
       expect(state.alignmentStatus, QiblaAlignmentStatus.turnRight);
 
-      // Point right (outside threshold)
-      streamController.add(const Success(DeviceHeading(160.0)));
+      // 3. TURN LEFT (Filter'ı ikna etmek için hedefi defalarca besliyoruz)
+      for (int i = 0; i < 20; i++) {
+        streamController.add(const Success(DeviceHeading(170.0)));
+      }
       await Future.delayed(Duration.zero);
 
       state = container.read(qiblaCompassProvider);
@@ -159,12 +163,10 @@ void main() {
 
       final subscription = container.listen(qiblaCompassProvider, (_, __) {});
 
-      // Good
       streamController.add(const Success(DeviceHeading(100.0)));
       await Future.delayed(Duration.zero);
       expect(container.read(qiblaCompassProvider).status, CompassStatus.ready);
 
-      // Dead
       streamController.add(const Success(null));
       await Future.delayed(Duration.zero);
 
@@ -174,16 +176,12 @@ void main() {
       expect(deadState.relativeQiblaAngle, isNull);
       expect(deadState.alignmentStatus, isNull);
 
-      // Recover
       streamController.add(const Success(DeviceHeading(200.0)));
       await Future.delayed(Duration.zero);
 
       final recoveryState = container.read(qiblaCompassProvider);
       expect(recoveryState.status, CompassStatus.ready);
-      expect(
-        recoveryState.smoothedHeading,
-        200.0,
-      ); // Reset filter correctly utilized new baseline
+      expect(recoveryState.smoothedHeading, 200.0);
       expect(recoveryState.alignmentStatus, isNotNull);
 
       subscription.close();

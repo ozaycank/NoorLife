@@ -823,6 +823,252 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to read compass sensor.'**
   String get compassError;
+
+  /// No description provided for @languageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'App Language'**
+  String get languageLabel;
+
+  /// No description provided for @languageEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get languageEnglish;
+
+  /// No description provided for @languageTurkish.
+  ///
+  /// In en, this message translates to:
+  /// **'Türkçe'**
+  String get languageTurkish;
+
+  /// No description provided for @methodMWL.
+  ///
+  /// In en, this message translates to:
+  /// **'Muslim World League'**
+  String get methodMWL;
+
+  /// No description provided for @methodISNA.
+  ///
+  /// In en, this message translates to:
+  /// **'Islamic Society of North America'**
+  String get methodISNA;
+
+  /// No description provided for @methodEgypt.
+  ///
+  /// In en, this message translates to:
+  /// **'Egyptian General Authority'**
+  String get methodEgypt;
+
+  /// No description provided for @methodMakkah.
+  ///
+  /// In en, this message translates to:
+  /// **'Umm Al-Qura'**
+  String get methodMakkah;
+
+  /// No description provided for @methodKarachi.
+  ///
+  /// In en, this message translates to:
+  /// **'University of Islamic Sciences, Karachi'**
+  String get methodKarachi;
+
+  /// No description provided for @methodTehran.
+  ///
+  /// In en, this message translates to:
+  /// **'Institute of Geophysics, University of Tehran'**
+  String get methodTehran;
+
+  /// No description provided for @methodShia.
+  ///
+  /// In en, this message translates to:
+  /// **'Shia Ithna-Ashari'**
+  String get methodShia;
+
+  /// No description provided for @methodGulf.
+  ///
+  /// In en, this message translates to:
+  /// **'Gulf Region'**
+  String get methodGulf;
+
+  /// No description provided for @methodKuwait.
+  ///
+  /// In en, this message translates to:
+  /// **'Kuwait'**
+  String get methodKuwait;
+
+  /// No description provided for @methodQatar.
+  ///
+  /// In en, this message translates to:
+  /// **'Qatar'**
+  String get methodQatar;
+
+  /// No description provided for @methodSingapore.
+  ///
+  /// In en, this message translates to:
+  /// **'Majlis Ugama Islam Singapura'**
+  String get methodSingapore;
+
+  /// No description provided for @methodFrance.
+  ///
+  /// In en, this message translates to:
+  /// **'Union des Organisations Islamiques de France'**
+  String get methodFrance;
+
+  /// No description provided for @methodTurkey.
+  ///
+  /// In en, this message translates to:
+  /// **'Diyanet Approximation Profile'**
+  String get methodTurkey;
+
+  /// No description provided for @methodRussia.
+  ///
+  /// In en, this message translates to:
+  /// **'Spiritual Administration of Muslims of Russia'**
+  String get methodRussia;
+
+  /// No description provided for @methodMoonsighting.
+  ///
+  /// In en, this message translates to:
+  /// **'Moonsighting Committee Worldwide'**
+  String get methodMoonsighting;
+
+  /// No description provided for @methodDubai.
+  ///
+  /// In en, this message translates to:
+  /// **'Dubai'**
+  String get methodDubai;
+
+  /// No description provided for @methodJakim.
+  ///
+  /// In en, this message translates to:
+  /// **'Jabatan Kemajuan Islam Malaysia'**
+  String get methodJakim;
+
+  /// No description provided for @methodTunisia.
+  ///
+  /// In en, this message translates to:
+  /// **'Tunisian Ministry of Religious Affairs'**
+  String get methodTunisia;
+
+  /// No description provided for @methodAlgeria.
+  ///
+  /// In en, this message translates to:
+  /// **'Algerian Ministry of Religious Affairs'**
+  String get methodAlgeria;
+
+  /// No description provided for @methodKemenag.
+  ///
+  /// In en, this message translates to:
+  /// **'Indonesian Ministry of Religious Affairs'**
+  String get methodKemenag;
+
+  /// No description provided for @methodMorocco.
+  ///
+  /// In en, this message translates to:
+  /// **'Moroccan Ministry of Habous and Islamic Affairs'**
+  String get methodMorocco;
+
+  /// No description provided for @methodPortugal.
+  ///
+  /// In en, this message translates to:
+  /// **'Great Mosque of Paris'**
+  String get methodPortugal;
+
+  /// No description provided for @methodJafari.
+  ///
+  /// In en, this message translates to:
+  /// **'Shia Ithna-Ashari'**
+  String get methodJafari;
+
+  /// No description provided for @madhabStandard.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard (Shafi / Maliki / Hanbali)'**
+  String get madhabStandard;
+
+  /// No description provided for @madhabHanafi.
+  ///
+  /// In en, this message translates to:
+  /// **'Hanafi'**
+  String get madhabHanafi;
+
+  /// No description provided for @hijriMuharram.
+  ///
+  /// In en, this message translates to:
+  /// **'Muharram'**
+  String get hijriMuharram;
+
+  /// No description provided for @hijriSafar.
+  ///
+  /// In en, this message translates to:
+  /// **'Safar'**
+  String get hijriSafar;
+
+  /// No description provided for @hijriRabiAlAwwal.
+  ///
+  /// In en, this message translates to:
+  /// **'Rabi\' al-Awwal'**
+  String get hijriRabiAlAwwal;
+
+  /// No description provided for @hijriRabiAlThani.
+  ///
+  /// In en, this message translates to:
+  /// **'Rabi\' al-Thani'**
+  String get hijriRabiAlThani;
+
+  /// No description provided for @hijriJumadaAlAwwal.
+  ///
+  /// In en, this message translates to:
+  /// **'Jumada al-Awwal'**
+  String get hijriJumadaAlAwwal;
+
+  /// No description provided for @hijriJumadaAlThani.
+  ///
+  /// In en, this message translates to:
+  /// **'Jumada al-Thani'**
+  String get hijriJumadaAlThani;
+
+  /// No description provided for @hijriRajab.
+  ///
+  /// In en, this message translates to:
+  /// **'Rajab'**
+  String get hijriRajab;
+
+  /// No description provided for @hijriShaaban.
+  ///
+  /// In en, this message translates to:
+  /// **'Sha\'ban'**
+  String get hijriShaaban;
+
+  /// No description provided for @hijriRamadan.
+  ///
+  /// In en, this message translates to:
+  /// **'Ramadan'**
+  String get hijriRamadan;
+
+  /// No description provided for @hijriShawwal.
+  ///
+  /// In en, this message translates to:
+  /// **'Shawwal'**
+  String get hijriShawwal;
+
+  /// No description provided for @hijriDhuAlQiDah.
+  ///
+  /// In en, this message translates to:
+  /// **'Dhu al-Qi\'dah'**
+  String get hijriDhuAlQiDah;
+
+  /// No description provided for @hijriDhuAlHijjah.
+  ///
+  /// In en, this message translates to:
+  /// **'Dhu al-Hijjah'**
+  String get hijriDhuAlHijjah;
+
+  /// No description provided for @asrConventionDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Asr calculation convention'**
+  String get asrConventionDesc;
 }
 
 class _AppLocalizationsDelegate

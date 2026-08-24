@@ -400,4 +400,127 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get compassError => 'Pusula sensörü okunamadı.';
+
+  @override
+  String get languageLabel => 'Uygulama Dili';
+
+  @override
+  String get languageEnglish => 'English';
+
+  @override
+  String get languageTurkish => 'Türkçe';
+
+  @override
+  String get methodMWL => 'Müslüman Dünya Birliği';
+
+  @override
+  String get methodISNA => 'Kuzey Amerika İslam Cemiyeti';
+
+  @override
+  String get methodEgypt => 'Mısır Genel Araştırma Kurumu';
+
+  @override
+  String get methodMakkah => 'Ümmül Kura Üniversitesi, Mekke';
+
+  @override
+  String get methodKarachi => 'İslam Bilimleri Üniversitesi, Karaçi';
+
+  @override
+  String get methodTehran => 'Tahran Üniversitesi Jeofizik Enstitüsü';
+
+  @override
+  String get methodShia => 'Şia İsna Aşeri';
+
+  @override
+  String get methodGulf => 'Körfez Bölgesi';
+
+  @override
+  String get methodKuwait => 'Kuveyt';
+
+  @override
+  String get methodQatar => 'Katar';
+
+  @override
+  String get methodSingapore => 'Singapur İslam Diyanet Meclisi';
+
+  @override
+  String get methodFrance => 'Fransa İslami Kuruluşlar Birliği';
+
+  @override
+  String get methodTurkey => 'Diyanet Yaklaşım Profili';
+
+  @override
+  String get methodRussia => 'Rusya Müslümanları Dini İdaresi';
+
+  @override
+  String get methodMoonsighting => 'Küresel Hilal Gözlem Komitesi';
+
+  @override
+  String get methodDubai => 'Dubai';
+
+  @override
+  String get methodJakim => 'Malezya İslam Gelişim Departmanı';
+
+  @override
+  String get methodTunisia => 'Tunus Din İşleri Bakanlığı';
+
+  @override
+  String get methodAlgeria => 'Cezayir Din İşleri Bakanlığı';
+
+  @override
+  String get methodKemenag => 'Endonezya Din İşleri Bakanlığı';
+
+  @override
+  String get methodMorocco => 'Fas Vakıflar ve İslam İşleri Bakanlığı';
+
+  @override
+  String get methodPortugal => 'Paris Büyük Camii';
+
+  @override
+  String get methodJafari => 'Şia İsna Aşeri (Caferi)';
+
+  @override
+  String get madhabStandard => 'Standart (Şafii / Maliki / Hanbeli)';
+
+  @override
+  String get madhabHanafi => 'Hanefi';
+
+  @override
+  String get hijriMuharram => 'Muharrem';
+
+  @override
+  String get hijriSafar => 'Safer';
+
+  @override
+  String get hijriRabiAlAwwal => 'Rebiülevvel';
+
+  @override
+  String get hijriRabiAlThani => 'Rebiülahir';
+
+  @override
+  String get hijriJumadaAlAwwal => 'Cemaziyelevvel';
+
+  @override
+  String get hijriJumadaAlThani => 'Cemaziyelahir';
+
+  @override
+  String get hijriRajab => 'Recep';
+
+  @override
+  String get hijriShaaban => 'Şaban';
+
+  @override
+  String get hijriRamadan => 'Ramazan';
+
+  @override
+  String get hijriShawwal => 'Şevval';
+
+  @override
+  String get hijriDhuAlQiDah => 'Zilkade';
+
+  @override
+  String get hijriDhuAlHijjah => 'Zilhicce';
+
+  @override
+  String get asrConventionDesc => 'İkindi vakti hesaplama kuralı';
 }

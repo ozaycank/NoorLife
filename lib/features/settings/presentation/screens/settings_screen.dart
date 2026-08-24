@@ -10,6 +10,8 @@ import '../../../prayer/location/application/states/location_state.dart';
 import '../../../prayer/prayer_times/application/providers/prayer_times_notifier.dart';
 import '../../../prayer/prayer_times/domain/calculators/high_latitude_strategy.dart';
 import '../../application/providers/prayer_settings_notifier.dart';
+// EKLENEN IMPORT BURADA:
+import '../../application/providers/language_settings_notifier.dart';
 import '../widgets/selection_bottom_sheet.dart';
 import '../widgets/settings_selection_tile.dart';
 
@@ -31,6 +33,8 @@ class SettingsScreen extends ConsumerWidget {
             _LocationSection(),
             SizedBox(height: AppSpacing.lg),
             _PrayerCalculationSection(),
+            SizedBox(height: AppSpacing.lg),
+            _LanguageSection(), // EKSİK OLAN WIDGET BURAYA EKLENDİ
           ],
         ),
       ),
@@ -319,6 +323,52 @@ class _InfoRow extends StatelessWidget {
           value,
           style: textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _LanguageSection extends ConsumerWidget {
+  const _LanguageSection();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final localeState = ref.watch(languageSettingsNotifierProvider);
+    final notifier = ref.read(languageSettingsNotifierProvider.notifier);
+
+    final currentLanguageLabel = localeState.locale.languageCode == 'tr'
+        ? l10n.languageTurkish
+        : l10n.languageEnglish;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionHeader(title: l10n.languageLabel),
+        AppCard(
+          padding: EdgeInsets.zero,
+          child: SettingsSelectionTile(
+            title: l10n.languageLabel,
+            value: currentLanguageLabel,
+            onTap: () {
+              showModalBottomSheet<void>(
+                context: context,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                ),
+                builder: (ctx) => SelectionBottomSheet(
+                  title: l10n.languageLabel,
+                  items: [
+                    SelectionItem('en', l10n.languageEnglish),
+                    SelectionItem('tr', l10n.languageTurkish),
+                  ],
+                  selectedId: localeState.locale.languageCode,
+                  onSelected: (id) => notifier.setLocale(Locale(id)),
+                ),
+              );
+            },
           ),
         ),
       ],

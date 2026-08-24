@@ -354,7 +354,8 @@
   "angleBasedLabel": "Angle Based",
   "oneSeventhLabel": "One Seventh",
   "nightMiddleLabel": "Middle of the Night",
-  "noneLabel": "None","qiblaTitle": "Qibla Direction",
+  "noneLabel": "None",
+  "qiblaTitle": "Qibla Direction",
   "qiblaDirection": "Direction",
   "qiblaBearing": "Bearing",
   "qiblaLocation": "Location",
@@ -369,16 +370,70 @@
   "dirWest": "W",
   "dirNorthWest": "NW",
   "qiblaDisclaimer": "Calculated from your current location. Turn-by-turn compass guidance is not enabled yet.",
-  "qiblaUndefinedAtKaaba": "You are at the Kaaba. Qibla direction is undefined.","qiblaCompass": "Qibla Compass",
+  "qiblaUndefinedAtKaaba": "You are at the Kaaba. Qibla direction is undefined.",
+  "qiblaCompass": "Qibla Compass",
   "qiblaHeading": "Device Heading",
   "qiblaRelativeAngle": "Relative Angle",
   "turnLeft": "Turn left {degrees}°",
-  "@turnLeft": { "placeholders": { "degrees": { "type": "String" } } },
+  "@turnLeft": {
+    "placeholders": {
+      "degrees": {
+        "type": "String"
+      }
+    }
+  },
   "turnRight": "Turn right {degrees}°",
-  "@turnRight": { "placeholders": { "degrees": { "type": "String" } } },
+  "@turnRight": {
+    "placeholders": {
+      "degrees": {
+        "type": "String"
+      }
+    }
+  },
   "qiblaAligned": "Aligned with Qibla",
   "compassUnavailable": "Compass Unavailable",
   "compassSensorUnavailable": "Your device does not have a compass sensor.",
   "compassUnsupportedPlatform": "Compass is not supported on this platform.",
-  "compassError": "Failed to read compass sensor."
+  "compassError": "Failed to read compass sensor.",
+  "languageLabel": "App Language",
+  "languageEnglish": "English",
+  "languageTurkish": "Türkçe",
+  "methodMWL": "Muslim World League",
+  "methodISNA": "Islamic Society of North America",
+  "methodEgypt": "Egyptian General Authority",
+  "methodMakkah": "Umm Al-Qura",
+  "methodKarachi": "University of Islamic Sciences, Karachi",
+  "methodTehran": "Institute of Geophysics, University of Tehran",
+  "methodShia": "Shia Ithna-Ashari",
+  "methodGulf": "Gulf Region",
+  "methodKuwait": "Kuwait",
+  "methodQatar": "Qatar",
+  "methodSingapore": "Majlis Ugama Islam Singapura",
+  "methodFrance": "Union des Organisations Islamiques de France",
+  "methodTurkey": "Diyanet Approximation Profile",
+  "methodRussia": "Spiritual Administration of Muslims of Russia",
+  "methodMoonsighting": "Moonsighting Committee Worldwide",
+  "methodDubai": "Dubai",
+  "methodJakim": "Jabatan Kemajuan Islam Malaysia",
+  "methodTunisia": "Tunisian Ministry of Religious Affairs",
+  "methodAlgeria": "Algerian Ministry of Religious Affairs",
+  "methodKemenag": "Indonesian Ministry of Religious Affairs",
+  "methodMorocco": "Moroccan Ministry of Habous and Islamic Affairs",
+  "methodPortugal": "Great Mosque of Paris",
+  "methodJafari": "Shia Ithna-Ashari",
+  "madhabStandard": "Standard (Shafi / Maliki / Hanbali)",
+  "madhabHanafi": "Hanafi",
+  "hijriMuharram": "Muharram",
+  "hijriSafar": "Safar",
+  "hijriRabiAlAwwal": "Rabi' al-Awwal",
+  "hijriRabiAlThani": "Rabi' al-Thani",
+  "hijriJumadaAlAwwal": "Jumada al-Awwal",
+  "hijriJumadaAlThani": "Jumada al-Thani",
+  "hijriRajab": "Rajab",
+  "hijriShaaban": "Sha'ban",
+  "hijriRamadan": "Ramadan",
+  "hijriShawwal": "Shawwal",
+  "hijriDhuAlQiDah": "Dhu al-Qi'dah",
+  "hijriDhuAlHijjah": "Dhu al-Hijjah",
+  "asrConventionDesc": "Asr calculation convention"
 }
