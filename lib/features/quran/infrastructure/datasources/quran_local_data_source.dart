@@ -5,20 +5,53 @@ import '../models/surah_model.dart';
 
 abstract class QuranLocalDataSource {
   Future<List<SurahModel>> getSurahs();
+  Future<SurahModel> getSurahDetail(int surahNumber);
 }
 
 @LazySingleton(as: QuranLocalDataSource)
 class QuranLocalDataSourceImpl implements QuranLocalDataSource {
-  static const String _catalogPath = 'assets/data/quran/surahs.json';
+  // NOT: Artık hem metadata hem ayetler tek bir dev JSON dosyasında (AlQuran Cloud formatı)
+  static const String _fullQuranPath = 'assets/data/quran/quran.json';
+  List<SurahModel>? _cachedSurahs;
+
+  Future<void> _loadAndCache() async {
+    if (_cachedSurahs != null) return;
+
+    try {
+      final jsonString = await rootBundle.loadString(_fullQuranPath);
+      final dynamic jsonMap = json.decode(jsonString);
+
+      // Eğer AlQuran Cloud tam dump'ı ise kök nesne 'data' ve içinde 'surahs' olur.
+      // Eğer düz liste yaptıysanız direkt liste olur. İkisini de tolere edelim.
+      List<dynamic> surahsList;
+      if (jsonMap is Map<String, dynamic> && jsonMap.containsKey('data')) {
+        surahsList = jsonMap['data']['surahs'] as List<dynamic>;
+      } else if (jsonMap is List) {
+        surahsList = jsonMap;
+      } else {
+        throw Exception('Invalid Quran JSON structure.');
+      }
+
+      _cachedSurahs = surahsList.map((e) => SurahModel.fromJson(e)).toList();
+    } catch (e) {
+      throw Exception('Failed to load local Quran file: $e');
+    }
+  }
 
   @override
   Future<List<SurahModel>> getSurahs() async {
-    try {
-      final jsonString = await rootBundle.loadString(_catalogPath);
-      final List<dynamic> jsonMap = json.decode(jsonString);
-      return jsonMap.map((e) => SurahModel.fromJson(e)).toList();
-    } catch (e) {
-      throw Exception('Failed to load local surah catalog: $e');
-    }
+    await _loadAndCache();
+    
+    return _cachedSurahs!;
+  }
+
+  @override
+  Future<SurahModel> getSurahDetail(int surahNumber) async {
+    await _loadAndCache();
+    final surah = _cachedSurahs!.firstWhere(
+      (s) => s.number == surahNumber,
+      orElse: () => throw Exception('Surah $surahNumber not found.'),
+    );
+    return surah;
   }
 }
