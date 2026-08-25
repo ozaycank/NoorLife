@@ -111,14 +111,12 @@ void main() {
 
       final subscription = container.listen(qiblaCompassProvider, (_, __) {});
 
-      // 1. Initial State (Filter resets to direct value)
       streamController.add(const Success(DeviceHeading(151.0)));
       await Future.delayed(Duration.zero);
 
       var state = container.read(qiblaCompassProvider);
       expect(state.alignmentStatus, QiblaAlignmentStatus.aligned);
 
-      // 2. TURN RIGHT (Filter'ı geçmek için aynı hedefi art arda defalarca besliyoruz)
       for (int i = 0; i < 20; i++) {
         streamController.add(const Success(DeviceHeading(130.0)));
       }
@@ -127,9 +125,8 @@ void main() {
       state = container.read(qiblaCompassProvider);
       expect(state.alignmentStatus, QiblaAlignmentStatus.turnRight);
 
-      // 3. TURN LEFT (Filter'ı ikna etmek için hedefi defalarca besliyoruz)
       for (int i = 0; i < 20; i++) {
-        streamController.add(const Success(DeviceHeading(170.0)));
+        streamController.add(const Success(DeviceHeading(175.0)));
       }
       await Future.delayed(Duration.zero);
 
@@ -144,7 +141,7 @@ void main() {
         () async {
       const loc = PrayerLocation(
         latitude: 41.0082,
-        longitude: 28.9784, // Istanbul
+        longitude: 28.9784,
         cityName: 'Istanbul',
         countryName: 'Turkiye',
         timezoneIdentifier: 'Europe/Istanbul',

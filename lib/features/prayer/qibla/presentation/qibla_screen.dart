@@ -7,10 +7,12 @@ import '../../../../shared/design_system/tokens/app_spacing.dart';
 import '../../../../shared/widgets/app_card.dart';
 import '../../../../shared/widgets/error_state_widget.dart';
 import '../../../../shared/widgets/section_header.dart';
+import '../../location/application/providers/location_notifier.dart';
 import '../application/qibla_compass_provider.dart';
 import '../application/qibla_provider.dart';
 import '../domain/compass_alignment_rules.dart';
 import '../domain/qibla_models.dart';
+import '../../shared/presentation/utils/presentation_localizer.dart';
 
 class QiblaScreen extends ConsumerWidget {
   const QiblaScreen({super.key});
@@ -69,12 +71,15 @@ class QiblaScreen extends ConsumerWidget {
       case QiblaAlignmentStatus.aligned:
         directionText = l10n.qiblaAligned;
         indicatorColor = colorScheme.primary;
+        break;
       case QiblaAlignmentStatus.turnRight:
         directionText = l10n.turnRight(relative.abs().toStringAsFixed(1));
         indicatorColor = colorScheme.secondary;
+        break;
       case QiblaAlignmentStatus.turnLeft:
         directionText = l10n.turnLeft(relative.abs().toStringAsFixed(1));
         indicatorColor = colorScheme.secondary;
+        break;
     }
 
     return Column(
@@ -125,8 +130,16 @@ class QiblaScreen extends ConsumerWidget {
     final l10n = context.l10n;
     final state = ref.watch(qiblaProvider);
     final compassState = ref.watch(qiblaCompassProvider);
+    final locState = ref.watch(locationNotifierProvider);
     final colorScheme = context.colorScheme;
     final textTheme = context.textTheme;
+
+    final formattedLocation = PresentationLocalizer.formatLocation(
+      context: context,
+      cityName: locState.location?.cityName,
+      subAdminArea: locState.location?.countryName,
+      countryName: locState.location?.countryName,
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -152,7 +165,7 @@ class QiblaScreen extends ConsumerWidget {
                         const SizedBox(width: AppSpacing.sm),
                         Expanded(
                           child: Text(
-                            state.locationName ?? '-',
+                            formattedLocation, // Artık Unknown yerine burası çalışacak
                             style: textTheme.titleMedium,
                           ),
                         ),

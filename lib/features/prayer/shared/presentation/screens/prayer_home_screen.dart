@@ -10,6 +10,7 @@ import '../../../location/application/states/location_state.dart';
 import '../../../prayer_times/application/providers/prayer_times_notifier.dart';
 import '../../../prayer_times/presentation/providers/prayer_live_state_provider.dart';
 import '../../../prayer_times/presentation/widgets/prayer_card.dart';
+import '../utils/presentation_localizer.dart';
 import '../widgets/prayer_error_widget.dart';
 import '../widgets/prayer_header.dart';
 import 'prayer_loading_screen.dart';
@@ -55,7 +56,7 @@ class PrayerHomeScreen extends ConsumerWidget {
 
     final rem = liveState.timeRemaining;
     final timeRemainingStr =
-        '${rem.inHours.toString().padLeft(2, '0')}:${(rem.inMinutes % 60).toString().padLeft(2, '0')}';
+        '${rem.inHours.toString().padLeft(2, '0')}:${(rem.inMinutes % 60).toString().padLeft(2, '0')}:${(rem.inSeconds % 60).toString().padLeft(2, '0')}';
 
     return Scaffold(
       appBar: AppBar(
@@ -83,20 +84,15 @@ class PrayerHomeScreen extends ConsumerWidget {
                 PrayerHeader(
                   cityName: location.cityName,
                   countryName: location.countryName,
-                  // Fixed to match the actual parameters in PrayerHeader
-                  hijriYear: int.tryParse(
-                    today.hijriDateString?.split('-').first ?? '',
+                  subAdministrativeArea: location.countryName,
+                  hijriYear: null,
+                  hijriMonthIndex: null,
+                  hijriDay: null,
+                  customHijriString: PresentationLocalizer.formatSmartHijri(
+                    context,
+                    today.hijriDateString,
                   ),
-                  hijriMonthIndex: int.tryParse(
-                    today.hijriDateString?.split('-').length == 3
-                        ? today.hijriDateString!.split('-')[1]
-                        : '',
-                  ),
-                  hijriDay: int.tryParse(
-                    today.hijriDateString?.split('-').last ?? '',
-                  ),
-                  nextPrayerNameRaw:
-                      liveState.nextPrayer?.name.name.toUpperCase(),
+                  nextPrayerNameRaw: liveState.nextPrayer?.name.name,
                   timeRemaining: timeRemainingStr,
                 ),
               const SizedBox(height: AppSpacing.lg),

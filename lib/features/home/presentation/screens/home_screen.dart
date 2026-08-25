@@ -58,21 +58,22 @@ class HomeScreen extends ConsumerWidget {
 
     final location = prayerState.location;
     final today = prayerState.schedule?.today;
+
     final rem = liveState.timeRemaining;
     final timeRemainingStr =
-        '${rem.inHours.toString().padLeft(2, '0')}:${(rem.inMinutes % 60).toString().padLeft(2, '0')}';
+        '${rem.inHours.toString().padLeft(2, '0')}:${(rem.inMinutes % 60).toString().padLeft(2, '0')}:${(rem.inSeconds % 60).toString().padLeft(2, '0')}';
 
     final formattedLocation = PresentationLocalizer.formatLocation(
       context: context,
       cityName: location?.cityName,
-      subAdminArea: location?.countryName, // Generic sub assignment
+      subAdminArea: location?.countryName,
       countryName: location?.countryName,
     );
 
     String formattedHijri = '-';
     if (today != null && today.hijriDateString != null) {
       final parts = today.hijriDateString!.split('-');
-      if (parts.length == 3) {
+      if (parts.length >= 3) {
         final day = parts[2];
         final monthIdx = int.tryParse(parts[1]);
         final year = parts[0];
@@ -81,6 +82,8 @@ class HomeScreen extends ConsumerWidget {
               PresentationLocalizer.localizeHijriMonth(context, monthIdx);
           formattedHijri = '$day $monthName $year';
         }
+      } else {
+        formattedHijri = today.hijriDateString!;
       }
     }
 

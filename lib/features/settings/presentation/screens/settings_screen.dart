@@ -9,8 +9,8 @@ import '../../../prayer/location/application/providers/location_notifier.dart';
 import '../../../prayer/location/application/states/location_state.dart';
 import '../../../prayer/prayer_times/application/providers/prayer_times_notifier.dart';
 import '../../../prayer/prayer_times/domain/calculators/high_latitude_strategy.dart';
+import '../../../prayer/shared/presentation/utils/presentation_localizer.dart';
 import '../../application/providers/prayer_settings_notifier.dart';
-// EKLENEN IMPORT BURADA:
 import '../../application/providers/language_settings_notifier.dart';
 import '../widgets/selection_bottom_sheet.dart';
 import '../widgets/settings_selection_tile.dart';
@@ -34,7 +34,7 @@ class SettingsScreen extends ConsumerWidget {
             SizedBox(height: AppSpacing.lg),
             _PrayerCalculationSection(),
             SizedBox(height: AppSpacing.lg),
-            _LanguageSection(), // EKSİK OLAN WIDGET BURAYA EKLENDİ
+            _LanguageSection(),
           ],
         ),
       ),
@@ -65,6 +65,15 @@ class _LocationSection extends ConsumerWidget {
     final location = locState.location;
     final isLoading = locState.status == LocationStatus.requesting;
 
+    final locationDisplay = location != null
+        ? PresentationLocalizer.formatLocation(
+            context: context,
+            cityName: location.cityName,
+            subAdminArea: location.countryName,
+            countryName: location.countryName,
+          )
+        : l10n.locationUnavailable;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -82,9 +91,7 @@ class _LocationSection extends ConsumerWidget {
                   const SizedBox(width: AppSpacing.sm),
                   Expanded(
                     child: Text(
-                      location != null
-                          ? '${location.cityName}, ${location.countryName}'
-                          : l10n.locationUnavailable,
+                      locationDisplay,
                       style: textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -196,17 +203,15 @@ class _PrayerCalculationSection extends ConsumerWidget {
       return const Center(child: CircularProgressIndicator());
     }
 
-    final selectedMethodName = state.availableMethods
-            .where((m) => m.id == state.selectedMethodId)
-            .firstOrNull
-            ?.name ??
-        '-';
+    final rawMethodId = state.selectedMethodId;
+    final selectedMethodName = rawMethodId != null
+        ? PresentationLocalizer.localizeCalculationMethod(context, rawMethodId)
+        : '-';
 
-    final selectedMadhabName = state.availableMadhabs
-            .where((m) => m.id == state.selectedMadhabId)
-            .firstOrNull
-            ?.name ??
-        '-';
+    final rawMadhabId = state.selectedMadhabId;
+    final selectedMadhabName = rawMadhabId != null
+        ? PresentationLocalizer.localizeMadhab(context, rawMadhabId)
+        : '-';
 
     final highLatItems = HighLatitudeStrategy.values
         .map((s) => SelectionItem(s.name, _getHighLatLabel(s, context)))
@@ -238,7 +243,16 @@ class _PrayerCalculationSection extends ConsumerWidget {
                   context,
                   l10n.calculationMethodLabel,
                   state.availableMethods
-                      .map((m) => SelectionItem(m.id, m.name, m.description))
+                      .map(
+                        (m) => SelectionItem(
+                          m.id,
+                          PresentationLocalizer.localizeCalculationMethod(
+                            context,
+                            m.id,
+                          ),
+                          m.description,
+                        ),
+                      )
                       .toList(),
                   state.selectedMethodId,
                   (id) => _handleSettingChange(
@@ -257,7 +271,12 @@ class _PrayerCalculationSection extends ConsumerWidget {
                   context,
                   l10n.madhabLabel,
                   state.availableMadhabs
-                      .map((m) => SelectionItem(m.id, m.name))
+                      .map(
+                        (m) => SelectionItem(
+                          m.id,
+                          PresentationLocalizer.localizeMadhab(context, m.id),
+                        ),
+                      )
                       .toList(),
                   state.selectedMadhabId,
                   (id) => _handleSettingChange(

@@ -24,7 +24,6 @@ class PresentationLocalizer {
     }
   }
 
-  // Assuming PrayerName is accessible now via prayer_schedule or domain entities
   static String localizePrayerName(BuildContext context, dynamic name) {
     return localizePrayerNameRaw(context, name.toString().split('.').last);
   }
@@ -59,6 +58,75 @@ class PresentationLocalizer {
       default:
         return '-';
     }
+  }
+
+  // Akıllı Hicri ayrıştırıcı (e.g., "11 Safar 1445" veya "1445-02-11" hepsini anlar)
+  static String formatSmartHijri(BuildContext context, String? rawHijri) {
+    if (rawHijri == null || rawHijri.isEmpty) return '-';
+
+    // "1445-02-11" gibi YYYY-MM-DD formatı mı?
+    if (rawHijri.contains('-')) {
+      final parts = rawHijri.split('-');
+      if (parts.length >= 3) {
+        final year = parts[0];
+        final monthIdx = int.tryParse(parts[1]);
+        final day = parts[2];
+        if (monthIdx != null) {
+          final localizedMonth = localizeHijriMonth(context, monthIdx);
+          return '$day $localizedMonth $year';
+        }
+      }
+    }
+    // "11 Safar 1445" gibi metin tabanlı (Adhan paketi bazen bu şekilde dönüyor) format mı?
+    else {
+      final parts = rawHijri.split(' ');
+      if (parts.length >= 3) {
+        final day = parts[0];
+        final year = parts.last;
+        // Ay ismini eşleştirmeye çalış (İngilizce dönebiliyor)
+        final rawMonthStr =
+            parts.sublist(1, parts.length - 1).join(' ').toLowerCase();
+
+        int monthIdx = 0;
+        if (rawMonthStr.contains('muharram')) {
+          monthIdx = 1;
+        } else if (rawMonthStr.contains('safar')) {
+          monthIdx = 2;
+        } else if (rawMonthStr.contains('rabi') &&
+            rawMonthStr.contains('awwal')) {
+          monthIdx = 3;
+        } else if (rawMonthStr.contains('rabi') &&
+            rawMonthStr.contains('thani')) {
+          monthIdx = 4;
+        } else if (rawMonthStr.contains('jumada') &&
+            rawMonthStr.contains('awwal')) {
+          monthIdx = 5;
+        } else if (rawMonthStr.contains('jumada') &&
+            rawMonthStr.contains('thani')) {
+          monthIdx = 6;
+        } else if (rawMonthStr.contains('rajab')) {
+          monthIdx = 7;
+        } else if (rawMonthStr.contains('sha')) {
+          monthIdx = 8; // Sha'ban
+        } else if (rawMonthStr.contains('ramadan')) {
+          monthIdx = 9;
+        } else if (rawMonthStr.contains('shawwal')) {
+          monthIdx = 10;
+        } else if (rawMonthStr.contains('dhu') && rawMonthStr.contains('qi')) {
+          monthIdx = 11;
+        } else if (rawMonthStr.contains('dhu') &&
+            rawMonthStr.contains('hijjah')) {
+          monthIdx = 12;
+        }
+
+        if (monthIdx > 0) {
+          final localizedMonth = localizeHijriMonth(context, monthIdx);
+          return '$day $localizedMonth $year';
+        }
+      }
+    }
+    // Hiç ayrıştıramadıysan geldiği gibi göster (Fallback)
+    return rawHijri;
   }
 
   static String formatLocation({

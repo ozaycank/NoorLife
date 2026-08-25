@@ -10,6 +10,7 @@ class PrayerHeader extends StatelessWidget {
   final int? hijriMonthIndex;
   final int? hijriDay;
   final int? hijriYear;
+  final String? customHijriString;
   final String? nextPrayerNameRaw;
   final String timeRemaining;
 
@@ -21,6 +22,7 @@ class PrayerHeader extends StatelessWidget {
     this.hijriMonthIndex,
     this.hijriDay,
     this.hijriYear,
+    this.customHijriString,
     this.nextPrayerNameRaw,
     required this.timeRemaining,
   });
@@ -38,12 +40,13 @@ class PrayerHeader extends StatelessWidget {
       countryName: countryName,
     );
 
-    String formattedHijri = '-';
-    if (hijriDay != null && hijriMonthIndex != null && hijriYear != null) {
-      final monthName = PresentationLocalizer.localizeHijriMonth(
-        context,
-        hijriMonthIndex!,
-      );
+    String formattedHijri = customHijriString ?? '-';
+    if (customHijriString == null &&
+        hijriDay != null &&
+        hijriMonthIndex != null &&
+        hijriYear != null) {
+      final monthName =
+          PresentationLocalizer.localizeHijriMonth(context, hijriMonthIndex!);
       formattedHijri = '$hijriDay $monthName $hijriYear';
     }
 
