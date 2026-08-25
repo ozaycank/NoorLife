@@ -15,12 +15,15 @@ class QuranNotifier extends Notifier<QuranState> {
   @override
   QuranState build() {
     _repository = getIt<QuranRepository>();
-    _loadSurahs();
+
+    Future.microtask(() => _loadSurahs());
+
     return QuranState.initial();
   }
 
   Future<void> _loadSurahs() async {
     state = state.copyWith(isLoading: true, failure: null);
+
     try {
       final surahs = await _repository.getSurahs();
       _allSurahs = surahs;

@@ -55,6 +55,12 @@ import '../../features/prayer/shared/infrastructure/datasources/prayer_local_dat
     as _i260;
 import '../../features/prayer/shared/infrastructure/datasources/prayer_secure_storage_data_source.dart'
     as _i949;
+import '../../features/quran/domain/repositories/quran_repository.dart'
+    as _i498;
+import '../../features/quran/infrastructure/datasources/quran_local_data_source.dart'
+    as _i986;
+import '../../features/quran/infrastructure/repositories/quran_repository_impl.dart'
+    as _i771;
 import '../logging/logger_service.dart' as _i731;
 import '../network/dio_client.dart' as _i667;
 import '../services/timezone/timezone_service.dart' as _i280;
@@ -89,6 +95,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i612.CalculationMethodRepository>(() =>
         _i699.CalculationMethodRepositoryImpl(
             gh<_i260.PrayerLocalDataSource>()));
+    gh.lazySingleton<_i986.QuranLocalDataSource>(
+        () => _i986.QuranLocalDataSourceImpl());
+    gh.lazySingleton<_i498.QuranRepository>(
+        () => _i771.QuranRepositoryImpl(gh<_i986.QuranLocalDataSource>()));
     gh.lazySingleton<_i280.TimezoneService>(() => _i338.TimezoneServiceImpl());
     gh.lazySingleton<_i711.LocationGeocodingService>(() =>
         _i768.LocationGeocodingServiceImpl(gh<_i557.GeocodingDataSource>()));
