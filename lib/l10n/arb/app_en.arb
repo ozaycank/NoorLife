@@ -346,34 +346,121 @@
     "description": "Unknown country fallback"
   },
   "prayerCalculationTitle": "Prayer Calculation",
+  "@prayerCalculationTitle": {
+    "description": "Prayer calculation title"
+  },
   "calculationMethodLabel": "Calculation Method",
+  "@calculationMethodLabel": {
+    "description": "Calculation method label"
+  },
   "madhabLabel": "Madhab / Juristic Method",
+  "@madhabLabel": {
+    "description": "Madhab label"
+  },
   "highLatitudeStrategyLabel": "High Latitude Strategy",
+  "@highLatitudeStrategyLabel": {
+    "description": "High latitude strategy label"
+  },
   "calculationMethodSaved": "Settings saved successfully.",
+  "@calculationMethodSaved": {
+    "description": "Calculation method saved message"
+  },
   "settingsSaveFailed": "Failed to save settings.",
+  "@settingsSaveFailed": {
+    "description": "Settings save failed message"
+  },
   "angleBasedLabel": "Angle Based",
+  "@angleBasedLabel": {
+    "description": "Angle based label"
+  },
   "oneSeventhLabel": "One Seventh",
+  "@oneSeventhLabel": {
+    "description": "One seventh label"
+  },
   "nightMiddleLabel": "Middle of the Night",
+  "@nightMiddleLabel": {
+    "description": "Middle of the night label"
+  },
   "noneLabel": "None",
+  "@noneLabel": {
+    "description": "None label"
+  },
   "qiblaTitle": "Qibla Direction",
+  "@qiblaTitle": {
+    "description": "Qibla direction title"
+  },
   "qiblaDirection": "Direction",
+  "@qiblaDirection": {
+    "description": "Qibla direction label"
+  },
   "qiblaBearing": "Bearing",
+  "@qiblaBearing": {
+    "description": "Qibla bearing label"
+  },
   "qiblaLocation": "Location",
+  "@qiblaLocation": {
+    "description": "Qibla location label"
+  },
   "qiblaUnavailable": "Qibla calculation unavailable. Please ensure your location is set.",
+  "@qiblaUnavailable": {
+    "description": "Qibla unavailable message"
+  },
   "qiblaCalculationError": "Failed to calculate Qibla direction.",
+  "@qiblaCalculationError": {
+    "description": "Qibla calculation error message"
+  },
   "dirNorth": "N",
+  "@dirNorth": {
+    "description": "North direction"
+  },
   "dirNorthEast": "NE",
+  "@dirNorthEast": {
+    "description": "North east direction"
+  },
   "dirEast": "E",
+  "@dirEast": {
+    "description": "East direction"
+  },
   "dirSouthEast": "SE",
+  "@dirSouthEast": {
+    "description": "South east direction"
+  },
   "dirSouth": "S",
+  "@dirSouth": {
+    "description": "South direction"
+  },
   "dirSouthWest": "SW",
+  "@dirSouthWest": {
+    "description": "South west direction"
+  },
   "dirWest": "W",
+  "@dirWest": {
+    "description": "West direction"
+  },
   "dirNorthWest": "NW",
+  "@dirNorthWest": {
+    "description": "North west direction"
+  },
   "qiblaDisclaimer": "Calculated from your current location. Turn-by-turn compass guidance is not enabled yet.",
+  "@qiblaDisclaimer": {
+    "description": "Qibla disclaimer text"
+  },
   "qiblaUndefinedAtKaaba": "You are at the Kaaba. Qibla direction is undefined.",
+  "@qiblaUndefinedAtKaaba": {
+    "description": "Qibla undefined at Kaaba message"
+  },
   "qiblaCompass": "Qibla Compass",
+  "@qiblaCompass": {
+    "description": "Qibla compass title"
+  },
   "qiblaHeading": "Device Heading",
+  "@qiblaHeading": {
+    "description": "Qibla heading label"
+  },
   "qiblaRelativeAngle": "Relative Angle",
+  "@qiblaRelativeAngle": {
+    "description": "Qibla relative angle label"
+  },
   "turnLeft": "Turn left {degrees}°",
   "@turnLeft": {
     "placeholders": {
@@ -391,56 +478,248 @@
     }
   },
   "qiblaAligned": "Aligned with Qibla",
+  "@qiblaAligned": {
+    "description": "Qibla aligned message"
+  },
   "compassUnavailable": "Compass Unavailable",
+  "@compassUnavailable": {
+    "description": "Compass unavailable title"
+  },
   "compassSensorUnavailable": "Your device does not have a compass sensor.",
+  "@compassSensorUnavailable": {
+    "description": "Compass sensor unavailable message"
+  },
   "compassUnsupportedPlatform": "Compass is not supported on this platform.",
+  "@compassUnsupportedPlatform": {
+    "description": "Compass unsupported platform message"
+  },
   "compassError": "Failed to read compass sensor.",
+  "@compassError": {
+    "description": "Compass error message"
+  },
   "languageLabel": "App Language",
+  "@languageLabel": {
+    "description": "App language label"
+  },
   "languageEnglish": "English",
+  "@languageEnglish": {
+    "description": "English language option"
+  },
   "languageTurkish": "Türkçe",
+  "@languageTurkish": {
+    "description": "Turkish language option"
+  },
   "methodMWL": "Muslim World League",
+  "@methodMWL": {
+    "description": "MWL calculation method"
+  },
   "methodISNA": "Islamic Society of North America",
+  "@methodISNA": {
+    "description": "ISNA calculation method"
+  },
   "methodEgypt": "Egyptian General Authority",
+  "@methodEgypt": {
+    "description": "Egypt calculation method"
+  },
   "methodMakkah": "Umm Al-Qura",
+  "@methodMakkah": {
+    "description": "Makkah calculation method"
+  },
   "methodKarachi": "University of Islamic Sciences, Karachi",
+  "@methodKarachi": {
+    "description": "Karachi calculation method"
+  },
   "methodTehran": "Institute of Geophysics, University of Tehran",
+  "@methodTehran": {
+    "description": "Tehran calculation method"
+  },
   "methodShia": "Shia Ithna-Ashari",
+  "@methodShia": {
+    "description": "Shia calculation method"
+  },
   "methodGulf": "Gulf Region",
+  "@methodGulf": {
+    "description": "Gulf calculation method"
+  },
   "methodKuwait": "Kuwait",
+  "@methodKuwait": {
+    "description": "Kuwait calculation method"
+  },
   "methodQatar": "Qatar",
+  "@methodQatar": {
+    "description": "Qatar calculation method"
+  },
   "methodSingapore": "Majlis Ugama Islam Singapura",
+  "@methodSingapore": {
+    "description": "Singapore calculation method"
+  },
   "methodFrance": "Union des Organisations Islamiques de France",
+  "@methodFrance": {
+    "description": "France calculation method"
+  },
   "methodTurkey": "Diyanet Approximation Profile",
+  "@methodTurkey": {
+    "description": "Turkey calculation method"
+  },
   "methodRussia": "Spiritual Administration of Muslims of Russia",
+  "@methodRussia": {
+    "description": "Russia calculation method"
+  },
   "methodMoonsighting": "Moonsighting Committee Worldwide",
+  "@methodMoonsighting": {
+    "description": "Moonsighting calculation method"
+  },
   "methodDubai": "Dubai",
+  "@methodDubai": {
+    "description": "Dubai calculation method"
+  },
   "methodJakim": "Jabatan Kemajuan Islam Malaysia",
+  "@methodJakim": {
+    "description": "Jakim calculation method"
+  },
   "methodTunisia": "Tunisian Ministry of Religious Affairs",
+  "@methodTunisia": {
+    "description": "Tunisia calculation method"
+  },
   "methodAlgeria": "Algerian Ministry of Religious Affairs",
+  "@methodAlgeria": {
+    "description": "Algeria calculation method"
+  },
   "methodKemenag": "Indonesian Ministry of Religious Affairs",
+  "@methodKemenag": {
+    "description": "Kemenag calculation method"
+  },
   "methodMorocco": "Moroccan Ministry of Habous and Islamic Affairs",
+  "@methodMorocco": {
+    "description": "Morocco calculation method"
+  },
   "methodPortugal": "Great Mosque of Paris",
+  "@methodPortugal": {
+    "description": "Portugal calculation method"
+  },
   "methodJafari": "Shia Ithna-Ashari",
+  "@methodJafari": {
+    "description": "Jafari calculation method"
+  },
   "madhabStandard": "Standard (Shafi / Maliki / Hanbali)",
+  "@madhabStandard": {
+    "description": "Standard madhab option"
+  },
   "madhabHanafi": "Hanafi",
+  "@madhabHanafi": {
+    "description": "Hanafi madhab option"
+  },
   "hijriMuharram": "Muharram",
+  "@hijriMuharram": {
+    "description": "Muharram hijri month"
+  },
   "hijriSafar": "Safar",
+  "@hijriSafar": {
+    "description": "Safar hijri month"
+  },
   "hijriRabiAlAwwal": "Rabi' al-Awwal",
+  "@hijriRabiAlAwwal": {
+    "description": "Rabi al-Awwal hijri month"
+  },
   "hijriRabiAlThani": "Rabi' al-Thani",
+  "@hijriRabiAlThani": {
+    "description": "Rabi al-Thani hijri month"
+  },
   "hijriJumadaAlAwwal": "Jumada al-Awwal",
+  "@hijriJumadaAlAwwal": {
+    "description": "Jumada al-Awwal hijri month"
+  },
   "hijriJumadaAlThani": "Jumada al-Thani",
+  "@hijriJumadaAlThani": {
+    "description": "Jumada al-Thani hijri month"
+  },
   "hijriRajab": "Rajab",
+  "@hijriRajab": {
+    "description": "Rajab hijri month"
+  },
   "hijriShaaban": "Sha'ban",
+  "@hijriShaaban": {
+    "description": "Shaaban hijri month"
+  },
   "hijriRamadan": "Ramadan",
+  "@hijriRamadan": {
+    "description": "Ramadan hijri month"
+  },
   "hijriShawwal": "Shawwal",
+  "@hijriShawwal": {
+    "description": "Shawwal hijri month"
+  },
   "hijriDhuAlQiDah": "Dhu al-Qi'dah",
+  "@hijriDhuAlQiDah": {
+    "description": "Dhu al-Qi'dah hijri month"
+  },
   "hijriDhuAlHijjah": "Dhu al-Hijjah",
-  "asrConventionDesc": "Asr calculation convention","homeGreeting": "Assalamu Alaikum",
+  "@hijriDhuAlHijjah": {
+    "description": "Dhu al-Hijjah hijri month"
+  },
+  "asrConventionDesc": "Asr calculation convention",
+  "@asrConventionDesc": {
+    "description": "Asr calculation convention description"
+  },
+  "homeGreeting": "Assalamu Alaikum",
+  "@homeGreeting": {
+    "description": "Home greeting"
+  },
   "homeToday": "Today's Schedule",
+  "@homeToday": {
+    "description": "Home today's schedule section title"
+  },
   "nextPrayerHeader": "Next Prayer",
+  "@nextPrayerHeader": {
+    "description": "Home next prayer header"
+  },
   "viewQibla": "Qibla Direction",
+  "@viewQibla": {
+    "description": "Home view qibla action"
+  },
   "openSettings": "App Settings",
+  "@openSettings": {
+    "description": "Home open settings action"
+  },
   "homePrayerError": "Prayer times unavailable.",
+  "@homePrayerError": {
+    "description": "Home prayer error state"
+  },
   "homePrayerRetry": "Retry Location",
-  "homeComingSoon": "Coming Soon"
+  "@homePrayerRetry": {
+    "description": "Home prayer retry button"
+  },
+  "homeComingSoon": "Coming Soon",
+  "@homeComingSoon": {
+    "description": "Home coming soon label"
+  },
+  "quranSearchHint": "Search Surah",
+  "@quranSearchHint": {
+    "description": "Quran search input hint"
+  },
+  "quranNoSurahFound": "No Surah found.",
+  "@quranNoSurahFound": {
+    "description": "Quran empty search result"
+  },
+  "quranMeccan": "Meccan",
+  "@quranMeccan": {
+    "description": "Quran meccan revelation type"
+  },
+  "quranMedinan": "Medinan",
+  "@quranMedinan": {
+    "description": "Quran medinan revelation type"
+  },
+  "quranAyahCount": "{count} Ayahs",
+  "@quranAyahCount": {
+    "description": "Quran ayah count formatting",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quranDetailPlaceholderText": "Quran text reader will be implemented in a later phase.",
+  "@quranDetailPlaceholderText": {
+    "description": "Quran detail placeholder text"
+  }
 }

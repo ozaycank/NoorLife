@@ -608,175 +608,175 @@ abstract class AppLocalizations {
   /// **'Unknown'**
   String get unknownCountry;
 
-  /// No description provided for @prayerCalculationTitle.
+  /// Prayer calculation title
   ///
   /// In en, this message translates to:
   /// **'Prayer Calculation'**
   String get prayerCalculationTitle;
 
-  /// No description provided for @calculationMethodLabel.
+  /// Calculation method label
   ///
   /// In en, this message translates to:
   /// **'Calculation Method'**
   String get calculationMethodLabel;
 
-  /// No description provided for @madhabLabel.
+  /// Madhab label
   ///
   /// In en, this message translates to:
   /// **'Madhab / Juristic Method'**
   String get madhabLabel;
 
-  /// No description provided for @highLatitudeStrategyLabel.
+  /// High latitude strategy label
   ///
   /// In en, this message translates to:
   /// **'High Latitude Strategy'**
   String get highLatitudeStrategyLabel;
 
-  /// No description provided for @calculationMethodSaved.
+  /// Calculation method saved message
   ///
   /// In en, this message translates to:
   /// **'Settings saved successfully.'**
   String get calculationMethodSaved;
 
-  /// No description provided for @settingsSaveFailed.
+  /// Settings save failed message
   ///
   /// In en, this message translates to:
   /// **'Failed to save settings.'**
   String get settingsSaveFailed;
 
-  /// No description provided for @angleBasedLabel.
+  /// Angle based label
   ///
   /// In en, this message translates to:
   /// **'Angle Based'**
   String get angleBasedLabel;
 
-  /// No description provided for @oneSeventhLabel.
+  /// One seventh label
   ///
   /// In en, this message translates to:
   /// **'One Seventh'**
   String get oneSeventhLabel;
 
-  /// No description provided for @nightMiddleLabel.
+  /// Middle of the night label
   ///
   /// In en, this message translates to:
   /// **'Middle of the Night'**
   String get nightMiddleLabel;
 
-  /// No description provided for @noneLabel.
+  /// None label
   ///
   /// In en, this message translates to:
   /// **'None'**
   String get noneLabel;
 
-  /// No description provided for @qiblaTitle.
+  /// Qibla direction title
   ///
   /// In en, this message translates to:
   /// **'Qibla Direction'**
   String get qiblaTitle;
 
-  /// No description provided for @qiblaDirection.
+  /// Qibla direction label
   ///
   /// In en, this message translates to:
   /// **'Direction'**
   String get qiblaDirection;
 
-  /// No description provided for @qiblaBearing.
+  /// Qibla bearing label
   ///
   /// In en, this message translates to:
   /// **'Bearing'**
   String get qiblaBearing;
 
-  /// No description provided for @qiblaLocation.
+  /// Qibla location label
   ///
   /// In en, this message translates to:
   /// **'Location'**
   String get qiblaLocation;
 
-  /// No description provided for @qiblaUnavailable.
+  /// Qibla unavailable message
   ///
   /// In en, this message translates to:
   /// **'Qibla calculation unavailable. Please ensure your location is set.'**
   String get qiblaUnavailable;
 
-  /// No description provided for @qiblaCalculationError.
+  /// Qibla calculation error message
   ///
   /// In en, this message translates to:
   /// **'Failed to calculate Qibla direction.'**
   String get qiblaCalculationError;
 
-  /// No description provided for @dirNorth.
+  /// North direction
   ///
   /// In en, this message translates to:
   /// **'N'**
   String get dirNorth;
 
-  /// No description provided for @dirNorthEast.
+  /// North east direction
   ///
   /// In en, this message translates to:
   /// **'NE'**
   String get dirNorthEast;
 
-  /// No description provided for @dirEast.
+  /// East direction
   ///
   /// In en, this message translates to:
   /// **'E'**
   String get dirEast;
 
-  /// No description provided for @dirSouthEast.
+  /// South east direction
   ///
   /// In en, this message translates to:
   /// **'SE'**
   String get dirSouthEast;
 
-  /// No description provided for @dirSouth.
+  /// South direction
   ///
   /// In en, this message translates to:
   /// **'S'**
   String get dirSouth;
 
-  /// No description provided for @dirSouthWest.
+  /// South west direction
   ///
   /// In en, this message translates to:
   /// **'SW'**
   String get dirSouthWest;
 
-  /// No description provided for @dirWest.
+  /// West direction
   ///
   /// In en, this message translates to:
   /// **'W'**
   String get dirWest;
 
-  /// No description provided for @dirNorthWest.
+  /// North west direction
   ///
   /// In en, this message translates to:
   /// **'NW'**
   String get dirNorthWest;
 
-  /// No description provided for @qiblaDisclaimer.
+  /// Qibla disclaimer text
   ///
   /// In en, this message translates to:
   /// **'Calculated from your current location. Turn-by-turn compass guidance is not enabled yet.'**
   String get qiblaDisclaimer;
 
-  /// No description provided for @qiblaUndefinedAtKaaba.
+  /// Qibla undefined at Kaaba message
   ///
   /// In en, this message translates to:
   /// **'You are at the Kaaba. Qibla direction is undefined.'**
   String get qiblaUndefinedAtKaaba;
 
-  /// No description provided for @qiblaCompass.
+  /// Qibla compass title
   ///
   /// In en, this message translates to:
   /// **'Qibla Compass'**
   String get qiblaCompass;
 
-  /// No description provided for @qiblaHeading.
+  /// Qibla heading label
   ///
   /// In en, this message translates to:
   /// **'Device Heading'**
   String get qiblaHeading;
 
-  /// No description provided for @qiblaRelativeAngle.
+  /// Qibla relative angle label
   ///
   /// In en, this message translates to:
   /// **'Relative Angle'**
@@ -794,329 +794,365 @@ abstract class AppLocalizations {
   /// **'Turn right {degrees}°'**
   String turnRight(String degrees);
 
-  /// No description provided for @qiblaAligned.
+  /// Qibla aligned message
   ///
   /// In en, this message translates to:
   /// **'Aligned with Qibla'**
   String get qiblaAligned;
 
-  /// No description provided for @compassUnavailable.
+  /// Compass unavailable title
   ///
   /// In en, this message translates to:
   /// **'Compass Unavailable'**
   String get compassUnavailable;
 
-  /// No description provided for @compassSensorUnavailable.
+  /// Compass sensor unavailable message
   ///
   /// In en, this message translates to:
   /// **'Your device does not have a compass sensor.'**
   String get compassSensorUnavailable;
 
-  /// No description provided for @compassUnsupportedPlatform.
+  /// Compass unsupported platform message
   ///
   /// In en, this message translates to:
   /// **'Compass is not supported on this platform.'**
   String get compassUnsupportedPlatform;
 
-  /// No description provided for @compassError.
+  /// Compass error message
   ///
   /// In en, this message translates to:
   /// **'Failed to read compass sensor.'**
   String get compassError;
 
-  /// No description provided for @languageLabel.
+  /// App language label
   ///
   /// In en, this message translates to:
   /// **'App Language'**
   String get languageLabel;
 
-  /// No description provided for @languageEnglish.
+  /// English language option
   ///
   /// In en, this message translates to:
   /// **'English'**
   String get languageEnglish;
 
-  /// No description provided for @languageTurkish.
+  /// Turkish language option
   ///
   /// In en, this message translates to:
   /// **'Türkçe'**
   String get languageTurkish;
 
-  /// No description provided for @methodMWL.
+  /// MWL calculation method
   ///
   /// In en, this message translates to:
   /// **'Muslim World League'**
   String get methodMWL;
 
-  /// No description provided for @methodISNA.
+  /// ISNA calculation method
   ///
   /// In en, this message translates to:
   /// **'Islamic Society of North America'**
   String get methodISNA;
 
-  /// No description provided for @methodEgypt.
+  /// Egypt calculation method
   ///
   /// In en, this message translates to:
   /// **'Egyptian General Authority'**
   String get methodEgypt;
 
-  /// No description provided for @methodMakkah.
+  /// Makkah calculation method
   ///
   /// In en, this message translates to:
   /// **'Umm Al-Qura'**
   String get methodMakkah;
 
-  /// No description provided for @methodKarachi.
+  /// Karachi calculation method
   ///
   /// In en, this message translates to:
   /// **'University of Islamic Sciences, Karachi'**
   String get methodKarachi;
 
-  /// No description provided for @methodTehran.
+  /// Tehran calculation method
   ///
   /// In en, this message translates to:
   /// **'Institute of Geophysics, University of Tehran'**
   String get methodTehran;
 
-  /// No description provided for @methodShia.
+  /// Shia calculation method
   ///
   /// In en, this message translates to:
   /// **'Shia Ithna-Ashari'**
   String get methodShia;
 
-  /// No description provided for @methodGulf.
+  /// Gulf calculation method
   ///
   /// In en, this message translates to:
   /// **'Gulf Region'**
   String get methodGulf;
 
-  /// No description provided for @methodKuwait.
+  /// Kuwait calculation method
   ///
   /// In en, this message translates to:
   /// **'Kuwait'**
   String get methodKuwait;
 
-  /// No description provided for @methodQatar.
+  /// Qatar calculation method
   ///
   /// In en, this message translates to:
   /// **'Qatar'**
   String get methodQatar;
 
-  /// No description provided for @methodSingapore.
+  /// Singapore calculation method
   ///
   /// In en, this message translates to:
   /// **'Majlis Ugama Islam Singapura'**
   String get methodSingapore;
 
-  /// No description provided for @methodFrance.
+  /// France calculation method
   ///
   /// In en, this message translates to:
   /// **'Union des Organisations Islamiques de France'**
   String get methodFrance;
 
-  /// No description provided for @methodTurkey.
+  /// Turkey calculation method
   ///
   /// In en, this message translates to:
   /// **'Diyanet Approximation Profile'**
   String get methodTurkey;
 
-  /// No description provided for @methodRussia.
+  /// Russia calculation method
   ///
   /// In en, this message translates to:
   /// **'Spiritual Administration of Muslims of Russia'**
   String get methodRussia;
 
-  /// No description provided for @methodMoonsighting.
+  /// Moonsighting calculation method
   ///
   /// In en, this message translates to:
   /// **'Moonsighting Committee Worldwide'**
   String get methodMoonsighting;
 
-  /// No description provided for @methodDubai.
+  /// Dubai calculation method
   ///
   /// In en, this message translates to:
   /// **'Dubai'**
   String get methodDubai;
 
-  /// No description provided for @methodJakim.
+  /// Jakim calculation method
   ///
   /// In en, this message translates to:
   /// **'Jabatan Kemajuan Islam Malaysia'**
   String get methodJakim;
 
-  /// No description provided for @methodTunisia.
+  /// Tunisia calculation method
   ///
   /// In en, this message translates to:
   /// **'Tunisian Ministry of Religious Affairs'**
   String get methodTunisia;
 
-  /// No description provided for @methodAlgeria.
+  /// Algeria calculation method
   ///
   /// In en, this message translates to:
   /// **'Algerian Ministry of Religious Affairs'**
   String get methodAlgeria;
 
-  /// No description provided for @methodKemenag.
+  /// Kemenag calculation method
   ///
   /// In en, this message translates to:
   /// **'Indonesian Ministry of Religious Affairs'**
   String get methodKemenag;
 
-  /// No description provided for @methodMorocco.
+  /// Morocco calculation method
   ///
   /// In en, this message translates to:
   /// **'Moroccan Ministry of Habous and Islamic Affairs'**
   String get methodMorocco;
 
-  /// No description provided for @methodPortugal.
+  /// Portugal calculation method
   ///
   /// In en, this message translates to:
   /// **'Great Mosque of Paris'**
   String get methodPortugal;
 
-  /// No description provided for @methodJafari.
+  /// Jafari calculation method
   ///
   /// In en, this message translates to:
   /// **'Shia Ithna-Ashari'**
   String get methodJafari;
 
-  /// No description provided for @madhabStandard.
+  /// Standard madhab option
   ///
   /// In en, this message translates to:
   /// **'Standard (Shafi / Maliki / Hanbali)'**
   String get madhabStandard;
 
-  /// No description provided for @madhabHanafi.
+  /// Hanafi madhab option
   ///
   /// In en, this message translates to:
   /// **'Hanafi'**
   String get madhabHanafi;
 
-  /// No description provided for @hijriMuharram.
+  /// Muharram hijri month
   ///
   /// In en, this message translates to:
   /// **'Muharram'**
   String get hijriMuharram;
 
-  /// No description provided for @hijriSafar.
+  /// Safar hijri month
   ///
   /// In en, this message translates to:
   /// **'Safar'**
   String get hijriSafar;
 
-  /// No description provided for @hijriRabiAlAwwal.
+  /// Rabi al-Awwal hijri month
   ///
   /// In en, this message translates to:
   /// **'Rabi\' al-Awwal'**
   String get hijriRabiAlAwwal;
 
-  /// No description provided for @hijriRabiAlThani.
+  /// Rabi al-Thani hijri month
   ///
   /// In en, this message translates to:
   /// **'Rabi\' al-Thani'**
   String get hijriRabiAlThani;
 
-  /// No description provided for @hijriJumadaAlAwwal.
+  /// Jumada al-Awwal hijri month
   ///
   /// In en, this message translates to:
   /// **'Jumada al-Awwal'**
   String get hijriJumadaAlAwwal;
 
-  /// No description provided for @hijriJumadaAlThani.
+  /// Jumada al-Thani hijri month
   ///
   /// In en, this message translates to:
   /// **'Jumada al-Thani'**
   String get hijriJumadaAlThani;
 
-  /// No description provided for @hijriRajab.
+  /// Rajab hijri month
   ///
   /// In en, this message translates to:
   /// **'Rajab'**
   String get hijriRajab;
 
-  /// No description provided for @hijriShaaban.
+  /// Shaaban hijri month
   ///
   /// In en, this message translates to:
   /// **'Sha\'ban'**
   String get hijriShaaban;
 
-  /// No description provided for @hijriRamadan.
+  /// Ramadan hijri month
   ///
   /// In en, this message translates to:
   /// **'Ramadan'**
   String get hijriRamadan;
 
-  /// No description provided for @hijriShawwal.
+  /// Shawwal hijri month
   ///
   /// In en, this message translates to:
   /// **'Shawwal'**
   String get hijriShawwal;
 
-  /// No description provided for @hijriDhuAlQiDah.
+  /// Dhu al-Qi'dah hijri month
   ///
   /// In en, this message translates to:
   /// **'Dhu al-Qi\'dah'**
   String get hijriDhuAlQiDah;
 
-  /// No description provided for @hijriDhuAlHijjah.
+  /// Dhu al-Hijjah hijri month
   ///
   /// In en, this message translates to:
   /// **'Dhu al-Hijjah'**
   String get hijriDhuAlHijjah;
 
-  /// No description provided for @asrConventionDesc.
+  /// Asr calculation convention description
   ///
   /// In en, this message translates to:
   /// **'Asr calculation convention'**
   String get asrConventionDesc;
 
-  /// No description provided for @homeGreeting.
+  /// Home greeting
   ///
   /// In en, this message translates to:
   /// **'Assalamu Alaikum'**
   String get homeGreeting;
 
-  /// No description provided for @homeToday.
+  /// Home today's schedule section title
   ///
   /// In en, this message translates to:
   /// **'Today\'s Schedule'**
   String get homeToday;
 
-  /// No description provided for @nextPrayerHeader.
+  /// Home next prayer header
   ///
   /// In en, this message translates to:
   /// **'Next Prayer'**
   String get nextPrayerHeader;
 
-  /// No description provided for @viewQibla.
+  /// Home view qibla action
   ///
   /// In en, this message translates to:
   /// **'Qibla Direction'**
   String get viewQibla;
 
-  /// No description provided for @openSettings.
+  /// Home open settings action
   ///
   /// In en, this message translates to:
   /// **'App Settings'**
   String get openSettings;
 
-  /// No description provided for @homePrayerError.
+  /// Home prayer error state
   ///
   /// In en, this message translates to:
   /// **'Prayer times unavailable.'**
   String get homePrayerError;
 
-  /// No description provided for @homePrayerRetry.
+  /// Home prayer retry button
   ///
   /// In en, this message translates to:
   /// **'Retry Location'**
   String get homePrayerRetry;
 
-  /// No description provided for @homeComingSoon.
+  /// Home coming soon label
   ///
   /// In en, this message translates to:
   /// **'Coming Soon'**
   String get homeComingSoon;
+
+  /// Quran search input hint
+  ///
+  /// In en, this message translates to:
+  /// **'Search Surah'**
+  String get quranSearchHint;
+
+  /// Quran empty search result
+  ///
+  /// In en, this message translates to:
+  /// **'No Surah found.'**
+  String get quranNoSurahFound;
+
+  /// Quran meccan revelation type
+  ///
+  /// In en, this message translates to:
+  /// **'Meccan'**
+  String get quranMeccan;
+
+  /// Quran medinan revelation type
+  ///
+  /// In en, this message translates to:
+  /// **'Medinan'**
+  String get quranMedinan;
+
+  /// Quran ayah count formatting
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Ayahs'**
+  String quranAyahCount(int count);
+
+  /// Quran detail placeholder text
+  ///
+  /// In en, this message translates to:
+  /// **'Quran text reader will be implemented in a later phase.'**
+  String get quranDetailPlaceholderText;
 }
 
 class _AppLocalizationsDelegate

@@ -1,0 +1,4 @@
+enum RevelationType {
+  makkah,
+  madinah,
+}

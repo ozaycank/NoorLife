@@ -547,4 +547,25 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get homeComingSoon => 'Yakında';
+
+  @override
+  String get quranSearchHint => 'Sure Ara';
+
+  @override
+  String get quranNoSurahFound => 'Sure bulunamadı.';
+
+  @override
+  String get quranMeccan => 'Mekkî';
+
+  @override
+  String get quranMedinan => 'Medenî';
+
+  @override
+  String quranAyahCount(int count) {
+    return '$count Ayet';
+  }
+
+  @override
+  String get quranDetailPlaceholderText =>
+      'Kur\'an metni okuyucusu sonraki fazda eklenecektir.';
 }

@@ -10,7 +10,6 @@ import '../../features/authentication/presentation/screens/register_screen.dart'
 import '../../features/authentication/presentation/screens/splash_auth_decision_screen.dart';
 import '../../features/prayer/shared/presentation/screens/prayer_home_screen.dart';
 import '../../features/profile/presentation/screens/profile_placeholder_screen.dart';
-import '../../features/quran/presentation/screens/quran_placeholder_screen.dart';
 import '../../features/shell/presentation/screens/app_shell_screen.dart';
 import '../../features/settings/presentation/screens/settings_screen.dart';
 import '../di/injection_container.dart';
@@ -19,6 +18,8 @@ import 'app_navigation_observer.dart';
 import 'app_routes.dart';
 import '../../features/prayer/qibla/presentation/qibla_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
+import '../../features/quran/presentation/screens/quran_home_screen.dart';
+import '../../features/quran/presentation/screens/surah_detail_placeholder_screen.dart';
 
 class AppRouter {
   AppRouter._();
@@ -127,7 +128,7 @@ class AppRouter {
               routes: [
                 GoRoute(
                   path: AppRoutes.quran,
-                  builder: (context, state) => const QuranPlaceholderScreen(),
+                  builder: (context, state) => const QuranHomeScreen(),
                 ),
               ],
             ),
@@ -145,6 +146,25 @@ class AppRouter {
                 GoRoute(
                   path: AppRoutes.profile,
                   builder: (context, state) => const ProfilePlaceholderScreen(),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  path: AppRoutes.quran,
+                  builder: (context, state) => const QuranHomeScreen(),
+                  routes: [
+                    GoRoute(
+                      path: 'surah/:id',
+                      builder: (context, state) {
+                        final id =
+                            int.tryParse(state.pathParameters['id'] ?? '1') ??
+                                1;
+                        return SurahDetailPlaceholderScreen(surahNumber: id);
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),

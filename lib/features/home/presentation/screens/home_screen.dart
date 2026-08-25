@@ -223,19 +223,24 @@ class HomeScreen extends ConsumerWidget {
               const SizedBox(height: AppSpacing.xxl),
 
               // 5. Future Modules Indicator
-              SectionHeader(title: l10n.homeComingSoon),
+              SectionHeader(title: l10n.quranTitle),
               AppCard(
+                onTap: () => context.go(AppRoutes.quran),
                 child: Row(
                   children: [
-                    Icon(Icons.menu_book, color: colorScheme.onSurfaceVariant),
+                    Icon(Icons.menu_book, color: colorScheme.primary),
                     const SizedBox(width: AppSpacing.md),
                     Expanded(
                       child: Text(
-                        l10n.quranTitle,
-                        style: textTheme.bodyLarge?.copyWith(
+                        l10n.quranDesc,
+                        style: textTheme.bodyMedium?.copyWith(
                           color: colorScheme.onSurfaceVariant,
                         ),
                       ),
+                    ),
+                    Icon(
+                      Icons.chevron_right,
+                      color: colorScheme.onSurfaceVariant,
                     ),
                   ],
                 ),

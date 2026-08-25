@@ -544,4 +544,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeComingSoon => 'Coming Soon';
+
+  @override
+  String get quranSearchHint => 'Search Surah';
+
+  @override
+  String get quranNoSurahFound => 'No Surah found.';
+
+  @override
+  String get quranMeccan => 'Meccan';
+
+  @override
+  String get quranMedinan => 'Medinan';
+
+  @override
+  String quranAyahCount(int count) {
+    return '$count Ayahs';
+  }
+
+  @override
+  String get quranDetailPlaceholderText =>
+      'Quran text reader will be implemented in a later phase.';
 }

@@ -169,5 +169,11 @@
   "openSettings": "Uygulama Ayarları",
   "homePrayerError": "Namaz vakitleri yüklenemedi.",
   "homePrayerRetry": "Konumu Yenile",
-  "homeComingSoon": "Yakında"
+  "homeComingSoon": "Yakında",
+  "quranSearchHint": "Sure Ara",
+  "quranNoSurahFound": "Sure bulunamadı.",
+  "quranMeccan": "Mekkî",
+  "quranMedinan": "Medenî",
+  "quranAyahCount": "{count} Ayet",
+  "quranDetailPlaceholderText": "Kur'an metni okuyucusu sonraki fazda eklenecektir."
 }
