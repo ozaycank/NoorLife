@@ -52,3 +52,5 @@ flutter:
     - assets/svgs/
     - assets/translations/
     - assets/data/quran/surahs.json
+    - assets/data/quran/quran.json
+    - assets/data/quran/SOURCE.md
