@@ -721,5 +721,25 @@
   "quranDetailPlaceholderText": "Quran text reader will be implemented in a later phase.",
   "@quranDetailPlaceholderText": {
     "description": "Quran detail placeholder text"
+  },
+  "quranContinueReading": "Continue Reading",
+  "@quranContinueReading": {
+    "description": "Quran continue reading button"
+  },
+  "quranLastRead": "Last Read",
+  "@quranLastRead": {
+    "description": "Quran last read label"
+  },
+  "quranAyah": "Ayah",
+  "@quranAyah": {
+    "description": "Quran ayah label"
+  },
+  "quranContinue": "Continue",
+  "@quranContinue": {
+    "description": "Quran continue button"
+  },
+  "quranNoHistory": "No reading history yet.",
+  "@quranNoHistory": {
+    "description": "Quran no reading history message"
   }
 }

@@ -1153,6 +1153,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Quran text reader will be implemented in a later phase.'**
   String get quranDetailPlaceholderText;
+
+  /// Quran continue reading button
+  ///
+  /// In en, this message translates to:
+  /// **'Continue Reading'**
+  String get quranContinueReading;
+
+  /// Quran last read label
+  ///
+  /// In en, this message translates to:
+  /// **'Last Read'**
+  String get quranLastRead;
+
+  /// Quran ayah label
+  ///
+  /// In en, this message translates to:
+  /// **'Ayah'**
+  String get quranAyah;
+
+  /// Quran continue button
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get quranContinue;
+
+  /// Quran no reading history message
+  ///
+  /// In en, this message translates to:
+  /// **'No reading history yet.'**
+  String get quranNoHistory;
 }
 
 class _AppLocalizationsDelegate

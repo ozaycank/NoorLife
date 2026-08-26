@@ -568,4 +568,19 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get quranDetailPlaceholderText =>
       'Kur\'an metni okuyucusu sonraki fazda eklenecektir.';
+
+  @override
+  String get quranContinueReading => 'Okumaya Devam Et';
+
+  @override
+  String get quranLastRead => 'Son Okunan';
+
+  @override
+  String get quranAyah => 'Ayet';
+
+  @override
+  String get quranContinue => 'Devam Et';
+
+  @override
+  String get quranNoHistory => 'Henüz okuma geçmişi yok.';
 }

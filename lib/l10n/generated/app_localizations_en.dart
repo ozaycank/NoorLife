@@ -565,4 +565,19 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get quranDetailPlaceholderText =>
       'Quran text reader will be implemented in a later phase.';
+
+  @override
+  String get quranContinueReading => 'Continue Reading';
+
+  @override
+  String get quranLastRead => 'Last Read';
+
+  @override
+  String get quranAyah => 'Ayah';
+
+  @override
+  String get quranContinue => 'Continue';
+
+  @override
+  String get quranNoHistory => 'No reading history yet.';
 }

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../shared/design_system/tokens/app_spacing.dart';
 import '../../../../shared/widgets/error_state_widget.dart';
 import '../widgets/surah_list_tile.dart';
+import '../widgets/continue_reading_card.dart';
 import '../../application/providers/quran_provider.dart';
-// DÜZELTME BURADA: QuranState sınıfı import edildi
+import '../../application/providers/quran_progress_provider.dart';
 import '../../application/states/quran_state.dart';
 
 class QuranHomeScreen extends ConsumerWidget {
@@ -17,6 +19,7 @@ class QuranHomeScreen extends ConsumerWidget {
     final colorScheme = context.colorScheme;
     final state = ref.watch(quranNotifierProvider);
     final notifier = ref.read(quranNotifierProvider.notifier);
+    final progressState = ref.watch(quranProgressNotifierProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -25,6 +28,26 @@ class QuranHomeScreen extends ConsumerWidget {
       body: SafeArea(
         child: Column(
           children: [
+            // Continue Reading Hero Section
+            if (progressState.lastRead != null && state.surahs.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  AppSpacing.lg,
+                  AppSpacing.lg,
+                  AppSpacing.lg,
+                  0,
+                ),
+                child: ContinueReadingCard(
+                  progress: progressState.lastRead!,
+                  surahs: state.surahs,
+                  onTap: () {
+                    context.push(
+                      '/quran/surah/${progressState.lastRead!.surahNumber}',
+                    );
+                  },
+                ),
+              ),
+
             Padding(
               padding: const EdgeInsets.all(AppSpacing.lg),
               child: TextField(
@@ -34,7 +57,6 @@ class QuranHomeScreen extends ConsumerWidget {
                   prefixIcon: const Icon(Icons.search),
                   filled: true,
                   fillColor: colorScheme.surfaceContainerHighest,
-                  // DÜZELTME BURADA: OutlineBinding.none yerine InputBorder.none kullanıldı
                   border: InputBorder.none,
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16),
@@ -67,7 +89,6 @@ class QuranHomeScreen extends ConsumerWidget {
       return ErrorStateWidget(
         title: l10n.errorStateDefaultTitle,
         message: state.failure!.message,
-        // DÜZELTME BURADA: retryText eklendi
         retryText: l10n.retryButton,
       );
     }

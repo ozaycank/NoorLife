@@ -10,7 +10,6 @@ abstract class QuranLocalDataSource {
 
 @LazySingleton(as: QuranLocalDataSource)
 class QuranLocalDataSourceImpl implements QuranLocalDataSource {
-  // NOT: Artık hem metadata hem ayetler tek bir dev JSON dosyasında (AlQuran Cloud formatı)
   static const String _fullQuranPath = 'assets/data/quran/quran.json';
   List<SurahModel>? _cachedSurahs;
 
@@ -21,8 +20,6 @@ class QuranLocalDataSourceImpl implements QuranLocalDataSource {
       final jsonString = await rootBundle.loadString(_fullQuranPath);
       final dynamic jsonMap = json.decode(jsonString);
 
-      // Eğer AlQuran Cloud tam dump'ı ise kök nesne 'data' ve içinde 'surahs' olur.
-      // Eğer düz liste yaptıysanız direkt liste olur. İkisini de tolere edelim.
       List<dynamic> surahsList;
       if (jsonMap is Map<String, dynamic> && jsonMap.containsKey('data')) {
         surahsList = jsonMap['data']['surahs'] as List<dynamic>;
@@ -32,7 +29,9 @@ class QuranLocalDataSourceImpl implements QuranLocalDataSource {
         throw Exception('Invalid Quran JSON structure.');
       }
 
-      _cachedSurahs = surahsList.map((e) => SurahModel.fromJson(e)).toList();
+      _cachedSurahs = surahsList
+          .map((e) => SurahModel.fromJson(e as Map<String, dynamic>))
+          .toList();
     } catch (e) {
       throw Exception('Failed to load local Quran file: $e');
     }
@@ -41,17 +40,15 @@ class QuranLocalDataSourceImpl implements QuranLocalDataSource {
   @override
   Future<List<SurahModel>> getSurahs() async {
     await _loadAndCache();
-    
     return _cachedSurahs!;
   }
 
   @override
   Future<SurahModel> getSurahDetail(int surahNumber) async {
     await _loadAndCache();
-    final surah = _cachedSurahs!.firstWhere(
+    return _cachedSurahs!.firstWhere(
       (s) => s.number == surahNumber,
       orElse: () => throw Exception('Surah $surahNumber not found.'),
     );
-    return surah;
   }
 }

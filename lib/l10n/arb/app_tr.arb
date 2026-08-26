@@ -175,5 +175,10 @@
   "quranMeccan": "Mekkî",
   "quranMedinan": "Medenî",
   "quranAyahCount": "{count} Ayet",
-  "quranDetailPlaceholderText": "Kur'an metni okuyucusu sonraki fazda eklenecektir."
+  "quranDetailPlaceholderText": "Kur'an metni okuyucusu sonraki fazda eklenecektir.",
+  "quranContinueReading": "Okumaya Devam Et",
+  "quranLastRead": "Son Okunan",
+  "quranAyah": "Ayet",
+  "quranContinue": "Devam Et",
+  "quranNoHistory": "Henüz okuma geçmişi yok."
 }
