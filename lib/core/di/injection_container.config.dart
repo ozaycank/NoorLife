@@ -55,10 +55,16 @@ import '../../features/prayer/shared/infrastructure/datasources/prayer_local_dat
     as _i260;
 import '../../features/prayer/shared/infrastructure/datasources/prayer_secure_storage_data_source.dart'
     as _i949;
+import '../../features/quran/domain/repositories/quran_progress_repository.dart'
+    as _i787;
 import '../../features/quran/domain/repositories/quran_repository.dart'
     as _i498;
 import '../../features/quran/infrastructure/datasources/quran_local_data_source.dart'
     as _i986;
+import '../../features/quran/infrastructure/datasources/quran_progress_local_data_source.dart'
+    as _i290;
+import '../../features/quran/infrastructure/repositories/quran_progress_repository_impl.dart'
+    as _i896;
 import '../../features/quran/infrastructure/repositories/quran_repository_impl.dart'
     as _i771;
 import '../logging/logger_service.dart' as _i731;
@@ -106,6 +112,9 @@ extension GetItInjectableX on _i174.GetIt {
         _i493.LocationPermissionServiceImpl(gh<_i599.GeolocatorDataSource>()));
     gh.lazySingleton<_i570.DeviceHeadingService>(() =>
         _i388.DeviceHeadingServiceImpl(gh<_i321.FlutterCompassDataSource>()));
+    gh.lazySingleton<_i290.QuranProgressLocalDataSource>(() =>
+        _i290.QuranProgressLocalDataSourceImpl(
+            gh<_i666.SecureStorageService>()));
     gh.lazySingleton<_i1048.FirebaseAuthDataSource>(
         () => _i1048.FirebaseAuthDataSource(gh<_i59.FirebaseAuth>()));
     gh.lazySingleton<_i667.DioClient>(
@@ -120,6 +129,9 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i260.PrayerLocalDataSource>(),
               gh<_i280.TimezoneService>(),
             ));
+    gh.lazySingleton<_i787.QuranProgressRepository>(() =>
+        _i896.QuranProgressRepositoryImpl(
+            gh<_i290.QuranProgressLocalDataSource>()));
     gh.lazySingleton<_i742.AuthRepository>(
         () => _i996.AuthRepositoryImpl(gh<_i1048.FirebaseAuthDataSource>()));
     gh.lazySingleton<_i877.PrayerOrchestratorService>(() =>

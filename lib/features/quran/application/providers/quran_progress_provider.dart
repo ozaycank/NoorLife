@@ -1,8 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/base/result.dart';
-import '../../../../core/errors/failure.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../domain/entities/quran_reading_progress.dart';
+import '../../domain/errors/quran_failure.dart';
 import '../../domain/repositories/quran_progress_repository.dart';
 import '../states/quran_progress_state.dart';
 
@@ -22,39 +21,42 @@ class QuranProgressNotifier extends Notifier<QuranProgressState> {
 
   Future<void> loadProgress() async {
     state = state.copyWith(isLoading: true, failure: null);
-    final result = await _repository.getLastRead();
-
-    // DÜZELTME BURADA: Eğer result Success ise value'yu al, Failure ise message/kodu al.
-    // Sen projende Result<T, E> kullanıyorsan ve Failure argüman almıyorsa şöyle okuyabiliriz:
-    if (result is Success) {
+    try {
+      final progress = await _repository.getLastRead();
       state = state.copyWith(
         isLoading: false,
-        lastRead: (result as Success).value as QuranReadingProgress?,
+        lastRead: progress,
       );
-    } else if (result is Failure) {
+    } catch (e) {
       state = state.copyWith(
         isLoading: false,
         failure:
-            null, // Veya kendi failure class'ını manuel yarat: QuranFailure((result as Failure).message)
+            QuranFailure('Failed to load progress: $e', code: 'readFailed'),
       );
     }
   }
 
   Future<void> saveProgress(QuranReadingProgress progress) async {
     state = state.copyWith(lastRead: progress, failure: null);
-
-    final result = await _repository.saveLastRead(progress);
-    if (result is Failure) {
+    try {
+      await _repository.saveLastRead(progress);
+    } catch (e) {
       state = state.copyWith(
-          failure: null,); // Geçici olarak hata null'a eşitlendi (çökmesin diye)
+        failure:
+            QuranFailure('Failed to save progress: $e', code: 'writeFailed'),
+      );
     }
   }
 
   Future<void> clearProgress() async {
     state = state.copyWith(lastRead: null, failure: null);
-    final result = await _repository.clearProgress();
-    if (result is Failure) {
-      state = state.copyWith(failure: null);
+    try {
+      await _repository.clearProgress();
+    } catch (e) {
+      state = state.copyWith(
+        failure:
+            QuranFailure('Failed to clear progress: $e', code: 'clearFailed'),
+      );
     }
   }
 }
