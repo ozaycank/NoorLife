@@ -22,7 +22,8 @@ class QuranRepositoryImpl implements QuranRepository {
   Future<Surah> getSurahDetail(int surahNumber) async {
     if (surahNumber < 1 || surahNumber > 114) {
       throw Exception(
-          'Invalid Surah number: $surahNumber. Must be between 1 and 114.',);
+        'Invalid Surah number: $surahNumber. Must be between 1 and 114.',
+      );
     }
     return await _localDataSource.getSurahDetail(surahNumber);
   }

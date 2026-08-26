@@ -3,12 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import '../../../../core/extensions/context_extensions.dart';
-import '../../../../shared/design_system/tokens/app_spacing.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../domain/entities/surah.dart';
 import '../../domain/entities/quran_reading_progress.dart';
 import '../../domain/repositories/quran_repository.dart';
 import '../../application/providers/quran_progress_provider.dart';
+import '../widgets/quran_surah_header.dart';
+import '../widgets/quran_ayah_view.dart';
+import '../constants/quran_reader_typography.dart';
 
 class SurahDetailPlaceholderScreen extends ConsumerStatefulWidget {
   final int surahNumber;
@@ -65,12 +67,19 @@ class _SurahDetailScreenState
     final lastRead = progressState.lastRead;
 
     if (lastRead != null && lastRead.surahNumber == widget.surahNumber) {
-      // Small delay to ensure the list has built
       Future.delayed(const Duration(milliseconds: 100), () {
         if (_itemScrollController.isAttached) {
-          // Index is 0-based, ayah is 1-based
-          final targetIndex =
+          // Calculate the true list index.
+          // Index 0 is Header. Index 1 might be Bismillah.
+          int targetIndex =
               lastRead.ayahNumber > 1 ? lastRead.ayahNumber - 1 : 0;
+
+          // Offset for UI headers
+          targetIndex += 1; // Header
+          if (widget.surahNumber != 1 && widget.surahNumber != 9) {
+            targetIndex += 1; // Bismillah
+          }
+
           _itemScrollController.jumpTo(index: targetIndex);
         }
       });
@@ -116,6 +125,11 @@ class _SurahDetailScreenState
     }
 
     final ayahs = _surah!.ayahs ?? [];
+    final bool showBismillah =
+        widget.surahNumber != 1 && widget.surahNumber != 9;
+
+    // Total items: Header + Bismillah(optional) + Ayahs
+    final int totalItems = 1 + (showBismillah ? 1 : 0) + ayahs.length;
 
     return Scaffold(
       appBar: AppBar(
@@ -127,67 +141,53 @@ class _SurahDetailScreenState
         centerTitle: true,
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            if (widget.surahNumber != 9 && widget.surahNumber != 1)
-              Padding(
-                padding: const EdgeInsets.all(AppSpacing.lg),
-                child: Text(
-                  'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ',
-                  style: textTheme.headlineMedium?.copyWith(
-                    fontFamily: 'Amiri',
-                    fontWeight: FontWeight.bold,
-                    color: colorScheme.primary,
-                  ),
-                  textDirection: TextDirection.rtl,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            if (widget.surahNumber != 9 && widget.surahNumber != 1)
-              Divider(color: colorScheme.outlineVariant),
-            Expanded(
-              child: ScrollablePositionedList.builder(
-                itemScrollController: _itemScrollController,
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-                itemCount: ayahs.length,
-                itemBuilder: (context, index) {
-                  final ayah = ayahs[index];
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: QuranReaderTypography.maxReaderWidth,
+            ),
+            child: ScrollablePositionedList.builder(
+              itemScrollController: _itemScrollController,
+              itemCount: totalItems,
+              itemBuilder: (context, index) {
+                // 1. Render Header
+                if (index == 0) {
+                  return QuranSurahHeader(surah: _surah!);
+                }
 
-                  return VisibilityDetector(
-                    key: Key('ayah-${ayah.numberInSurah}'),
-                    onVisibilityChanged: (info) {
-                      // If at least 50% of the ayah is visible, consider it read
-                      if (info.visibleFraction > 0.5) {
-                        _updateProgress(ayah.numberInSurah);
-                      }
-                    },
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: AppSpacing.lg),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: Text(
-                              '${ayah.text} ﴿${ayah.numberInSurah}﴾',
-                              style: textTheme.headlineSmall?.copyWith(
-                                height: 2.0,
-                                color: colorScheme.onSurface,
-                              ),
-                              textAlign: TextAlign.justify,
-                            ),
-                          ),
-                          const SizedBox(height: AppSpacing.md),
-                          Divider(color: colorScheme.surfaceContainerHighest),
-                        ],
+                // 2. Render Bismillah (if applicable)
+                if (showBismillah && index == 1) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 24.0),
+                    child: Text(
+                      'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ',
+                      style: textTheme.headlineMedium?.copyWith(
+                        fontSize: QuranReaderTypography.bismillahFontSize,
+                        color: colorScheme.primary,
                       ),
+                      textDirection: TextDirection.rtl,
+                      textAlign: TextAlign.center,
                     ),
                   );
-                },
-              ),
+                }
+
+                // 3. Render Ayahs
+                final ayahIndex = index - 1 - (showBismillah ? 1 : 0);
+                final ayah = ayahs[ayahIndex];
+
+                return VisibilityDetector(
+                  key: Key('ayah-${ayah.numberInSurah}'),
+                  onVisibilityChanged: (info) {
+                    if (info.visibleFraction > 0.4) {
+                      _updateProgress(ayah.numberInSurah);
+                    }
+                  },
+                  child: QuranAyahView(ayah: ayah),
+                );
+              },
             ),
-          ],
+          ),
         ),
       ),
     );

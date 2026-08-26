@@ -7,7 +7,8 @@ import '../states/quran_progress_state.dart';
 
 final quranProgressNotifierProvider =
     NotifierProvider<QuranProgressNotifier, QuranProgressState>(
-        QuranProgressNotifier.new,);
+  QuranProgressNotifier.new,
+);
 
 class QuranProgressNotifier extends Notifier<QuranProgressState> {
   late final QuranProgressRepository _repository;
