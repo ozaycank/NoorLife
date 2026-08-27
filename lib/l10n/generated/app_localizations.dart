@@ -1183,6 +1183,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No reading history yet.'**
   String get quranNoHistory;
+
+  /// Bookmarks screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmarks'**
+  String get quranBookmarks;
+
+  /// Add bookmark tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'Add Bookmark'**
+  String get quranBookmarkAdd;
+
+  /// Remove bookmark tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Bookmark'**
+  String get quranBookmarkRemove;
+
+  /// Empty state for bookmarks
+  ///
+  /// In en, this message translates to:
+  /// **'No bookmarks yet.'**
+  String get quranNoBookmarksYet;
 }
 
 class _AppLocalizationsDelegate

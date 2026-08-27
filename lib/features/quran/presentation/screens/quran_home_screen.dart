@@ -24,11 +24,17 @@ class QuranHomeScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.quranTitle),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.bookmarks),
+            tooltip: l10n.quranBookmarks,
+            onPressed: () => context.push('/quran/bookmarks'),
+          ),
+        ],
       ),
       body: SafeArea(
         child: Column(
           children: [
-            // Continue Reading Hero Section
             if (progressState.lastRead != null && state.surahs.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.fromLTRB(
@@ -47,7 +53,6 @@ class QuranHomeScreen extends ConsumerWidget {
                   },
                 ),
               ),
-
             Padding(
               padding: const EdgeInsets.all(AppSpacing.lg),
               child: TextField(

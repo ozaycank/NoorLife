@@ -583,4 +583,16 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get quranNoHistory => 'Henüz okuma geçmişi yok.';
+
+  @override
+  String get quranBookmarks => 'Yer İmleri';
+
+  @override
+  String get quranBookmarkAdd => 'Yer İmine Ekle';
+
+  @override
+  String get quranBookmarkRemove => 'Yer İmini Kaldır';
+
+  @override
+  String get quranNoBookmarksYet => 'Henüz yer imi yok.';
 }

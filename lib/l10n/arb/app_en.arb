@@ -741,5 +741,21 @@
   "quranNoHistory": "No reading history yet.",
   "@quranNoHistory": {
     "description": "Quran no reading history message"
+  },
+  "quranBookmarks": "Bookmarks",
+  "@quranBookmarks": {
+    "description": "Bookmarks screen title"
+  },
+  "quranBookmarkAdd": "Add Bookmark",
+  "@quranBookmarkAdd": {
+    "description": "Add bookmark tooltip"
+  },
+  "quranBookmarkRemove": "Remove Bookmark",
+  "@quranBookmarkRemove": {
+    "description": "Remove bookmark tooltip"
+  },
+  "quranNoBookmarksYet": "No bookmarks yet.",
+  "@quranNoBookmarksYet": {
+    "description": "Empty state for bookmarks"
   }
 }

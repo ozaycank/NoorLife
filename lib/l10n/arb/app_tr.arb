@@ -180,5 +180,9 @@
   "quranLastRead": "Son Okunan",
   "quranAyah": "Ayet",
   "quranContinue": "Devam Et",
-  "quranNoHistory": "Henüz okuma geçmişi yok."
+  "quranNoHistory": "Henüz okuma geçmişi yok.",
+  "quranBookmarks": "Yer İmleri",
+  "quranBookmarkAdd": "Yer İmine Ekle",
+  "quranBookmarkRemove": "Yer İmini Kaldır",
+  "quranNoBookmarksYet": "Henüz yer imi yok."
 }

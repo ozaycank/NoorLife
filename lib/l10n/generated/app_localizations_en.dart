@@ -580,4 +580,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quranNoHistory => 'No reading history yet.';
+
+  @override
+  String get quranBookmarks => 'Bookmarks';
+
+  @override
+  String get quranBookmarkAdd => 'Add Bookmark';
+
+  @override
+  String get quranBookmarkRemove => 'Remove Bookmark';
+
+  @override
+  String get quranNoBookmarksYet => 'No bookmarks yet.';
 }

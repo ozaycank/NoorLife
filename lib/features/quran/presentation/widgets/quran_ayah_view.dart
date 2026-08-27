@@ -6,8 +6,15 @@ import '../constants/quran_reader_typography.dart';
 
 class QuranAyahView extends StatelessWidget {
   final Ayah ayah;
+  final bool isBookmarked;
+  final VoidCallback onBookmarkToggle;
 
-  const QuranAyahView({super.key, required this.ayah});
+  const QuranAyahView({
+    super.key,
+    required this.ayah,
+    required this.isBookmarked,
+    required this.onBookmarkToggle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,30 +29,48 @@ class QuranAyahView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Directionality(
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             textDirection: TextDirection.rtl,
-            child: Text.rich(
-              TextSpan(
-                children: [
+            children: [
+              Expanded(
+                child: Text.rich(
                   TextSpan(
-                    text: ayah.text,
-                    style: textTheme.headlineSmall?.copyWith(
-                      fontSize: QuranReaderTypography.arabicFontSize,
-                      height: QuranReaderTypography.arabicLineHeight,
-                      color: colorScheme.onSurface,
-                    ),
+                    children: [
+                      TextSpan(
+                        text: ayah.text,
+                        style: textTheme.headlineSmall?.copyWith(
+                          fontSize: QuranReaderTypography.arabicFontSize,
+                          height: QuranReaderTypography.arabicLineHeight,
+                          color: colorScheme.onSurface,
+                        ),
+                      ),
+                      const WidgetSpan(
+                        child: SizedBox(width: AppSpacing.sm),
+                      ),
+                      WidgetSpan(
+                        alignment: PlaceholderAlignment.middle,
+                        child: _AyahNumberMarker(number: ayah.numberInSurah),
+                      ),
+                    ],
                   ),
-                  const WidgetSpan(
-                    child: SizedBox(width: AppSpacing.sm),
-                  ),
-                  WidgetSpan(
-                    alignment: PlaceholderAlignment.middle,
-                    child: _AyahNumberMarker(number: ayah.numberInSurah),
-                  ),
-                ],
+                  textAlign: TextAlign.justify,
+                  textDirection: TextDirection.rtl,
+                ),
               ),
-              textAlign: TextAlign.justify,
-            ),
+              IconButton(
+                icon: Icon(
+                  isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                  color: isBookmarked
+                      ? colorScheme.primary
+                      : colorScheme.onSurfaceVariant,
+                ),
+                onPressed: onBookmarkToggle,
+                tooltip: isBookmarked
+                    ? context.l10n.quranBookmarkRemove
+                    : context.l10n.quranBookmarkAdd,
+              ),
+            ],
           ),
           const SizedBox(height: AppSpacing.lg),
           Divider(color: colorScheme.surfaceContainerHighest),
@@ -77,8 +102,7 @@ class _AyahNumberMarker extends StatelessWidget {
       ),
       alignment: Alignment.center,
       child: Text(
-        number
-            .toString(), // Standard localized numbers for immediate accessibility
+        number.toString(),
         style: textTheme.labelLarge?.copyWith(
           color: colorScheme.primary,
           fontWeight: FontWeight.bold,

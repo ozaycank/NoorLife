@@ -8,16 +8,19 @@ import '../../domain/entities/surah.dart';
 import '../../domain/entities/quran_reading_progress.dart';
 import '../../domain/repositories/quran_repository.dart';
 import '../../application/providers/quran_progress_provider.dart';
+import '../../application/providers/quran_bookmark_provider.dart';
 import '../widgets/quran_surah_header.dart';
 import '../widgets/quran_ayah_view.dart';
 import '../constants/quran_reader_typography.dart';
 
 class SurahDetailPlaceholderScreen extends ConsumerStatefulWidget {
   final int surahNumber;
+  final int? jumpToAyah;
 
   const SurahDetailPlaceholderScreen({
     super.key,
     required this.surahNumber,
+    this.jumpToAyah,
   });
 
   @override
@@ -50,7 +53,7 @@ class _SurahDetailScreenState
           _surah = surah;
           _isLoading = false;
         });
-        _jumpToLastRead();
+        _calculateAndJump();
       }
     } catch (e) {
       if (mounted) {
@@ -62,24 +65,31 @@ class _SurahDetailScreenState
     }
   }
 
-  void _jumpToLastRead() {
-    final progressState = ref.read(quranProgressNotifierProvider);
-    final lastRead = progressState.lastRead;
+  void _calculateAndJump() {
+    int? targetAyah;
 
-    if (lastRead != null && lastRead.surahNumber == widget.surahNumber) {
+    // 1. Explicit jump from Bookmark
+    if (widget.jumpToAyah != null) {
+      targetAyah = widget.jumpToAyah;
+    }
+    // 2. Fallback to Last Read progress
+    else {
+      final progressState = ref.read(quranProgressNotifierProvider);
+      if (progressState.lastRead != null &&
+          progressState.lastRead!.surahNumber == widget.surahNumber) {
+        targetAyah = progressState.lastRead!.ayahNumber;
+      }
+    }
+
+    if (targetAyah != null) {
       Future.delayed(const Duration(milliseconds: 100), () {
         if (_itemScrollController.isAttached) {
-          // Calculate the true list index.
-          // Index 0 is Header. Index 1 might be Bismillah.
-          int targetIndex =
-              lastRead.ayahNumber > 1 ? lastRead.ayahNumber - 1 : 0;
+          int targetIndex = targetAyah! > 1 ? targetAyah - 1 : 0;
 
-          // Offset for UI headers
-          targetIndex += 1; // Header
+          targetIndex += 1; // Surah Header Offset
           if (widget.surahNumber != 1 && widget.surahNumber != 9) {
-            targetIndex += 1; // Bismillah
+            targetIndex += 1; // Bismillah Offset
           }
-
           _itemScrollController.jumpTo(index: targetIndex);
         }
       });
@@ -127,9 +137,10 @@ class _SurahDetailScreenState
     final ayahs = _surah!.ayahs ?? [];
     final bool showBismillah =
         widget.surahNumber != 1 && widget.surahNumber != 9;
-
-    // Total items: Header + Bismillah(optional) + Ayahs
     final int totalItems = 1 + (showBismillah ? 1 : 0) + ayahs.length;
+
+    // Listen to bookmarks efficiently
+    final bookmarkState = ref.watch(quranBookmarkNotifierProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -145,18 +156,15 @@ class _SurahDetailScreenState
           alignment: Alignment.topCenter,
           child: ConstrainedBox(
             constraints: const BoxConstraints(
-              maxWidth: QuranReaderTypography.maxReaderWidth,
-            ),
+                maxWidth: QuranReaderTypography.maxReaderWidth,),
             child: ScrollablePositionedList.builder(
               itemScrollController: _itemScrollController,
               itemCount: totalItems,
               itemBuilder: (context, index) {
-                // 1. Render Header
                 if (index == 0) {
                   return QuranSurahHeader(surah: _surah!);
                 }
 
-                // 2. Render Bismillah (if applicable)
                 if (showBismillah && index == 1) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 24.0),
@@ -172,9 +180,14 @@ class _SurahDetailScreenState
                   );
                 }
 
-                // 3. Render Ayahs
                 final ayahIndex = index - 1 - (showBismillah ? 1 : 0);
                 final ayah = ayahs[ayahIndex];
+
+                final isBookmarked = bookmarkState.bookmarks.any(
+                  (b) =>
+                      b.surahNumber == widget.surahNumber &&
+                      b.ayahNumber == ayah.numberInSurah,
+                );
 
                 return VisibilityDetector(
                   key: Key('ayah-${ayah.numberInSurah}'),
@@ -183,7 +196,18 @@ class _SurahDetailScreenState
                       _updateProgress(ayah.numberInSurah);
                     }
                   },
-                  child: QuranAyahView(ayah: ayah),
+                  child: QuranAyahView(
+                    ayah: ayah,
+                    isBookmarked: isBookmarked,
+                    onBookmarkToggle: () {
+                      ref
+                          .read(quranBookmarkNotifierProvider.notifier)
+                          .toggleBookmark(
+                            surahNumber: widget.surahNumber,
+                            ayahNumber: ayah.numberInSurah,
+                          );
+                    },
+                  ),
                 );
               },
             ),

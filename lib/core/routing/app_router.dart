@@ -20,6 +20,7 @@ import '../../features/prayer/qibla/presentation/qibla_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/quran/presentation/screens/quran_home_screen.dart';
 import '../../features/quran/presentation/screens/surah_detail_placeholder_screen.dart';
+import '../../features/quran/presentation/screens/quran_bookmarks_screen.dart';
 
 class AppRouter {
   AppRouter._();
@@ -129,6 +130,27 @@ class AppRouter {
                 GoRoute(
                   path: AppRoutes.quran,
                   builder: (context, state) => const QuranHomeScreen(),
+                  routes: [
+                    GoRoute(
+                      path: 'bookmarks',
+                      builder: (context, state) => const QuranBookmarksScreen(),
+                    ),
+                    GoRoute(
+                      path: 'surah/:id',
+                      builder: (context, state) {
+                        final id =
+                            int.tryParse(state.pathParameters['id'] ?? '1') ??
+                                1;
+                        final ayah = int.tryParse(
+                          state.uri.queryParameters['ayah'] ?? '',
+                        );
+                        return SurahDetailPlaceholderScreen(
+                          surahNumber: id,
+                          jumpToAyah: ayah,
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -146,25 +168,6 @@ class AppRouter {
                 GoRoute(
                   path: AppRoutes.profile,
                   builder: (context, state) => const ProfilePlaceholderScreen(),
-                ),
-              ],
-            ),
-            StatefulShellBranch(
-              routes: [
-                GoRoute(
-                  path: AppRoutes.quran,
-                  builder: (context, state) => const QuranHomeScreen(),
-                  routes: [
-                    GoRoute(
-                      path: 'surah/:id',
-                      builder: (context, state) {
-                        final id =
-                            int.tryParse(state.pathParameters['id'] ?? '1') ??
-                                1;
-                        return SurahDetailPlaceholderScreen(surahNumber: id);
-                      },
-                    ),
-                  ],
                 ),
               ],
             ),
