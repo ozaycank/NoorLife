@@ -11,6 +11,7 @@ import '../../application/providers/quran_progress_provider.dart';
 import '../../application/providers/quran_bookmark_provider.dart';
 import '../widgets/quran_surah_header.dart';
 import '../widgets/quran_ayah_view.dart';
+import '../widgets/quran_reader_settings_sheet.dart';
 import '../constants/quran_reader_typography.dart';
 
 class SurahDetailPlaceholderScreen extends ConsumerStatefulWidget {
@@ -68,12 +69,9 @@ class _SurahDetailScreenState
   void _calculateAndJump() {
     int? targetAyah;
 
-    // 1. Explicit jump from Bookmark
     if (widget.jumpToAyah != null) {
       targetAyah = widget.jumpToAyah;
-    }
-    // 2. Fallback to Last Read progress
-    else {
+    } else {
       final progressState = ref.read(quranProgressNotifierProvider);
       if (progressState.lastRead != null &&
           progressState.lastRead!.surahNumber == widget.surahNumber) {
@@ -85,10 +83,9 @@ class _SurahDetailScreenState
       Future.delayed(const Duration(milliseconds: 100), () {
         if (_itemScrollController.isAttached) {
           int targetIndex = targetAyah! > 1 ? targetAyah - 1 : 0;
-
-          targetIndex += 1; // Surah Header Offset
+          targetIndex += 1;
           if (widget.surahNumber != 1 && widget.surahNumber != 9) {
-            targetIndex += 1; // Bismillah Offset
+            targetIndex += 1;
           }
           _itemScrollController.jumpTo(index: targetIndex);
         }
@@ -106,6 +103,18 @@ class _SurahDetailScreenState
       );
       ref.read(quranProgressNotifierProvider.notifier).saveProgress(progress);
     }
+  }
+
+  void _showSettingsSheet() {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: context.colorScheme.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (context) => const QuranReaderSettingsSheet(),
+    );
   }
 
   @override
@@ -139,7 +148,6 @@ class _SurahDetailScreenState
         widget.surahNumber != 1 && widget.surahNumber != 9;
     final int totalItems = 1 + (showBismillah ? 1 : 0) + ayahs.length;
 
-    // Listen to bookmarks efficiently
     final bookmarkState = ref.watch(quranBookmarkNotifierProvider);
 
     return Scaffold(
@@ -150,6 +158,13 @@ class _SurahDetailScreenState
               : _surah!.nameTransliteration,
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.format_size),
+            tooltip: l10n.quranReaderSettings,
+            onPressed: _showSettingsSheet,
+          ),
+        ],
       ),
       body: SafeArea(
         child: Align(

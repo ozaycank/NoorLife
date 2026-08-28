@@ -1207,6 +1207,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No bookmarks yet.'**
   String get quranNoBookmarksYet;
+
+  /// Reader settings sheet title
+  ///
+  /// In en, this message translates to:
+  /// **'Reader Settings'**
+  String get quranReaderSettings;
+
+  /// Text size label
+  ///
+  /// In en, this message translates to:
+  /// **'Text Size'**
+  String get quranTextSize;
+
+  /// Reset to default button
+  ///
+  /// In en, this message translates to:
+  /// **'Reset to Default'**
+  String get quranResetDefault;
 }
 
 class _AppLocalizationsDelegate

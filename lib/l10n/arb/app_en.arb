@@ -757,5 +757,17 @@
   "quranNoBookmarksYet": "No bookmarks yet.",
   "@quranNoBookmarksYet": {
     "description": "Empty state for bookmarks"
+  },
+  "quranReaderSettings": "Reader Settings",
+  "@quranReaderSettings": {
+    "description": "Reader settings sheet title"
+  },
+  "quranTextSize": "Text Size",
+  "@quranTextSize": {
+    "description": "Text size label"
+  },
+  "quranResetDefault": "Reset to Default",
+  "@quranResetDefault": {
+    "description": "Reset to default button"
   }
 }

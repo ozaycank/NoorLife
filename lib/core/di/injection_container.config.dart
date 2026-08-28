@@ -59,6 +59,8 @@ import '../../features/quran/domain/repositories/quran_bookmark_repository.dart'
     as _i886;
 import '../../features/quran/domain/repositories/quran_progress_repository.dart'
     as _i787;
+import '../../features/quran/domain/repositories/quran_reader_settings_repository.dart'
+    as _i703;
 import '../../features/quran/domain/repositories/quran_repository.dart'
     as _i498;
 import '../../features/quran/infrastructure/datasources/quran_bookmark_local_data_source.dart'
@@ -67,10 +69,14 @@ import '../../features/quran/infrastructure/datasources/quran_local_data_source.
     as _i986;
 import '../../features/quran/infrastructure/datasources/quran_progress_local_data_source.dart'
     as _i290;
+import '../../features/quran/infrastructure/datasources/quran_reader_settings_local_data_source.dart'
+    as _i169;
 import '../../features/quran/infrastructure/repositories/quran_bookmark_repository_impl.dart'
     as _i535;
 import '../../features/quran/infrastructure/repositories/quran_progress_repository_impl.dart'
     as _i896;
+import '../../features/quran/infrastructure/repositories/quran_reader_settings_repository_impl.dart'
+    as _i478;
 import '../../features/quran/infrastructure/repositories/quran_repository_impl.dart'
     as _i771;
 import '../logging/logger_service.dart' as _i731;
@@ -118,6 +124,9 @@ extension GetItInjectableX on _i174.GetIt {
         _i493.LocationPermissionServiceImpl(gh<_i599.GeolocatorDataSource>()));
     gh.lazySingleton<_i570.DeviceHeadingService>(() =>
         _i388.DeviceHeadingServiceImpl(gh<_i321.FlutterCompassDataSource>()));
+    gh.lazySingleton<_i169.QuranReaderSettingsLocalDataSource>(() =>
+        _i169.QuranReaderSettingsLocalDataSourceImpl(
+            gh<_i666.SecureStorageService>()));
     gh.lazySingleton<_i290.QuranProgressLocalDataSource>(() =>
         _i290.QuranProgressLocalDataSourceImpl(
             gh<_i666.SecureStorageService>()));
@@ -146,6 +155,9 @@ extension GetItInjectableX on _i174.GetIt {
             gh<_i290.QuranProgressLocalDataSource>()));
     gh.lazySingleton<_i742.AuthRepository>(
         () => _i996.AuthRepositoryImpl(gh<_i1048.FirebaseAuthDataSource>()));
+    gh.lazySingleton<_i703.QuranReaderSettingsRepository>(() =>
+        _i478.QuranReaderSettingsRepositoryImpl(
+            gh<_i169.QuranReaderSettingsLocalDataSource>()));
     gh.lazySingleton<_i877.PrayerOrchestratorService>(() =>
         _i877.PrayerOrchestratorService(gh<_i621.PrayerTimesRepository>()));
     return this;

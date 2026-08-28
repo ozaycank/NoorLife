@@ -595,4 +595,13 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get quranNoBookmarksYet => 'Henüz yer imi yok.';
+
+  @override
+  String get quranReaderSettings => 'Okuyucu Ayarları';
+
+  @override
+  String get quranTextSize => 'Metin Boyutu';
+
+  @override
+  String get quranResetDefault => 'Varsayılana Sıfırla';
 }

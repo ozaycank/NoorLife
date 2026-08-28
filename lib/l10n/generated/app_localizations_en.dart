@@ -592,4 +592,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quranNoBookmarksYet => 'No bookmarks yet.';
+
+  @override
+  String get quranReaderSettings => 'Reader Settings';
+
+  @override
+  String get quranTextSize => 'Text Size';
+
+  @override
+  String get quranResetDefault => 'Reset to Default';
 }

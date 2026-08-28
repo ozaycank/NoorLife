@@ -184,5 +184,7 @@
   "quranBookmarks": "Yer İmleri",
   "quranBookmarkAdd": "Yer İmine Ekle",
   "quranBookmarkRemove": "Yer İmini Kaldır",
-  "quranNoBookmarksYet": "Henüz yer imi yok."
+  "quranNoBookmarksYet": "Henüz yer imi yok.","quranReaderSettings": "Okuyucu Ayarları",
+  "quranTextSize": "Metin Boyutu",
+  "quranResetDefault": "Varsayılana Sıfırla"
 }

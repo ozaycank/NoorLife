@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../shared/design_system/tokens/app_spacing.dart';
 import '../../domain/entities/ayah.dart';
+import '../../application/providers/quran_reader_settings_provider.dart';
 import '../constants/quran_reader_typography.dart';
 
-class QuranAyahView extends StatelessWidget {
+class QuranAyahView extends ConsumerWidget {
   final Ayah ayah;
   final bool isBookmarked;
   final VoidCallback onBookmarkToggle;
@@ -17,9 +19,11 @@ class QuranAyahView extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = context.colorScheme;
     final textTheme = context.textTheme;
+    final settingsState = ref.watch(quranReaderSettingsNotifierProvider);
+    final currentFontSize = settingsState.settings.arabicFontSize;
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -40,7 +44,7 @@ class QuranAyahView extends StatelessWidget {
                       TextSpan(
                         text: ayah.text,
                         style: textTheme.headlineSmall?.copyWith(
-                          fontSize: QuranReaderTypography.arabicFontSize,
+                          fontSize: currentFontSize,
                           height: QuranReaderTypography.arabicLineHeight,
                           color: colorScheme.onSurface,
                         ),
@@ -61,14 +65,10 @@ class QuranAyahView extends StatelessWidget {
               IconButton(
                 icon: Icon(
                   isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                  color: isBookmarked
-                      ? colorScheme.primary
-                      : colorScheme.onSurfaceVariant,
+                  color: isBookmarked ? colorScheme.primary : colorScheme.onSurfaceVariant,
                 ),
                 onPressed: onBookmarkToggle,
-                tooltip: isBookmarked
-                    ? context.l10n.quranBookmarkRemove
-                    : context.l10n.quranBookmarkAdd,
+                tooltip: isBookmarked ? context.l10n.quranBookmarkRemove : context.l10n.quranBookmarkAdd,
               ),
             ],
           ),
