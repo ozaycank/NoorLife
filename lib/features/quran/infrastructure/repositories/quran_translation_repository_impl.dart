@@ -12,9 +12,13 @@ class QuranTranslationRepositoryImpl implements QuranTranslationRepository {
   @override
   Future<List<QuranTranslation>> getTranslationsForSurah(
     int surahNumber,
+    String languageCode,
   ) async {
     try {
-      return await _localDataSource.getTranslationsForSurah(surahNumber);
+      return await _localDataSource.getTranslationsForSurah(
+        surahNumber,
+        languageCode,
+      );
     } catch (e) {
       throw Exception('Failed to load translations: $e');
     }

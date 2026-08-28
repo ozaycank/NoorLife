@@ -12,10 +12,7 @@ class QuranRepositoryImpl implements QuranRepository {
   @override
   Future<List<Surah>> getSurahs() async {
     final surahs = await _localDataSource.getSurahs();
-    if (surahs.isEmpty) {
-      throw Exception('Quran catalog is empty.');
-    }
-    return surahs;
+    return List<Surah>.from(surahs);
   }
 
   @override

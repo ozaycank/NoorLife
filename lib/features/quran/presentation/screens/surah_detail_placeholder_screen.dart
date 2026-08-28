@@ -150,10 +150,13 @@ class _SurahDetailScreenState
     final int totalItems = 1 + (showBismillah ? 1 : 0) + ayahs.length;
 
     final bookmarkState = ref.watch(quranBookmarkNotifierProvider);
-    final translationAsyncValue =
-        ref.watch(quranTranslationProvider(widget.surahNumber));
 
-    // Unpack map if it exists. Null means it's either loading, failed, or missing.
+    // Resolve dynamic language explicitly.
+    final languageCode = l10n.localeName == 'tr' ? 'tr' : 'en';
+    final translationAsyncValue = ref.watch(quranTranslationProvider(
+      (surahNumber: widget.surahNumber, languageCode: languageCode),
+    ),);
+
     final translationsMap = translationAsyncValue.valueOrNull ?? {};
 
     return Scaffold(
