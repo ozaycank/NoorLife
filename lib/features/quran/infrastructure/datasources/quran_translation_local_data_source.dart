@@ -20,14 +20,17 @@ class QuranTranslationLocalDataSourceImpl
     String languageCode,
   ) async {
     try {
-      // Dynamically resolve translation path based on the requested language code
       final translationPath =
           'assets/data/quran/translations/$languageCode/translation.json';
       final jsonString = await rootBundle.loadString(translationPath);
       final dynamic jsonMap = json.decode(jsonString);
 
       List<dynamic> jsonList;
-      if (jsonMap is Map<String, dynamic> && jsonMap.containsKey('data')) {
+      // Support Fawaz Ahmed "quran" array structure, or plain arrays.
+      if (jsonMap is Map<String, dynamic> && jsonMap.containsKey('quran')) {
+        jsonList = jsonMap['quran'] as List<dynamic>;
+      } else if (jsonMap is Map<String, dynamic> &&
+          jsonMap.containsKey('data')) {
         jsonList = jsonMap['data'] as List<dynamic>;
       } else if (jsonMap is List) {
         jsonList = jsonMap;

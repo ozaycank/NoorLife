@@ -153,9 +153,11 @@ class _SurahDetailScreenState
 
     // Resolve dynamic language explicitly.
     final languageCode = l10n.localeName == 'tr' ? 'tr' : 'en';
-    final translationAsyncValue = ref.watch(quranTranslationProvider(
-      (surahNumber: widget.surahNumber, languageCode: languageCode),
-    ),);
+    final translationAsyncValue = ref.watch(
+      quranTranslationProvider(
+        (surahNumber: widget.surahNumber, languageCode: languageCode),
+      ),
+    );
 
     final translationsMap = translationAsyncValue.valueOrNull ?? {};
 

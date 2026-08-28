@@ -1,7 +1,7 @@
 import '../../domain/entities/quran_translation.dart';
 
 /// Infrastructure representation of QuranTranslation.
-/// Handles raw JSON parsing safely, shielding the Domain layer.
+/// Handles raw JSON parsing safely (supporting fawazahmed API schema), shielding the Domain layer.
 class QuranTranslationModel {
   final int surahNumber;
   final int ayahNumber;
@@ -16,10 +16,12 @@ class QuranTranslationModel {
   });
 
   factory QuranTranslationModel.fromJson(Map<String, dynamic> json) {
-    final surahRaw = json['surahNumber'];
-    final ayahRaw = json['ayahNumber'];
+    // Fawaz Ahmed raw JSON uses 'chapter' and 'verse'.
+    // Fallbacks provided for generic 'surahNumber' / 'ayahNumber' schemas.
+    final surahRaw = json['chapter'] ?? json['surahNumber'];
+    final ayahRaw = json['verse'] ?? json['ayahNumber'];
     final textRaw = json['text']?.toString() ?? '';
-    final langRaw = json['languageCode']?.toString() ?? 'tr';
+    final langRaw = json['languageCode']?.toString() ?? 'unknown';
 
     // Strict validation
     if (textRaw.trim().isEmpty) {

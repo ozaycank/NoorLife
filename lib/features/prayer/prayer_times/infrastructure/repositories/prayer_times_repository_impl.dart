@@ -94,13 +94,35 @@ class PrayerTimesRepositoryImpl implements PrayerTimesRepository {
         );
       }
 
+      // Base times converted to local timezone
+      final localFajr = convert(utcTimes.fajr);
+      DateTime localSunrise = convert(utcTimes.sunrise);
+      DateTime localDhuhr = convert(utcTimes.dhuhr);
+      DateTime localAsr = convert(utcTimes.asr);
+      DateTime localMaghrib = convert(utcTimes.maghrib);
+      final localIsha = convert(utcTimes.isha);
+
+      // FIX: Apply deterministic Diyanet Prescautionary Offsets (Temkin Payı)
+      // Diyanet historically adds these exact minute corrections on top of pure astronomical times.
+      if (methodId == 'diyar_turk') {
+        localSunrise = localSunrise.add(const Duration(minutes: -7));
+        localDhuhr = localDhuhr.add(const Duration(minutes: 5));
+        localAsr = localAsr.add(
+          const Duration(
+            minutes: 4,
+          ),
+        ); // Varies strictly by shadow angle mathematically, typical base is +4
+        localMaghrib = localMaghrib.add(const Duration(minutes: 7));
+        // Fajr and Isha offsets are generally integrated into the 18/17 degree rules directly by Adhan's Diyanet profile.
+      }
+
       final prayerTimes = [
-        PrayerTime(name: PrayerName.fajr, time: convert(utcTimes.fajr)),
-        PrayerTime(name: PrayerName.sunrise, time: convert(utcTimes.sunrise)),
-        PrayerTime(name: PrayerName.dhuhr, time: convert(utcTimes.dhuhr)),
-        PrayerTime(name: PrayerName.asr, time: convert(utcTimes.asr)),
-        PrayerTime(name: PrayerName.maghrib, time: convert(utcTimes.maghrib)),
-        PrayerTime(name: PrayerName.isha, time: convert(utcTimes.isha)),
+        PrayerTime(name: PrayerName.fajr, time: localFajr),
+        PrayerTime(name: PrayerName.sunrise, time: localSunrise),
+        PrayerTime(name: PrayerName.dhuhr, time: localDhuhr),
+        PrayerTime(name: PrayerName.asr, time: localAsr),
+        PrayerTime(name: PrayerName.maghrib, time: localMaghrib),
+        PrayerTime(name: PrayerName.isha, time: localIsha),
       ];
 
       final hijriDate = HijriCalendar.fromDate(
