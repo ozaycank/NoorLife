@@ -1,15 +1,20 @@
+import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/di/injection_container.dart';
-import '../../presentation/constants/quran_reader_typography.dart';
+import '../../domain/entities/quran_reader_config.dart';
+import '../../domain/entities/quran_reader_settings.dart';
+import '../../domain/errors/quran_failure.dart';
 import '../../domain/repositories/quran_reader_settings_repository.dart';
 import '../states/quran_reader_settings_state.dart';
 
 final quranReaderSettingsNotifierProvider =
     NotifierProvider<QuranReaderSettingsNotifier, QuranReaderSettingsState>(
-        QuranReaderSettingsNotifier.new,);
+  QuranReaderSettingsNotifier.new,
+);
 
 class QuranReaderSettingsNotifier extends Notifier<QuranReaderSettingsState> {
   late final QuranReaderSettingsRepository _repository;
+  Timer? _debounceTimer;
 
   @override
   QuranReaderSettingsState build() {
@@ -24,47 +29,62 @@ class QuranReaderSettingsNotifier extends Notifier<QuranReaderSettingsState> {
       final settings = await _repository.getSettings();
       state = state.copyWith(isLoading: false, settings: settings);
     } catch (e) {
-      state = state.copyWith(isLoading: false, failure: e.toString());
+      state = state.copyWith(
+        isLoading: false,
+        failure: QuranFailure('Settings load failed: $e', code: 'loadError'),
+      );
     }
   }
 
   Future<void> increaseFontSize() async {
-    final newSize = state.settings.arabicFontSize +
-        QuranReaderTypography.arabicFontSizeStep;
-    if (newSize > QuranReaderTypography.maxArabicFontSize) return;
+    final newSize =
+        state.settings.arabicFontSize + QuranReaderConfig.arabicFontSizeStep;
+    if (newSize > QuranReaderConfig.maxArabicFontSize) return;
 
     final newSettings = state.settings.copyWith(arabicFontSize: newSize);
-    state = state.copyWith(settings: newSettings);
+    state = state.copyWith(settings: newSettings, failure: null);
 
-    _persistSettings(newSettings);
+    _persistSettingsDebounced(newSettings);
   }
 
   Future<void> decreaseFontSize() async {
-    final newSize = state.settings.arabicFontSize -
-        QuranReaderTypography.arabicFontSizeStep;
-    if (newSize < QuranReaderTypography.minArabicFontSize) return;
+    final newSize =
+        state.settings.arabicFontSize - QuranReaderConfig.arabicFontSizeStep;
+    if (newSize < QuranReaderConfig.minArabicFontSize) return;
 
     final newSettings = state.settings.copyWith(arabicFontSize: newSize);
-    state = state.copyWith(settings: newSettings);
+    state = state.copyWith(settings: newSettings, failure: null);
 
-    _persistSettings(newSettings);
+    _persistSettingsDebounced(newSettings);
   }
 
   Future<void> resetSettings() async {
+    _debounceTimer?.cancel();
+    state = state.copyWith(
+      settings: QuranReaderSettings.initial(),
+      failure: null,
+    );
+
     try {
       await _repository.resetSettings();
-      state =
-          state.copyWith(settings: QuranReaderSettingsState.initial().settings);
     } catch (e) {
-      state = state.copyWith(failure: e.toString());
+      state = state.copyWith(
+        failure: QuranFailure('Settings reset failed: $e', code: 'resetError'),
+      );
     }
   }
 
-  Future<void> _persistSettings(newSettings) async {
-    try {
-      await _repository.saveSettings(newSettings);
-    } catch (e) {
-      state = state.copyWith(failure: e.toString());
-    }
+  void _persistSettingsDebounced(QuranReaderSettings newSettings) {
+    if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
+
+    _debounceTimer = Timer(const Duration(milliseconds: 500), () async {
+      try {
+        await _repository.saveSettings(newSettings);
+      } catch (e) {
+        state = state.copyWith(
+          failure: QuranFailure('Settings save failed: $e', code: 'saveError'),
+        );
+      }
+    });
   }
 }

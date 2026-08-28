@@ -65,10 +65,14 @@ class QuranAyahView extends ConsumerWidget {
               IconButton(
                 icon: Icon(
                   isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                  color: isBookmarked ? colorScheme.primary : colorScheme.onSurfaceVariant,
+                  color: isBookmarked
+                      ? colorScheme.primary
+                      : colorScheme.onSurfaceVariant,
                 ),
                 onPressed: onBookmarkToggle,
-                tooltip: isBookmarked ? context.l10n.quranBookmarkRemove : context.l10n.quranBookmarkAdd,
+                tooltip: isBookmarked
+                    ? context.l10n.quranBookmarkRemove
+                    : context.l10n.quranBookmarkAdd,
               ),
             ],
           ),

@@ -1,4 +1,4 @@
-import '../../presentation/constants/quran_reader_typography.dart';
+import 'quran_reader_config.dart';
 
 class QuranReaderSettings {
   final double arabicFontSize;
@@ -9,7 +9,7 @@ class QuranReaderSettings {
 
   factory QuranReaderSettings.initial() {
     return const QuranReaderSettings(
-      arabicFontSize: QuranReaderTypography.defaultArabicFontSize,
+      arabicFontSize: QuranReaderConfig.defaultArabicFontSize,
     );
   }
 
@@ -28,11 +28,24 @@ class QuranReaderSettings {
   }
 
   factory QuranReaderSettings.fromJson(Map<String, dynamic> json) {
-    double size = json['arabicFontSize'] as double? ?? QuranReaderTypography.defaultArabicFontSize;
-    
-    // Clamp securely at source
-    if (size < QuranReaderTypography.minArabicFontSize) size = QuranReaderTypography.minArabicFontSize;
-    if (size > QuranReaderTypography.maxArabicFontSize) size = QuranReaderTypography.maxArabicFontSize;
+    // Robust parsing using num to accept both int (26) and double (26.0) safely.
+    final value = json['arabicFontSize'];
+    double size = QuranReaderConfig.defaultArabicFontSize;
+
+    if (value is num) {
+      size = value.toDouble();
+      if (size.isNaN || size.isInfinite) {
+        size = QuranReaderConfig.defaultArabicFontSize;
+      }
+    }
+
+    // Clamp securely at the domain source
+    if (size < QuranReaderConfig.minArabicFontSize) {
+      size = QuranReaderConfig.minArabicFontSize;
+    }
+    if (size > QuranReaderConfig.maxArabicFontSize) {
+      size = QuranReaderConfig.maxArabicFontSize;
+    }
 
     return QuranReaderSettings(
       arabicFontSize: size,

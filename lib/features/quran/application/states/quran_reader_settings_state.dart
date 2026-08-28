@@ -1,9 +1,10 @@
 import '../../domain/entities/quran_reader_settings.dart';
+import '../../domain/errors/quran_failure.dart';
 
 class QuranReaderSettingsState {
   final bool isLoading;
   final QuranReaderSettings settings;
-  final String? failure;
+  final QuranFailure? failure;
 
   const QuranReaderSettingsState({
     required this.isLoading,
@@ -19,7 +20,7 @@ class QuranReaderSettingsState {
   QuranReaderSettingsState copyWith({
     bool? isLoading,
     QuranReaderSettings? settings,
-    String? failure,
+    QuranFailure? failure,
   }) {
     return QuranReaderSettingsState(
       isLoading: isLoading ?? this.isLoading,

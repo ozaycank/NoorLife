@@ -171,7 +171,8 @@ class _SurahDetailScreenState
           alignment: Alignment.topCenter,
           child: ConstrainedBox(
             constraints: const BoxConstraints(
-                maxWidth: QuranReaderTypography.maxReaderWidth,),
+              maxWidth: QuranReaderTypography.maxReaderWidth,
+            ),
             child: ScrollablePositionedList.builder(
               itemScrollController: _itemScrollController,
               itemCount: totalItems,

@@ -15,7 +15,7 @@ class QuranReaderSettingsRepositoryImpl
     try {
       return await _localDataSource.getSettings();
     } catch (e) {
-      throw Exception('Failed to load reader settings');
+      throw Exception('Failed to load reader settings: $e');
     }
   }
 
@@ -24,7 +24,7 @@ class QuranReaderSettingsRepositoryImpl
     try {
       await _localDataSource.saveSettings(settings);
     } catch (e) {
-      throw Exception('Failed to save reader settings');
+      throw Exception('Failed to save reader settings: $e');
     }
   }
 
@@ -33,7 +33,7 @@ class QuranReaderSettingsRepositoryImpl
     try {
       await _localDataSource.resetSettings();
     } catch (e) {
-      throw Exception('Failed to reset reader settings');
+      throw Exception('Failed to reset reader settings: $e');
     }
   }
 }
