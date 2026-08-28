@@ -150,9 +150,11 @@ class _SurahDetailScreenState
     final int totalItems = 1 + (showBismillah ? 1 : 0) + ayahs.length;
 
     final bookmarkState = ref.watch(quranBookmarkNotifierProvider);
-    final translationState =
+    final translationAsyncValue =
         ref.watch(quranTranslationProvider(widget.surahNumber));
-    final translationsMap = translationState.valueOrNull ?? {};
+
+    // Unpack map if it exists. Null means it's either loading, failed, or missing.
+    final translationsMap = translationAsyncValue.valueOrNull ?? {};
 
     return Scaffold(
       appBar: AppBar(
