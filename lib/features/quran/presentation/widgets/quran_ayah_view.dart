@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../shared/design_system/tokens/app_spacing.dart';
 import '../../domain/entities/ayah.dart';
+import '../../domain/entities/quran_translation.dart';
 import '../../application/providers/quran_reader_settings_provider.dart';
 import '../constants/quran_reader_typography.dart';
 
@@ -10,12 +11,14 @@ class QuranAyahView extends ConsumerWidget {
   final Ayah ayah;
   final bool isBookmarked;
   final VoidCallback onBookmarkToggle;
+  final QuranTranslation? translation;
 
   const QuranAyahView({
     super.key,
     required this.ayah,
     required this.isBookmarked,
     required this.onBookmarkToggle,
+    this.translation,
   });
 
   @override
@@ -24,6 +27,7 @@ class QuranAyahView extends ConsumerWidget {
     final textTheme = context.textTheme;
     final settingsState = ref.watch(quranReaderSettingsNotifierProvider);
     final currentFontSize = settingsState.settings.arabicFontSize;
+    final showTranslation = settingsState.settings.showTranslation;
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -76,6 +80,29 @@ class QuranAyahView extends ConsumerWidget {
               ),
             ],
           ),
+          if (showTranslation) ...[
+            const SizedBox(height: AppSpacing.lg),
+            if (translation != null)
+              Text(
+                translation!.text,
+                style: textTheme.bodyLarge?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                  height: 1.5,
+                ),
+                textAlign: TextAlign.left,
+                textDirection: TextDirection.ltr,
+              )
+            else
+              Text(
+                context.l10n.quranTranslationUnavailable,
+                style: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.error,
+                  fontStyle: FontStyle.italic,
+                ),
+                textAlign: TextAlign.left,
+                textDirection: TextDirection.ltr,
+              ),
+          ],
           const SizedBox(height: AppSpacing.lg),
           Divider(color: colorScheme.surfaceContainerHighest),
         ],

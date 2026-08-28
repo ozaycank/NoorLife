@@ -63,6 +63,8 @@ import '../../features/quran/domain/repositories/quran_reader_settings_repositor
     as _i703;
 import '../../features/quran/domain/repositories/quran_repository.dart'
     as _i498;
+import '../../features/quran/domain/repositories/quran_translation_repository.dart'
+    as _i682;
 import '../../features/quran/infrastructure/datasources/quran_bookmark_local_data_source.dart'
     as _i501;
 import '../../features/quran/infrastructure/datasources/quran_local_data_source.dart'
@@ -71,6 +73,8 @@ import '../../features/quran/infrastructure/datasources/quran_progress_local_dat
     as _i290;
 import '../../features/quran/infrastructure/datasources/quran_reader_settings_local_data_source.dart'
     as _i169;
+import '../../features/quran/infrastructure/datasources/quran_translation_local_data_source.dart'
+    as _i61;
 import '../../features/quran/infrastructure/repositories/quran_bookmark_repository_impl.dart'
     as _i535;
 import '../../features/quran/infrastructure/repositories/quran_progress_repository_impl.dart'
@@ -79,6 +83,8 @@ import '../../features/quran/infrastructure/repositories/quran_reader_settings_r
     as _i478;
 import '../../features/quran/infrastructure/repositories/quran_repository_impl.dart'
     as _i771;
+import '../../features/quran/infrastructure/repositories/quran_translation_repository_impl.dart'
+    as _i821;
 import '../logging/logger_service.dart' as _i731;
 import '../network/dio_client.dart' as _i667;
 import '../services/timezone/timezone_service.dart' as _i280;
@@ -110,6 +116,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i321.FlutterCompassDataSource());
     gh.lazySingleton<_i260.PrayerLocalDataSource>(
         () => _i949.PrayerSecureStorageDataSource());
+    gh.lazySingleton<_i61.QuranTranslationLocalDataSource>(
+        () => _i61.QuranTranslationLocalDataSourceImpl());
     gh.lazySingleton<_i612.CalculationMethodRepository>(() =>
         _i699.CalculationMethodRepositoryImpl(
             gh<_i260.PrayerLocalDataSource>()));
@@ -140,6 +148,9 @@ extension GetItInjectableX on _i174.GetIt {
             gh<_i501.QuranBookmarkLocalDataSource>()));
     gh.lazySingleton<_i667.DioClient>(
         () => _i667.DioClient(gh<_i731.LoggerService>()));
+    gh.lazySingleton<_i682.QuranTranslationRepository>(() =>
+        _i821.QuranTranslationRepositoryImpl(
+            gh<_i61.QuranTranslationLocalDataSource>()));
     gh.lazySingleton<_i1067.LocationService>(() => _i933.LocationServiceImpl(
           gh<_i643.LocationPermissionService>(),
           gh<_i711.LocationGeocodingService>(),

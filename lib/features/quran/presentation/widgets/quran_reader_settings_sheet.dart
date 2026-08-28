@@ -22,7 +22,6 @@ class QuranReaderSettingsSheet extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Handle for aesthetics
             Container(
               width: 40,
               height: 4,
@@ -69,6 +68,16 @@ class QuranReaderSettingsSheet extends ConsumerWidget {
                   ],
                 ),
               ],
+            ),
+            const SizedBox(height: AppSpacing.md),
+            SwitchListTile(
+              title: Text(
+                l10n.quranShowTranslation,
+                style: textTheme.titleMedium,
+              ),
+              value: state.settings.showTranslation,
+              contentPadding: EdgeInsets.zero,
+              onChanged: (val) => notifier.toggleTranslation(val),
             ),
             const SizedBox(height: AppSpacing.xl),
             TextButton(

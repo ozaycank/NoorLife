@@ -58,6 +58,13 @@ class QuranReaderSettingsNotifier extends Notifier<QuranReaderSettingsState> {
     _persistSettingsDebounced(newSettings);
   }
 
+  Future<void> toggleTranslation(bool value) async {
+    final newSettings = state.settings.copyWith(showTranslation: value);
+    state = state.copyWith(settings: newSettings, failure: null);
+
+    _persistSettingsDebounced(newSettings);
+  }
+
   Future<void> resetSettings() async {
     _debounceTimer?.cancel();
     state = state.copyWith(

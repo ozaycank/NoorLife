@@ -769,5 +769,13 @@
   "quranResetDefault": "Reset to Default",
   "@quranResetDefault": {
     "description": "Reset to default button"
+  },
+  "quranShowTranslation": "Show Translation",
+  "@quranShowTranslation": {
+    "description": "Toggle to show translation"
+  },
+  "quranTranslationUnavailable": "Translation unavailable.",
+  "@quranTranslationUnavailable": {
+    "description": "Fallback when translation is missing"
   }
 }

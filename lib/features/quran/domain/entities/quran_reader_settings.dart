@@ -2,33 +2,38 @@ import 'quran_reader_config.dart';
 
 class QuranReaderSettings {
   final double arabicFontSize;
+  final bool showTranslation;
 
   const QuranReaderSettings({
     required this.arabicFontSize,
+    required this.showTranslation,
   });
 
   factory QuranReaderSettings.initial() {
     return const QuranReaderSettings(
       arabicFontSize: QuranReaderConfig.defaultArabicFontSize,
+      showTranslation: QuranReaderConfig.defaultShowTranslation,
     );
   }
 
   QuranReaderSettings copyWith({
     double? arabicFontSize,
+    bool? showTranslation,
   }) {
     return QuranReaderSettings(
       arabicFontSize: arabicFontSize ?? this.arabicFontSize,
+      showTranslation: showTranslation ?? this.showTranslation,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'arabicFontSize': arabicFontSize,
+      'showTranslation': showTranslation,
     };
   }
 
   factory QuranReaderSettings.fromJson(Map<String, dynamic> json) {
-    // Robust parsing using num to accept both int (26) and double (26.0) safely.
     final value = json['arabicFontSize'];
     double size = QuranReaderConfig.defaultArabicFontSize;
 
@@ -39,7 +44,6 @@ class QuranReaderSettings {
       }
     }
 
-    // Clamp securely at the domain source
     if (size < QuranReaderConfig.minArabicFontSize) {
       size = QuranReaderConfig.minArabicFontSize;
     }
@@ -49,6 +53,8 @@ class QuranReaderSettings {
 
     return QuranReaderSettings(
       arabicFontSize: size,
+      showTranslation: json['showTranslation'] as bool? ??
+          QuranReaderConfig.defaultShowTranslation,
     );
   }
 
@@ -57,8 +63,9 @@ class QuranReaderSettings {
       identical(this, other) ||
       other is QuranReaderSettings &&
           runtimeType == other.runtimeType &&
-          arabicFontSize == other.arabicFontSize;
+          arabicFontSize == other.arabicFontSize &&
+          showTranslation == other.showTranslation;
 
   @override
-  int get hashCode => arabicFontSize.hashCode;
+  int get hashCode => arabicFontSize.hashCode ^ showTranslation.hashCode;
 }

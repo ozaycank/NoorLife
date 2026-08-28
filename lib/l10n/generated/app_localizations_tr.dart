@@ -604,4 +604,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get quranResetDefault => 'Varsayılana Sıfırla';
+
+  @override
+  String get quranShowTranslation => 'Meali Göster';
+
+  @override
+  String get quranTranslationUnavailable => 'Meal bulunamadı.';
 }

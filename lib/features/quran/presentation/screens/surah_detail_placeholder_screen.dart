@@ -9,6 +9,7 @@ import '../../domain/entities/quran_reading_progress.dart';
 import '../../domain/repositories/quran_repository.dart';
 import '../../application/providers/quran_progress_provider.dart';
 import '../../application/providers/quran_bookmark_provider.dart';
+import '../../application/providers/quran_translation_provider.dart';
 import '../widgets/quran_surah_header.dart';
 import '../widgets/quran_ayah_view.dart';
 import '../widgets/quran_reader_settings_sheet.dart';
@@ -149,6 +150,9 @@ class _SurahDetailScreenState
     final int totalItems = 1 + (showBismillah ? 1 : 0) + ayahs.length;
 
     final bookmarkState = ref.watch(quranBookmarkNotifierProvider);
+    final translationState =
+        ref.watch(quranTranslationProvider(widget.surahNumber));
+    final translationsMap = translationState.valueOrNull ?? {};
 
     return Scaffold(
       appBar: AppBar(
@@ -205,6 +209,8 @@ class _SurahDetailScreenState
                       b.ayahNumber == ayah.numberInSurah,
                 );
 
+                final ayahTranslation = translationsMap[ayah.numberInSurah];
+
                 return VisibilityDetector(
                   key: Key('ayah-${ayah.numberInSurah}'),
                   onVisibilityChanged: (info) {
@@ -215,6 +221,7 @@ class _SurahDetailScreenState
                   child: QuranAyahView(
                     ayah: ayah,
                     isBookmarked: isBookmarked,
+                    translation: ayahTranslation,
                     onBookmarkToggle: () {
                       ref
                           .read(quranBookmarkNotifierProvider.notifier)

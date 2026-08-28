@@ -601,4 +601,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quranResetDefault => 'Reset to Default';
+
+  @override
+  String get quranShowTranslation => 'Show Translation';
+
+  @override
+  String get quranTranslationUnavailable => 'Translation unavailable.';
 }

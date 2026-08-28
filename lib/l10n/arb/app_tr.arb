@@ -186,5 +186,7 @@
   "quranBookmarkRemove": "Yer İmini Kaldır",
   "quranNoBookmarksYet": "Henüz yer imi yok.","quranReaderSettings": "Okuyucu Ayarları",
   "quranTextSize": "Metin Boyutu",
-  "quranResetDefault": "Varsayılana Sıfırla"
+  "quranResetDefault": "Varsayılana Sıfırla",
+  "quranShowTranslation": "Meali Göster",
+  "quranTranslationUnavailable": "Meal bulunamadı."
 }

@@ -1225,6 +1225,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reset to Default'**
   String get quranResetDefault;
+
+  /// Toggle to show translation
+  ///
+  /// In en, this message translates to:
+  /// **'Show Translation'**
+  String get quranShowTranslation;
+
+  /// Fallback when translation is missing
+  ///
+  /// In en, this message translates to:
+  /// **'Translation unavailable.'**
+  String get quranTranslationUnavailable;
 }
 
 class _AppLocalizationsDelegate

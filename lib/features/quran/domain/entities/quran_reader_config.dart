@@ -7,4 +7,6 @@ class QuranReaderConfig {
   static const double minArabicFontSize = 20.0;
   static const double maxArabicFontSize = 36.0;
   static const double arabicFontSizeStep = 2.0;
+
+  static const bool defaultShowTranslation = false;
 }
