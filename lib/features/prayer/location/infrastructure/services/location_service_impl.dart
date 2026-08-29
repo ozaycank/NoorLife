@@ -90,9 +90,14 @@ class LocationServiceImpl implements LocationService {
         position.longitude,
       );
 
-      if (geoResult is Success<(String, String), LocationFailure>) {
-        resolvedCity = geoResult.value.$1;
-        resolvedCountry = geoResult.value.$2;
+      // FIX: Use Dart 3 pattern matching to safely extract value from Success state
+      switch (geoResult) {
+        case Success(value: final tuple):
+          resolvedCity = tuple.$1;
+          resolvedCountry = tuple.$2;
+        case ResultFailure():
+          // Silently keep the default 'Unknown' values if geocoding fails
+          break;
       }
 
       final location = PrayerLocation(

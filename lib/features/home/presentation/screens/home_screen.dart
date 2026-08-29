@@ -17,6 +17,7 @@ import '../../../quran/application/providers/quran_bookmark_provider.dart';
 import '../../../prayer/location/application/providers/location_notifier.dart';
 import '../../../prayer/prayer_times/application/providers/prayer_times_notifier.dart';
 import '../../../prayer/prayer_times/presentation/providers/prayer_live_state_provider.dart';
+import '../../../prayer/shared/presentation/utils/presentation_localizer.dart';
 
 // Prayer Domain Entities
 import '../../../prayer/prayer_times/domain/value_objects/prayer_name.dart';
@@ -66,6 +67,7 @@ class HomeScreen extends ConsumerWidget {
 }
 
 /// 1. HEADER: Location and Dates
+/// 1. HEADER: Location and Dates
 class _HomeHeader extends ConsumerWidget {
   const _HomeHeader();
 
@@ -80,21 +82,22 @@ class _HomeHeader extends ConsumerWidget {
 
     final now = DateTime.now();
     final gregorianDate = DateFormat.yMMMMd(l10n.localeName).format(now);
-    final hijriDate = prayerState.schedule?.today.hijriDateString ?? '...';
+    final rawHijriDate = prayerState.schedule?.today.hijriDateString;
 
+    // Use the smart formatter to get Arabic/Turkish/English months cleanly
+    final hijriDate = rawHijriDate != null
+        ? PresentationLocalizer.formatSmartHijri(context, rawHijriDate)
+        : '...';
+
+    // Safe location resolution
     String locationText = l10n.homeLocationUnavailable;
     if (locationState.location != null) {
       final loc = locationState.location!;
-      // Using safe fallback formatting depending on what PrayerLocation has.
-      // Usually, it has latitude/longitude. If it has address/name properties, we print them.
-      // Since 'city' was undefined, we use a generic string display.
-      // If it implements a toString that shows coordinates/name, this will safely print it.
-      locationText = loc
-          .toString()
-          .replaceAll('PrayerLocation', '')
-          .replaceAll('(', '')
-          .replaceAll(')', '')
-          .trim();
+      if (loc.cityName.isNotEmpty && loc.countryName.isNotEmpty) {
+        locationText = '${loc.cityName}, ${loc.countryName}';
+      } else if (loc.cityName.isNotEmpty) {
+        locationText = loc.cityName;
+      }
     }
 
     final isLoading = locationState.status.toString().contains('requesting');

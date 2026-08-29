@@ -102,8 +102,7 @@ class PrayerTimesRepositoryImpl implements PrayerTimesRepository {
       DateTime localMaghrib = convert(utcTimes.maghrib);
       final localIsha = convert(utcTimes.isha);
 
-      // FIX: Apply deterministic Diyanet Prescautionary Offsets (Temkin Payı)
-      // Diyanet historically adds these exact minute corrections on top of pure astronomical times.
+      // Apply deterministic Diyanet Prescautionary Offsets (Temkin Payı)
       if (methodId == 'diyar_turk') {
         localSunrise = localSunrise.add(const Duration(minutes: -7));
         localDhuhr = localDhuhr.add(const Duration(minutes: 5));
@@ -111,9 +110,8 @@ class PrayerTimesRepositoryImpl implements PrayerTimesRepository {
           const Duration(
             minutes: 4,
           ),
-        ); // Varies strictly by shadow angle mathematically, typical base is +4
+        );
         localMaghrib = localMaghrib.add(const Duration(minutes: 7));
-        // Fajr and Isha offsets are generally integrated into the 18/17 degree rules directly by Adhan's Diyanet profile.
       }
 
       final prayerTimes = [
@@ -128,14 +126,14 @@ class PrayerTimesRepositoryImpl implements PrayerTimesRepository {
       final hijriDate = HijriCalendar.fromDate(
         DateTime(targetDate.year, targetDate.month, targetDate.day),
       );
-      final hijriString =
-          '${hijriDate.hDay} ${hijriDate.longMonthName} ${hijriDate.hYear}';
+
+      final pureHijriString = '${hijriDate.hYear}-${hijriDate.hMonth}-${hijriDate.hDay}';
 
       return Success(
         PrayerDay(
           targetDate: targetDate,
           prayerTimes: prayerTimes,
-          hijriDateString: hijriString,
+          hijriDateString: pureHijriString, // It's pure now, UI will localize it.
         ),
       );
     } catch (e) {

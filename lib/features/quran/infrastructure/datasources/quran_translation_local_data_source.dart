@@ -26,12 +26,19 @@ class QuranTranslationLocalDataSourceImpl
       final dynamic jsonMap = json.decode(jsonString);
 
       List<dynamic> jsonList;
-      // Support Fawaz Ahmed "quran" array structure, or plain arrays.
-      if (jsonMap is Map<String, dynamic> && jsonMap.containsKey('quran')) {
-        jsonList = jsonMap['quran'] as List<dynamic>;
-      } else if (jsonMap is Map<String, dynamic> &&
-          jsonMap.containsKey('data')) {
-        jsonList = jsonMap['data'] as List<dynamic>;
+
+      // Fawaz Ahmed's JSON has {"quran": [ {...} ] } or something similar
+      if (jsonMap is Map<String, dynamic>) {
+        if (jsonMap.containsKey('quran')) {
+          jsonList = jsonMap['quran'] as List<dynamic>;
+        } else if (jsonMap.containsKey('data')) {
+          jsonList = jsonMap['data'] as List<dynamic>;
+        } else if (jsonMap.containsKey('verses')) {
+          jsonList = jsonMap['verses'] as List<dynamic>;
+        } else {
+          // If it's a map but has no array key, maybe it's just keys?
+          throw Exception('Invalid translation JSON Object structure.');
+        }
       } else if (jsonMap is List) {
         jsonList = jsonMap;
       } else {
