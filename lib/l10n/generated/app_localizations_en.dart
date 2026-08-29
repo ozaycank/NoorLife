@@ -525,7 +525,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeGreeting => 'Assalamu Alaikum';
 
   @override
-  String get homeToday => 'Today\'s Schedule';
+  String get homeToday => 'Today';
 
   @override
   String get nextPrayerHeader => 'Next Prayer';
@@ -607,4 +607,54 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quranTranslationUnavailable => 'Translation unavailable.';
+
+  @override
+  String get homeDailyOverview => 'Daily Overview';
+
+  @override
+  String get homeNextPrayer => 'Next Prayer';
+
+  @override
+  String get homeRemaining => 'remaining';
+
+  @override
+  String get homePrayerTimes => 'Prayer Times';
+
+  @override
+  String get homeContinueReading => 'Continue Reading';
+
+  @override
+  String get homeBookmarks => 'Bookmarks';
+
+  @override
+  String homeSavedAyahs(int count) {
+    return '$count saved ayahs';
+  }
+
+  @override
+  String get homeQibla => 'Qibla';
+
+  @override
+  String get homeSettings => 'Settings';
+
+  @override
+  String get homeLocationUnavailable => 'Location unavailable';
+
+  @override
+  String get homePrayerFajr => 'Fajr';
+
+  @override
+  String get homePrayerSunrise => 'Sunrise';
+
+  @override
+  String get homePrayerDhuhr => 'Dhuhr';
+
+  @override
+  String get homePrayerAsr => 'Asr';
+
+  @override
+  String get homePrayerMaghrib => 'Maghrib';
+
+  @override
+  String get homePrayerIsha => 'Isha';
 }

@@ -188,5 +188,22 @@
   "quranTextSize": "Metin Boyutu",
   "quranResetDefault": "Varsayılana Sıfırla",
   "quranShowTranslation": "Meali Göster",
-  "quranTranslationUnavailable": "Meal bulunamadı."
+  "quranTranslationUnavailable": "Meal bulunamadı.",
+  "homeDailyOverview": "Günün Özeti",
+  "homeToday": "Bugün",
+  "homeNextPrayer": "Sıradaki Vakit",
+  "homeRemaining": "kaldı",
+  "homePrayerTimes": "Namaz Vakitleri",
+  "homeContinueReading": "Okumaya Devam Et",
+  "homeBookmarks": "Yer İmleri",
+  "homeSavedAyahs": "{count} kayıtlı ayet",
+  "homeQibla": "Kıble",
+  "homeSettings": "Ayarlar",
+  "homeLocationUnavailable": "Konum bulunamadı",
+  "homePrayerFajr": "İmsak",
+  "homePrayerSunrise": "Güneş",
+  "homePrayerDhuhr": "Öğle",
+  "homePrayerAsr": "İkindi",
+  "homePrayerMaghrib": "Akşam",
+  "homePrayerIsha": "Yatsı"
 }

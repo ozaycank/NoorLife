@@ -777,5 +777,28 @@
   "quranTranslationUnavailable": "Translation unavailable.",
   "@quranTranslationUnavailable": {
     "description": "Fallback when translation is missing"
-  }
+  },"homeDailyOverview": "Daily Overview",
+  "@homeDailyOverview": { "description": "Home greeting header" },
+  "homeToday": "Today",
+  "homeNextPrayer": "Next Prayer",
+  "homeRemaining": "remaining",
+  "homePrayerTimes": "Prayer Times",
+  "homeContinueReading": "Continue Reading",
+  "homeBookmarks": "Bookmarks",
+  "homeSavedAyahs": "{count} saved ayahs",
+  "@homeSavedAyahs": {
+    "description": "Number of saved ayahs",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "homeQibla": "Qibla",
+  "homeSettings": "Settings",
+  "homeLocationUnavailable": "Location unavailable",
+  "homePrayerFajr": "Fajr",
+  "homePrayerSunrise": "Sunrise",
+  "homePrayerDhuhr": "Dhuhr",
+  "homePrayerAsr": "Asr",
+  "homePrayerMaghrib": "Maghrib",
+  "homePrayerIsha": "Isha"
 }

@@ -528,7 +528,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get homeGreeting => 'Selamun Aleyküm';
 
   @override
-  String get homeToday => 'Bugünün Vakitleri';
+  String get homeToday => 'Bugün';
 
   @override
   String get nextPrayerHeader => 'Sıradaki Vakit';
@@ -610,4 +610,54 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get quranTranslationUnavailable => 'Meal bulunamadı.';
+
+  @override
+  String get homeDailyOverview => 'Günün Özeti';
+
+  @override
+  String get homeNextPrayer => 'Sıradaki Vakit';
+
+  @override
+  String get homeRemaining => 'kaldı';
+
+  @override
+  String get homePrayerTimes => 'Namaz Vakitleri';
+
+  @override
+  String get homeContinueReading => 'Okumaya Devam Et';
+
+  @override
+  String get homeBookmarks => 'Yer İmleri';
+
+  @override
+  String homeSavedAyahs(int count) {
+    return '$count kayıtlı ayet';
+  }
+
+  @override
+  String get homeQibla => 'Kıble';
+
+  @override
+  String get homeSettings => 'Ayarlar';
+
+  @override
+  String get homeLocationUnavailable => 'Konum bulunamadı';
+
+  @override
+  String get homePrayerFajr => 'İmsak';
+
+  @override
+  String get homePrayerSunrise => 'Güneş';
+
+  @override
+  String get homePrayerDhuhr => 'Öğle';
+
+  @override
+  String get homePrayerAsr => 'İkindi';
+
+  @override
+  String get homePrayerMaghrib => 'Akşam';
+
+  @override
+  String get homePrayerIsha => 'Yatsı';
 }

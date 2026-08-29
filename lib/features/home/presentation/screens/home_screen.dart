@@ -1,30 +1,328 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+
+// Core & Shared
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../shared/design_system/tokens/app_spacing.dart';
-import '../../../../shared/widgets/app_card.dart';
-import '../../../../shared/widgets/error_state_widget.dart';
-import '../../../../shared/widgets/section_header.dart';
+
+// Quran Providers
+import '../../../quran/application/providers/quran_provider.dart';
+import '../../../quran/application/providers/quran_progress_provider.dart';
+import '../../../quran/application/providers/quran_bookmark_provider.dart';
+
+// Prayer & Location Providers
 import '../../../prayer/location/application/providers/location_notifier.dart';
-import '../../../prayer/location/application/states/location_state.dart';
 import '../../../prayer/prayer_times/application/providers/prayer_times_notifier.dart';
 import '../../../prayer/prayer_times/presentation/providers/prayer_live_state_provider.dart';
-import '../../../prayer/shared/presentation/utils/presentation_localizer.dart';
-import '../../../prayer/shared/presentation/screens/prayer_loading_screen.dart';
+
+// Prayer Domain Entities
+import '../../../prayer/prayer_times/domain/value_objects/prayer_name.dart';
+import '../../../prayer/prayer_times/domain/entities/prayer_time.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
-  Future<void> _refreshData(BuildContext context, WidgetRef ref) async {
-    final success = await ref
-        .read(locationNotifierProvider.notifier)
-        .acquireDeviceLocation();
-    if (success && context.mounted) {
-      await ref.read(prayerTimesNotifierProvider.notifier).refreshTimes();
-    }
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          context.l10n.homeDailyOverview,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        centerTitle: false,
+        elevation: 0,
+      ),
+      body: SafeArea(
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 800),
+            child: ListView(
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              children: const [
+                _HomeHeader(),
+                SizedBox(height: AppSpacing.xl),
+                _NextPrayerHero(),
+                SizedBox(height: AppSpacing.xl),
+                _PrayerSummary(),
+                SizedBox(height: AppSpacing.xl),
+                _QuranContinueReading(),
+                SizedBox(height: AppSpacing.md),
+                _QuranBookmarkShortcut(),
+                SizedBox(height: AppSpacing.xl),
+                _QuickActions(),
+                SizedBox(height: AppSpacing.xxl),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
+}
+
+/// 1. HEADER: Location and Dates
+class _HomeHeader extends ConsumerWidget {
+  const _HomeHeader();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final textTheme = context.textTheme;
+    final colorScheme = context.colorScheme;
+
+    final locationState = ref.watch(locationNotifierProvider);
+    final prayerState = ref.watch(prayerTimesNotifierProvider);
+
+    final now = DateTime.now();
+    final gregorianDate = DateFormat.yMMMMd(l10n.localeName).format(now);
+    final hijriDate = prayerState.schedule?.today.hijriDateString ?? '...';
+
+    String locationText = l10n.homeLocationUnavailable;
+    if (locationState.location != null) {
+      final loc = locationState.location!;
+      // Using safe fallback formatting depending on what PrayerLocation has.
+      // Usually, it has latitude/longitude. If it has address/name properties, we print them.
+      // Since 'city' was undefined, we use a generic string display.
+      // If it implements a toString that shows coordinates/name, this will safely print it.
+      locationText = loc
+          .toString()
+          .replaceAll('PrayerLocation', '')
+          .replaceAll('(', '')
+          .replaceAll(')', '')
+          .trim();
+    }
+
+    final isLoading = locationState.status.toString().contains('requesting');
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(Icons.location_on, color: colorScheme.primary, size: 20),
+            const SizedBox(width: AppSpacing.sm),
+            Expanded(
+              child: Text(
+                isLoading ? '...' : locationText,
+                style: textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: colorScheme.onSurface,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: AppSpacing.md),
+        Text(
+          gregorianDate,
+          style: textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: AppSpacing.xs),
+        Text(
+          hijriDate,
+          style: textTheme.titleMedium?.copyWith(
+            color: colorScheme.onSurfaceVariant,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// 2. PRIMARY HERO: Next Prayer
+class _NextPrayerHero extends ConsumerWidget {
+  const _NextPrayerHero();
+
+  String _formatDuration(Duration d) {
+    final hours = d.inHours.toString().padLeft(2, '0');
+    final minutes = (d.inMinutes % 60).toString().padLeft(2, '0');
+    final seconds = (d.inSeconds % 60).toString().padLeft(2, '0');
+
+    if (d.inHours > 0) {
+      return '$hours:$minutes:$seconds';
+    }
+    return '$minutes:$seconds';
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final textTheme = context.textTheme;
+    final colorScheme = context.colorScheme;
+
+    final liveState = ref.watch(prayerLiveStateProvider);
+
+    if (liveState.nextPrayer == null) {
+      return const SizedBox.shrink();
+    }
+
+    final nextPrayer = liveState.nextPrayer!;
+    final remaining = liveState.timeRemaining;
+
+    return Card(
+      elevation: 0,
+      color: colorScheme.primary,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.xl),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              l10n.homeNextPrayer,
+              style: textTheme.titleMedium?.copyWith(
+                color: colorScheme.onPrimary.withValues(alpha: 0.8),
+              ),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  _getLocalizedPrayerName(context, nextPrayer.name),
+                  style: textTheme.displaySmall?.copyWith(
+                    color: colorScheme.onPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  DateFormat.Hm().format(nextPrayer.time),
+                  style: textTheme.headlineMedium?.copyWith(
+                    color: colorScheme.onPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.md,
+                vertical: AppSpacing.sm,
+              ),
+              decoration: BoxDecoration(
+                color: colorScheme.onPrimary.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.timer_outlined,
+                    color: colorScheme.onPrimary,
+                    size: 18,
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  Text(
+                    '${_formatDuration(remaining)} ${l10n.homeRemaining}',
+                    style: textTheme.labelLarge?.copyWith(
+                      color: colorScheme.onPrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// 3. SECONDARY: Today's Prayers Summary
+class _PrayerSummary extends ConsumerWidget {
+  const _PrayerSummary();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final textTheme = context.textTheme;
+    final colorScheme = context.colorScheme;
+
+    final prayerState = ref.watch(prayerTimesNotifierProvider);
+    final liveState = ref.watch(prayerLiveStateProvider);
+
+    if (prayerState.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    final prayers = prayerState.schedule?.today.prayerTimes ?? [];
+    if (prayers.isEmpty) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.homePrayerTimes,
+          style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: AppSpacing.md),
+        Card(
+          elevation: 0,
+          color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpacing.md),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: prayers.map((prayer) {
+                final isNext = liveState.nextPrayer?.name == prayer.name;
+                return _PrayerTimeItem(prayer: prayer, isNext: isNext);
+              }).toList(),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _PrayerTimeItem extends StatelessWidget {
+  final PrayerTime prayer;
+  final bool isNext;
+
+  const _PrayerTimeItem({required this.prayer, required this.isNext});
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = context.textTheme;
+    final colorScheme = context.colorScheme;
+
+    return Column(
+      children: [
+        Text(
+          _getLocalizedPrayerName(context, prayer.name),
+          style: textTheme.labelMedium?.copyWith(
+            color: isNext ? colorScheme.primary : colorScheme.onSurfaceVariant,
+            fontWeight: isNext ? FontWeight.bold : FontWeight.normal,
+          ),
+        ),
+        const SizedBox(height: AppSpacing.xs),
+        Text(
+          DateFormat.Hm().format(prayer.time),
+          style: textTheme.titleMedium?.copyWith(
+            color: isNext ? colorScheme.primary : colorScheme.onSurface,
+            fontWeight: isNext ? FontWeight.bold : FontWeight.normal,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// 4. QURAN: Continue Reading
+class _QuranContinueReading extends ConsumerWidget {
+  const _QuranContinueReading();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,223 +330,163 @@ class HomeScreen extends ConsumerWidget {
     final colorScheme = context.colorScheme;
     final textTheme = context.textTheme;
 
-    final prayerState = ref.watch(prayerTimesNotifierProvider);
-    final locState = ref.watch(locationNotifierProvider);
-    final liveState = ref.watch(prayerLiveStateProvider);
+    final progressState = ref.watch(quranProgressNotifierProvider);
+    final quranState = ref.watch(quranNotifierProvider);
 
-    if ((prayerState.isLoading ||
-            locState.status == LocationStatus.requesting) &&
-        prayerState.schedule == null) {
-      return const PrayerLoadingScreen();
+    final lastRead = progressState.lastRead;
+    if (lastRead == null || quranState.surahs.isEmpty) {
+      return const SizedBox.shrink();
     }
 
-    if (prayerState.failure != null && prayerState.schedule == null) {
-      return Scaffold(
-        appBar: AppBar(title: Text(l10n.homeTitle)),
-        body: SafeArea(
-          child: ErrorStateWidget(
-            title: l10n.homePrayerError,
-            message: prayerState.failure!.message,
-            retryText: l10n.homePrayerRetry,
-            onRetry: () => _refreshData(context, ref),
-          ),
-        ),
-      );
-    }
-
-    final location = prayerState.location;
-    final today = prayerState.schedule?.today;
-
-    final rem = liveState.timeRemaining;
-    final timeRemainingStr =
-        '${rem.inHours.toString().padLeft(2, '0')}:${(rem.inMinutes % 60).toString().padLeft(2, '0')}:${(rem.inSeconds % 60).toString().padLeft(2, '0')}';
-
-    final formattedLocation = PresentationLocalizer.formatLocation(
-      context: context,
-      cityName: location?.cityName,
-      subAdminArea: location?.countryName,
-      countryName: location?.countryName,
+    final surah = quranState.surahs.firstWhere(
+      (s) => s.number == lastRead.surahNumber,
+      orElse: () => quranState.surahs.first,
     );
 
-    String formattedHijri = '-';
-    if (today != null && today.hijriDateString != null) {
-      final parts = today.hijriDateString!.split('-');
-      if (parts.length >= 3) {
-        final day = parts[2];
-        final monthIdx = int.tryParse(parts[1]);
-        final year = parts[0];
-        if (monthIdx != null) {
-          final monthName =
-              PresentationLocalizer.localizeHijriMonth(context, monthIdx);
-          formattedHijri = '$day $monthName $year';
-        }
-      } else {
-        formattedHijri = today.hijriDateString!;
-      }
+    final surahName =
+        l10n.localeName == 'tr' ? surah.nameTurkish : surah.nameTransliteration;
+
+    // Use ayahCount properly here
+    double progressPercent = 0.0;
+    if (surah.ayahCount > 0) {
+      progressPercent = (lastRead.ayahNumber / surah.ayahCount).clamp(0.0, 1.0);
     }
 
-    final nextPrayerLabel = liveState.nextPrayer != null
-        ? PresentationLocalizer.localizePrayerNameRaw(
-            context,
-            liveState.nextPrayer!.name.name,
-          )
-        : '-';
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.homeTitle),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () => _refreshData(context, ref),
-            tooltip: l10n.prayerRefreshButton,
-          ),
-        ],
-      ),
-      body: SafeArea(
-        child: RefreshIndicator(
-          onRefresh: () => _refreshData(context, ref),
-          child: ListView(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.homeContinueReading,
+          style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: AppSpacing.md),
+        InkWell(
+          onTap: () {
+            context.push('/quran/surah/${lastRead.surahNumber}');
+          },
+          borderRadius: BorderRadius.circular(16),
+          child: Ink(
             padding: const EdgeInsets.all(AppSpacing.lg),
-            children: [
-              // 1. Header (Greeting & Location)
-              Text(
-                l10n.homeGreeting,
-                style: textTheme.titleMedium?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.xs),
-              Text(
-                formattedLocation,
-                style: textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.xs),
-              Text(
-                formattedHijri,
-                style: textTheme.titleMedium?.copyWith(
-                  color: colorScheme.primary,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.xxl),
-
-              // 2. Next Prayer Hero
-              AppCard(
-                padding: const EdgeInsets.all(AppSpacing.xl),
-                child: Column(
-                  children: [
-                    Text(
-                      l10n.nextPrayerHeader,
-                      style: textTheme.titleSmall?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.sm),
-                    Text(
-                      nextPrayerLabel,
-                      style: textTheme.displaySmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: colorScheme.primary,
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.xs),
-                    Text(
-                      '${l10n.prayerRemainingTime}: $timeRemainingStr',
-                      style: textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: AppSpacing.xxl),
-
-              // 3. Quick Actions
-              Row(
-                children: [
-                  Expanded(
-                    child: _QuickActionCard(
-                      icon: Icons.explore,
-                      label: l10n.viewQibla,
-                      onTap: () => context.push(AppRoutes.qibla),
-                    ),
+            decoration: BoxDecoration(
+              color: colorScheme.secondaryContainer,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color:
+                        colorScheme.onSecondaryContainer.withValues(alpha: 0.1),
+                    shape: BoxShape.circle,
                   ),
-                  const SizedBox(width: AppSpacing.md),
-                  Expanded(
-                    child: _QuickActionCard(
-                      icon: Icons.settings,
-                      label: l10n.openSettings,
-                      onTap: () => context.push(AppRoutes.settings),
-                    ),
+                  child: Icon(
+                    Icons.menu_book_rounded,
+                    color: colorScheme.onSecondaryContainer,
                   ),
-                ],
-              ),
-              const SizedBox(height: AppSpacing.xxl),
-
-              // 4. Today's Summary
-              SectionHeader(title: l10n.homeToday),
-              if (today != null)
-                AppCard(
-                  padding: EdgeInsets.zero,
+                ),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(
                   child: Column(
-                    children: today.prayerTimes.map((pt) {
-                      final isNext = liveState.nextPrayer?.name == pt.name;
-                      return ListTile(
-                        title: Text(
-                          PresentationLocalizer.localizePrayerNameRaw(
-                            context,
-                            pt.name.name,
-                          ),
-                          style: textTheme.bodyLarge?.copyWith(
-                            fontWeight:
-                                isNext ? FontWeight.bold : FontWeight.normal,
-                            color: isNext ? colorScheme.primary : null,
-                          ),
-                        ),
-                        trailing: Text(
-                          '${pt.time.hour.toString().padLeft(2, '0')}:${pt.time.minute.toString().padLeft(2, '0')}',
-                          style: textTheme.bodyLarge?.copyWith(
-                            fontWeight:
-                                isNext ? FontWeight.bold : FontWeight.w500,
-                            color: isNext ? colorScheme.primary : null,
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              const SizedBox(height: AppSpacing.xxl),
-
-              // 5. Future Modules Indicator
-              SectionHeader(title: l10n.quranTitle),
-              AppCard(
-                onTap: () => context.go(AppRoutes.quran),
-                child: Row(
-                  children: [
-                    Icon(Icons.menu_book, color: colorScheme.primary),
-                    const SizedBox(width: AppSpacing.md),
-                    Expanded(
-                      child: Text(
-                        l10n.quranDesc,
-                        style: textTheme.bodyMedium?.copyWith(
-                          color: colorScheme.onSurfaceVariant,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        surahName,
+                        style: textTheme.titleMedium?.copyWith(
+                          color: colorScheme.onSecondaryContainer,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                    Icon(
-                      Icons.chevron_right,
-                      color: colorScheme.onSurfaceVariant,
-                    ),
-                  ],
+                      const SizedBox(height: AppSpacing.xs),
+                      Text(
+                        '${l10n.quranAyah} ${lastRead.ayahNumber} / ${surah.ayahCount}',
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: colorScheme.onSecondaryContainer
+                              .withValues(alpha: 0.8),
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      LinearProgressIndicator(
+                        value: progressPercent,
+                        backgroundColor: colorScheme.onSecondaryContainer
+                            .withValues(alpha: 0.2),
+                        color: colorScheme.primary,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(width: AppSpacing.md),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 16,
+                  color: colorScheme.onSecondaryContainer,
+                ),
+              ],
+            ),
           ),
         ),
+      ],
+    );
+  }
+}
+
+/// 5. QURAN: Bookmark Shortcut
+class _QuranBookmarkShortcut extends ConsumerWidget {
+  const _QuranBookmarkShortcut();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final colorScheme = context.colorScheme;
+
+    final bookmarkState = ref.watch(quranBookmarkNotifierProvider);
+    final count = bookmarkState.bookmarks.length;
+
+    if (count == 0) return const SizedBox.shrink();
+
+    return ListTile(
+      onTap: () => context.push('/quran/bookmarks'),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      tileColor: colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
+      leading: Icon(Icons.bookmarks, color: colorScheme.primary),
+      title: Text(
+        l10n.homeBookmarks,
+        style: const TextStyle(fontWeight: FontWeight.bold),
       ),
+      subtitle: Text(l10n.homeSavedAyahs(count)),
+      trailing: const Icon(Icons.chevron_right),
+    );
+  }
+}
+
+/// 6. QUICK ACTIONS: Qibla & Settings
+class _QuickActions extends StatelessWidget {
+  const _QuickActions();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    return Row(
+      children: [
+        Expanded(
+          child: _QuickActionCard(
+            icon: Icons.explore,
+            label: l10n.homeQibla,
+            onTap: () => context.push(AppRoutes.qibla),
+          ),
+        ),
+        const SizedBox(width: AppSpacing.md),
+        Expanded(
+          child: _QuickActionCard(
+            icon: Icons.settings,
+            label: l10n.homeSettings,
+            onTap: () => context.push(AppRoutes.settings),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -269,22 +507,49 @@ class _QuickActionCard extends StatelessWidget {
     final colorScheme = context.colorScheme;
     final textTheme = context.textTheme;
 
-    return AppCard(
+    return InkWell(
       onTap: onTap,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 36, color: colorScheme.primary),
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            label,
-            textAlign: TextAlign.center,
-            style: textTheme.labelLarge?.copyWith(
-              fontWeight: FontWeight.w600,
+      borderRadius: BorderRadius.circular(16),
+      child: Ink(
+        padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
+        decoration: BoxDecoration(
+          color: colorScheme.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          children: [
+            Icon(icon, size: 28, color: colorScheme.onSurface),
+            const SizedBox(height: AppSpacing.sm),
+            Text(
+              label,
+              style: textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
+  }
+}
+
+// -----------------------------------------------------------------------------
+// HELPER: Safe Localization Mapping for Enums to prevent Raw String Leakage
+// -----------------------------------------------------------------------------
+String _getLocalizedPrayerName(BuildContext context, PrayerName name) {
+  final l10n = context.l10n;
+  switch (name) {
+    case PrayerName.fajr:
+      return l10n.homePrayerFajr;
+    case PrayerName.sunrise:
+      return l10n.homePrayerSunrise;
+    case PrayerName.dhuhr:
+      return l10n.homePrayerDhuhr;
+    case PrayerName.asr:
+      return l10n.homePrayerAsr;
+    case PrayerName.maghrib:
+      return l10n.homePrayerMaghrib;
+    case PrayerName.isha:
+      return l10n.homePrayerIsha;
   }
 }

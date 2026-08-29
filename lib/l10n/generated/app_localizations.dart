@@ -1079,7 +1079,7 @@ abstract class AppLocalizations {
   /// Home today's schedule section title
   ///
   /// In en, this message translates to:
-  /// **'Today\'s Schedule'**
+  /// **'Today'**
   String get homeToday;
 
   /// Home next prayer header
@@ -1237,6 +1237,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Translation unavailable.'**
   String get quranTranslationUnavailable;
+
+  /// Home greeting header
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Overview'**
+  String get homeDailyOverview;
+
+  /// No description provided for @homeNextPrayer.
+  ///
+  /// In en, this message translates to:
+  /// **'Next Prayer'**
+  String get homeNextPrayer;
+
+  /// No description provided for @homeRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'remaining'**
+  String get homeRemaining;
+
+  /// No description provided for @homePrayerTimes.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer Times'**
+  String get homePrayerTimes;
+
+  /// No description provided for @homeContinueReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue Reading'**
+  String get homeContinueReading;
+
+  /// No description provided for @homeBookmarks.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmarks'**
+  String get homeBookmarks;
+
+  /// Number of saved ayahs
+  ///
+  /// In en, this message translates to:
+  /// **'{count} saved ayahs'**
+  String homeSavedAyahs(int count);
+
+  /// No description provided for @homeQibla.
+  ///
+  /// In en, this message translates to:
+  /// **'Qibla'**
+  String get homeQibla;
+
+  /// No description provided for @homeSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get homeSettings;
+
+  /// No description provided for @homeLocationUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Location unavailable'**
+  String get homeLocationUnavailable;
+
+  /// No description provided for @homePrayerFajr.
+  ///
+  /// In en, this message translates to:
+  /// **'Fajr'**
+  String get homePrayerFajr;
+
+  /// No description provided for @homePrayerSunrise.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunrise'**
+  String get homePrayerSunrise;
+
+  /// No description provided for @homePrayerDhuhr.
+  ///
+  /// In en, this message translates to:
+  /// **'Dhuhr'**
+  String get homePrayerDhuhr;
+
+  /// No description provided for @homePrayerAsr.
+  ///
+  /// In en, this message translates to:
+  /// **'Asr'**
+  String get homePrayerAsr;
+
+  /// No description provided for @homePrayerMaghrib.
+  ///
+  /// In en, this message translates to:
+  /// **'Maghrib'**
+  String get homePrayerMaghrib;
+
+  /// No description provided for @homePrayerIsha.
+  ///
+  /// In en, this message translates to:
+  /// **'Isha'**
+  String get homePrayerIsha;
 }
 
 class _AppLocalizationsDelegate
