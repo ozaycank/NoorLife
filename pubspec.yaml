@@ -34,6 +34,7 @@ dependencies:
   flutter_compass: ^0.8.1
   scrollable_positioned_list: ^0.3.8
   visibility_detector: ^0.4.0+2
+  http: ^1.6.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -52,7 +53,9 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/svgs/
-    - assets/translations/
     - assets/data/quran/surahs.json
     - assets/data/quran/quran.json
-    - assets/data/quran/SOURCE.md
+    - assets/data/quran/translations/tr/translation.json
+    - assets/data/quran/translations/en/translation.json
+    - assets/data/quran/translations/tr/SOURCE.md
+    - assets/data/quran/translations/en/SOURCE.md
