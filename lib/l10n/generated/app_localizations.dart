@@ -782,13 +782,13 @@ abstract class AppLocalizations {
   /// **'Relative Angle'**
   String get qiblaRelativeAngle;
 
-  /// No description provided for @turnLeft.
+  /// Turn left degrees
   ///
   /// In en, this message translates to:
   /// **'Turn left {degrees}°'**
   String turnLeft(String degrees);
 
-  /// No description provided for @turnRight.
+  /// Turn right degrees
   ///
   /// In en, this message translates to:
   /// **'Turn right {degrees}°'**
@@ -1079,7 +1079,7 @@ abstract class AppLocalizations {
   /// Home today's schedule section title
   ///
   /// In en, this message translates to:
-  /// **'Today'**
+  /// **'Today\'s Schedule'**
   String get homeToday;
 
   /// Home next prayer header
@@ -1244,31 +1244,31 @@ abstract class AppLocalizations {
   /// **'Daily Overview'**
   String get homeDailyOverview;
 
-  /// No description provided for @homeNextPrayer.
+  /// Home next prayer label
   ///
   /// In en, this message translates to:
   /// **'Next Prayer'**
   String get homeNextPrayer;
 
-  /// No description provided for @homeRemaining.
+  /// Home remaining time label
   ///
   /// In en, this message translates to:
   /// **'remaining'**
   String get homeRemaining;
 
-  /// No description provided for @homePrayerTimes.
+  /// Home prayer times section
   ///
   /// In en, this message translates to:
   /// **'Prayer Times'**
   String get homePrayerTimes;
 
-  /// No description provided for @homeContinueReading.
+  /// Home continue reading section
   ///
   /// In en, this message translates to:
   /// **'Continue Reading'**
   String get homeContinueReading;
 
-  /// No description provided for @homeBookmarks.
+  /// Home bookmarks shortcut label
   ///
   /// In en, this message translates to:
   /// **'Bookmarks'**
@@ -1280,59 +1280,89 @@ abstract class AppLocalizations {
   /// **'{count} saved ayahs'**
   String homeSavedAyahs(int count);
 
-  /// No description provided for @homeQibla.
+  /// Home qibla shortcut label
   ///
   /// In en, this message translates to:
   /// **'Qibla'**
   String get homeQibla;
 
-  /// No description provided for @homeSettings.
+  /// Home settings shortcut label
   ///
   /// In en, this message translates to:
   /// **'Settings'**
   String get homeSettings;
 
-  /// No description provided for @homeLocationUnavailable.
+  /// Home location unavailable fallback
   ///
   /// In en, this message translates to:
   /// **'Location unavailable'**
   String get homeLocationUnavailable;
 
-  /// No description provided for @homePrayerFajr.
+  /// Home fajr label
   ///
   /// In en, this message translates to:
   /// **'Fajr'**
   String get homePrayerFajr;
 
-  /// No description provided for @homePrayerSunrise.
+  /// Home sunrise label
   ///
   /// In en, this message translates to:
   /// **'Sunrise'**
   String get homePrayerSunrise;
 
-  /// No description provided for @homePrayerDhuhr.
+  /// Home dhuhr label
   ///
   /// In en, this message translates to:
   /// **'Dhuhr'**
   String get homePrayerDhuhr;
 
-  /// No description provided for @homePrayerAsr.
+  /// Home asr label
   ///
   /// In en, this message translates to:
   /// **'Asr'**
   String get homePrayerAsr;
 
-  /// No description provided for @homePrayerMaghrib.
+  /// Home maghrib label
   ///
   /// In en, this message translates to:
   /// **'Maghrib'**
   String get homePrayerMaghrib;
 
-  /// No description provided for @homePrayerIsha.
+  /// Home isha label
   ///
   /// In en, this message translates to:
   /// **'Isha'**
   String get homePrayerIsha;
+
+  /// Diyanet method description
+  ///
+  /// In en, this message translates to:
+  /// **'Diyanet Approximation using 18°/17° angles.'**
+  String get descDiyarTurk;
+
+  /// MWL method description
+  ///
+  /// In en, this message translates to:
+  /// **'Standard method widely used across Europe and Asia.'**
+  String get descMwl;
+
+  /// ISNA method description
+  ///
+  /// In en, this message translates to:
+  /// **'Standard method for North America.'**
+  String get descIsna;
+
+  /// Egypt method description
+  ///
+  /// In en, this message translates to:
+  /// **'Standard method in Africa and Middle East.'**
+  String get descEgypt;
+
+  /// Makkah method description
+  ///
+  /// In en, this message translates to:
+  /// **'Standard method in Arabian Peninsula.'**
+  String get descMakkah;
 }
 
 class _AppLocalizationsDelegate

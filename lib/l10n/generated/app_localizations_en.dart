@@ -525,7 +525,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeGreeting => 'Assalamu Alaikum';
 
   @override
-  String get homeToday => 'Today';
+  String get homeToday => 'Today\'s Schedule';
 
   @override
   String get nextPrayerHeader => 'Next Prayer';
@@ -657,4 +657,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homePrayerIsha => 'Isha';
+
+  @override
+  String get descDiyarTurk => 'Diyanet Approximation using 18°/17° angles.';
+
+  @override
+  String get descMwl => 'Standard method widely used across Europe and Asia.';
+
+  @override
+  String get descIsna => 'Standard method for North America.';
+
+  @override
+  String get descEgypt => 'Standard method in Africa and Middle East.';
+
+  @override
+  String get descMakkah => 'Standard method in Arabian Peninsula.';
 }

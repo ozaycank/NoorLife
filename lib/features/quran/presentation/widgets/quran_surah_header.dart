@@ -16,8 +16,9 @@ class QuranSurahHeader extends StatelessWidget {
     final colorScheme = context.colorScheme;
     final textTheme = context.textTheme;
 
+    final bool isTurkish = l10n.localeName.toLowerCase().startsWith('tr');
     final displayName =
-        l10n.localeName == 'tr' ? surah.nameTurkish : surah.nameTransliteration;
+        isTurkish ? surah.nameTurkish : surah.nameTransliteration;
 
     final revelationStr = surah.revelationType == RevelationType.makkah
         ? l10n.quranMeccan

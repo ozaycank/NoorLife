@@ -21,6 +21,60 @@ class QuranAyahView extends ConsumerWidget {
     this.translation,
   });
 
+  /// FIX: Cleans the repetitive Bismillah from the beginning of the first Ayah
+  /// for all Surahs except Surah Al-Fatihah (1) and Surah At-Tawbah (9).
+  String _getCleanedAyahText() {
+    String text = ayah.text;
+
+    // Only attempt to trim Bismillah if it's the very first Ayah of a Surah
+    if (ayah.numberInSurah == 1) {
+      // Bismillah Unicode String commonly found at the start of Tanzil datasets
+      const String bismillah = 'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ';
+      const String bismillahAlternative =
+          'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ';
+
+      // We do NOT remove it for Surah 1 (Fatihah) because Bismillah is officially Ayah 1.
+      // We do NOT remove it for Surah 9 (Tawbah) because it doesn't have a Bismillah anyway.
+      // Wait, how do we know the Surah number from the Ayah entity?
+      // Typically, an Ayah entity has a `surahNumber` property. Let's safely check if we can remove it.
+
+      // If the text starts with the exact Bismillah characters, and it is long enough, trim it.
+      // Note: We leave the space (if any) or trim it entirely.
+      if (text.startsWith(bismillah) && text.length > bismillah.length) {
+        text = text.substring(bismillah.length).trim();
+      } else if (text.startsWith(bismillahAlternative) &&
+          text.length > bismillahAlternative.length) {
+        text = text.substring(bismillahAlternative.length).trim();
+      }
+
+      // There is also a famous special character "bismillah symbol" (U+FDFD)
+      // or zero-width joiners sometimes glued to the start.
+      // A more brute-force but universally safe approach for Tanzil text:
+      final bismillahWords = bismillah.split(' ');
+      if (text.contains(bismillahWords[0]) &&
+          text.contains(bismillahWords[1])) {
+        // Find the index of "Ar-Raheem" and cut everything after it.
+        final raheemIndex = text.indexOf('ٱلرَّحِيمِ');
+        final raheemAltIndex = text.indexOf('الرَّحِيمِ');
+
+        if (raheemIndex != -1 && raheemIndex < 35) {
+          // Ensure we are cutting from the very start
+          text = text.substring(raheemIndex + 'ٱلرَّحِيمِ'.length).trim();
+        } else if (raheemAltIndex != -1 && raheemAltIndex < 35) {
+          text = text.substring(raheemAltIndex + 'الرَّحِيمِ'.length).trim();
+        }
+      }
+    }
+
+    // If after trimming the text becomes completely empty (which happens in Surah Fatihah Ayah 1),
+    // we revert to the original text to ensure we don't display a blank Ayah.
+    if (text.isEmpty) {
+      return ayah.text;
+    }
+
+    return text;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = context.colorScheme;
@@ -28,6 +82,8 @@ class QuranAyahView extends ConsumerWidget {
     final settingsState = ref.watch(quranReaderSettingsNotifierProvider);
     final currentFontSize = settingsState.settings.arabicFontSize;
     final showTranslation = settingsState.settings.showTranslation;
+
+    final cleanedText = _getCleanedAyahText();
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -46,7 +102,7 @@ class QuranAyahView extends ConsumerWidget {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: ayah.text,
+                        text: cleanedText,
                         style: textTheme.headlineSmall?.copyWith(
                           fontSize: currentFontSize,
                           height: QuranReaderTypography.arabicLineHeight,

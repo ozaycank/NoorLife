@@ -47,7 +47,13 @@ class QiblaScreen extends ConsumerWidget {
       return Text(l10n.qiblaUnavailable);
     }
     if (state.status == CompassStatus.unsupportedPlatform) {
-      return Text(l10n.compassUnsupportedPlatform);
+      // FIX: Clean and friendly message for Web / Desktop users.
+      return Text(
+        l10n.compassUnsupportedPlatform,
+        textAlign: TextAlign.center,
+        style: textTheme.bodyLarge?.copyWith(
+            color: colorScheme.onSurfaceVariant, fontStyle: FontStyle.italic,),
+      );
     }
     if (state.status == CompassStatus.sensorUnavailable) {
       return Text(l10n.compassSensorUnavailable);
@@ -134,12 +140,15 @@ class QiblaScreen extends ConsumerWidget {
     final colorScheme = context.colorScheme;
     final textTheme = context.textTheme;
 
-    final formattedLocation = PresentationLocalizer.formatLocation(
-      context: context,
-      cityName: locState.location?.cityName,
-      subAdminArea: locState.location?.countryName,
-      countryName: locState.location?.countryName,
-    );
+    // FIX: Using PresentationLocalizer to prevent 'Unknown' text
+    final formattedLocation = locState.location != null
+        ? PresentationLocalizer.formatLocation(
+            context: context,
+            cityName: locState.location!.cityName,
+            subAdminArea: locState.location!.countryName,
+            countryName: locState.location!.countryName,
+          )
+        : l10n.locationUnavailable;
 
     return Scaffold(
       appBar: AppBar(
@@ -165,7 +174,7 @@ class QiblaScreen extends ConsumerWidget {
                         const SizedBox(width: AppSpacing.sm),
                         Expanded(
                           child: Text(
-                            formattedLocation, // Artık Unknown yerine burası çalışacak
+                            formattedLocation,
                             style: textTheme.titleMedium,
                           ),
                         ),
@@ -178,31 +187,29 @@ class QiblaScreen extends ConsumerWidget {
                     child: Column(
                       children: [
                         const SizedBox(height: AppSpacing.xl),
-                        Icon(
-                          Icons.explore,
-                          size: 80,
-                          color: colorScheme.primary,
+                        Container(
+                          padding: const EdgeInsets.all(AppSpacing.xl),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: colorScheme.primaryContainer
+                                .withValues(alpha: 0.5),
+                          ),
+                          child: Icon(
+                            Icons.explore,
+                            size: 64,
+                            color: colorScheme.primary,
+                          ),
                         ),
                         const SizedBox(height: AppSpacing.lg),
                         Text(
-                          '${state.direction!.bearingDegrees.toStringAsFixed(1)}°',
-                          style: textTheme.headlineLarge?.copyWith(
+                          '${state.direction!.bearingDegrees.toStringAsFixed(1)}° '
+                          '${_getLocalizedDirection(state.direction!.compassDirection, l10n)}',
+                          style: textTheme.displaySmall?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: colorScheme.primary,
                           ),
                         ),
-                        const SizedBox(height: AppSpacing.sm),
-                        Text(
-                          _getLocalizedDirection(
-                            state.direction!.compassDirection,
-                            l10n,
-                          ),
-                          style: textTheme.titleLarge?.copyWith(
-                            color: colorScheme.onSurfaceVariant,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(height: AppSpacing.xxl),
+                        const SizedBox(height: AppSpacing.xl),
                         Text(
                           l10n.qiblaDisclaimer,
                           textAlign: TextAlign.center,

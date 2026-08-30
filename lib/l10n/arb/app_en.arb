@@ -467,7 +467,8 @@
       "degrees": {
         "type": "String"
       }
-    }
+    },
+    "description": "Turn left degrees"
   },
   "turnRight": "Turn right {degrees}°",
   "@turnRight": {
@@ -475,7 +476,8 @@
       "degrees": {
         "type": "String"
       }
-    }
+    },
+    "description": "Turn right degrees"
   },
   "qiblaAligned": "Aligned with Qibla",
   "@qiblaAligned": {
@@ -777,14 +779,31 @@
   "quranTranslationUnavailable": "Translation unavailable.",
   "@quranTranslationUnavailable": {
     "description": "Fallback when translation is missing"
-  },"homeDailyOverview": "Daily Overview",
-  "@homeDailyOverview": { "description": "Home greeting header" },
-  "homeToday": "Today",
+  },
+  "homeDailyOverview": "Daily Overview",
+  "@homeDailyOverview": {
+    "description": "Home greeting header"
+  },
   "homeNextPrayer": "Next Prayer",
+  "@homeNextPrayer": {
+    "description": "Home next prayer label"
+  },
   "homeRemaining": "remaining",
+  "@homeRemaining": {
+    "description": "Home remaining time label"
+  },
   "homePrayerTimes": "Prayer Times",
+  "@homePrayerTimes": {
+    "description": "Home prayer times section"
+  },
   "homeContinueReading": "Continue Reading",
+  "@homeContinueReading": {
+    "description": "Home continue reading section"
+  },
   "homeBookmarks": "Bookmarks",
+  "@homeBookmarks": {
+    "description": "Home bookmarks shortcut label"
+  },
   "homeSavedAyahs": "{count} saved ayahs",
   "@homeSavedAyahs": {
     "description": "Number of saved ayahs",
@@ -793,12 +812,50 @@
     }
   },
   "homeQibla": "Qibla",
+  "@homeQibla": {
+    "description": "Home qibla shortcut label"
+  },
   "homeSettings": "Settings",
+  "@homeSettings": {
+    "description": "Home settings shortcut label"
+  },
   "homeLocationUnavailable": "Location unavailable",
+  "@homeLocationUnavailable": {
+    "description": "Home location unavailable fallback"
+  },
   "homePrayerFajr": "Fajr",
+  "@homePrayerFajr": {
+    "description": "Home fajr label"
+  },
   "homePrayerSunrise": "Sunrise",
+  "@homePrayerSunrise": {
+    "description": "Home sunrise label"
+  },
   "homePrayerDhuhr": "Dhuhr",
+  "@homePrayerDhuhr": {
+    "description": "Home dhuhr label"
+  },
   "homePrayerAsr": "Asr",
+  "@homePrayerAsr": {
+    "description": "Home asr label"
+  },
   "homePrayerMaghrib": "Maghrib",
-  "homePrayerIsha": "Isha"
+  "@homePrayerMaghrib": {
+    "description": "Home maghrib label"
+  },
+  "homePrayerIsha": "Isha",
+  "@homePrayerIsha": {
+    "description": "Home isha label"
+  },
+  "descDiyarTurk": "Diyanet Approximation using 18°/17° angles.",
+  "@descDiyarTurk": { "description": "Diyanet method description" },
+  "descMwl": "Standard method widely used across Europe and Asia.",
+  "@descMwl": { "description": "MWL method description" },
+  "descIsna": "Standard method for North America.",
+  "@descIsna": { "description": "ISNA method description" },
+  "descEgypt": "Standard method in Africa and Middle East.",
+  "@descEgypt": { "description": "Egypt method description" },
+  "descMakkah": "Standard method in Arabian Peninsula.",
+  "@descMakkah": { "description": "Makkah method description"
+}
 }

@@ -184,13 +184,13 @@
   "quranBookmarks": "Yer İmleri",
   "quranBookmarkAdd": "Yer İmine Ekle",
   "quranBookmarkRemove": "Yer İmini Kaldır",
-  "quranNoBookmarksYet": "Henüz yer imi yok.","quranReaderSettings": "Okuyucu Ayarları",
+  "quranNoBookmarksYet": "Henüz yer imi yok.",
+  "quranReaderSettings": "Okuyucu Ayarları",
   "quranTextSize": "Metin Boyutu",
   "quranResetDefault": "Varsayılana Sıfırla",
   "quranShowTranslation": "Meali Göster",
   "quranTranslationUnavailable": "Meal bulunamadı.",
   "homeDailyOverview": "Günün Özeti",
-  "homeToday": "Bugün",
   "homeNextPrayer": "Sıradaki Vakit",
   "homeRemaining": "kaldı",
   "homePrayerTimes": "Namaz Vakitleri",
@@ -205,5 +205,11 @@
   "homePrayerDhuhr": "Öğle",
   "homePrayerAsr": "İkindi",
   "homePrayerMaghrib": "Akşam",
-  "homePrayerIsha": "Yatsı"
+  "homePrayerIsha": "Yatsı","madhabStandard": "1 Katı Gölge Boyu (Cumhur)",
+  "madhabHanafi": "2 Katı Gölge Boyu (Hanefi)",
+  "descDiyarTurk": "Diyanet Başkanlığı standart namaz ve temkin profili.",
+  "descMwl": "Avrupa ve Asya'da yaygın olarak kullanılan standart yöntem.",
+  "descIsna": "Kuzey Amerika için standart hesaplama yöntemi.",
+  "descEgypt": "Afrika ve Orta Doğu'daki standart yöntem.",
+  "descMakkah": "Arap Yarımadası'ndaki standart yöntem."
 }

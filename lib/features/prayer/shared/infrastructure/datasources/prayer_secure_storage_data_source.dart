@@ -14,31 +14,32 @@ class PrayerSecureStorageDataSource implements PrayerLocalDataSource {
 
   @override
   Future<List<PrayerCalculationMethod>> getSupportedMethods() async {
+    // FIX: Removed hardcoded English strings. UI will map these ID's to localized Arb values.
     return const [
       PrayerCalculationMethod(
         id: 'diyar_turk',
-        name: 'Diyanet Approximation Profile',
-        description: 'Approximation using 18°/17° angles.',
+        name: 'diyar_turk',
+        description: 'desc_diyar_turk',
       ),
       PrayerCalculationMethod(
         id: 'mwl',
-        name: 'Muslim World League',
-        description: 'Standard method widely used across Europe and Asia.',
+        name: 'mwl',
+        description: 'desc_mwl',
       ),
       PrayerCalculationMethod(
         id: 'isna',
-        name: 'Islamic Society of North America',
-        description: 'Standard method for North America.',
+        name: 'isna',
+        description: 'desc_isna',
       ),
       PrayerCalculationMethod(
         id: 'egypt',
-        name: 'Egyptian General Authority',
-        description: 'Standard method in Africa and Middle East.',
+        name: 'egypt',
+        description: 'desc_egypt',
       ),
       PrayerCalculationMethod(
         id: 'makkah',
-        name: 'Umm Al-Qura',
-        description: 'Standard method in Arabian Peninsula.',
+        name: 'makkah',
+        description: 'desc_makkah',
       ),
     ];
   }
@@ -55,12 +56,13 @@ class PrayerSecureStorageDataSource implements PrayerLocalDataSource {
 
   @override
   Future<List<Madhab>> getSupportedMadhabs() async {
+    // FIX: Using standardized ID's for localization mapping.
     return const [
       Madhab(
         id: 'shafi_hanbali_maliki',
-        name: 'Standard (Shafi, Maliki, Hanbali)',
+        name: 'shafi_hanbali_maliki',
       ),
-      Madhab(id: 'hanafi', name: 'Hanafi'),
+      Madhab(id: 'hanafi', name: 'hanafi'),
     ];
   }
 

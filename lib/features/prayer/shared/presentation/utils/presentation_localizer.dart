@@ -60,11 +60,9 @@ class PresentationLocalizer {
     }
   }
 
-  // Akıllı Hicri ayrıştırıcı (e.g., "11 Safar 1445" veya "1445-02-11" hepsini anlar)
   static String formatSmartHijri(BuildContext context, String? rawHijri) {
     if (rawHijri == null || rawHijri.isEmpty) return '-';
 
-    // "1445-02-11" gibi YYYY-MM-DD formatı mı?
     if (rawHijri.contains('-')) {
       final parts = rawHijri.split('-');
       if (parts.length >= 3) {
@@ -76,14 +74,11 @@ class PresentationLocalizer {
           return '$day $localizedMonth $year';
         }
       }
-    }
-    // "11 Safar 1445" gibi metin tabanlı (Adhan paketi bazen bu şekilde dönüyor) format mı?
-    else {
+    } else {
       final parts = rawHijri.split(' ');
       if (parts.length >= 3) {
         final day = parts[0];
         final year = parts.last;
-        // Ay ismini eşleştirmeye çalış (İngilizce dönebiliyor)
         final rawMonthStr =
             parts.sublist(1, parts.length - 1).join(' ').toLowerCase();
 
@@ -107,7 +102,7 @@ class PresentationLocalizer {
         } else if (rawMonthStr.contains('rajab')) {
           monthIdx = 7;
         } else if (rawMonthStr.contains('sha')) {
-          monthIdx = 8; // Sha'ban
+          monthIdx = 8;
         } else if (rawMonthStr.contains('ramadan')) {
           monthIdx = 9;
         } else if (rawMonthStr.contains('shawwal')) {
@@ -125,7 +120,6 @@ class PresentationLocalizer {
         }
       }
     }
-    // Hiç ayrıştıramadıysan geldiği gibi göster (Fallback)
     return rawHijri;
   }
 
@@ -135,7 +129,9 @@ class PresentationLocalizer {
     String? subAdminArea,
     String? countryName,
   }) {
-    if (cityName == null && subAdminArea == null && countryName == null) {
+    if ((cityName == null || cityName.isEmpty) &&
+        (subAdminArea == null || subAdminArea.isEmpty) &&
+        (countryName == null || countryName.isEmpty)) {
       return context.l10n.unknownCountry;
     }
 
@@ -156,7 +152,10 @@ class PresentationLocalizer {
       parts.add(countryName);
     }
 
-    if (parts.isEmpty) return context.l10n.unknownCountry;
+    if (parts.isEmpty) {
+      return context.l10n.unknownCountry;
+    }
+
     return parts.join(', ');
   }
 
@@ -177,6 +176,27 @@ class PresentationLocalizer {
         return l10n.methodKarachi;
       default:
         return id;
+    }
+  }
+
+  static String localizeCalculationDescription(
+    BuildContext context,
+    String descriptionId,
+  ) {
+    final l10n = context.l10n;
+    switch (descriptionId) {
+      case 'desc_diyar_turk':
+        return l10n.descDiyarTurk;
+      case 'desc_mwl':
+        return l10n.descMwl;
+      case 'desc_isna':
+        return l10n.descIsna;
+      case 'desc_egypt':
+        return l10n.descEgypt;
+      case 'desc_makkah':
+        return l10n.descMakkah;
+      default:
+        return descriptionId;
     }
   }
 

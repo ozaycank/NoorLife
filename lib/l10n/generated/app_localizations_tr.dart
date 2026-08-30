@@ -480,10 +480,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get methodJafari => 'Şia İsna Aşeri (Caferi)';
 
   @override
-  String get madhabStandard => 'Standart (Şafii / Maliki / Hanbeli)';
+  String get madhabStandard => '1 Katı Gölge Boyu (Cumhur)';
 
   @override
-  String get madhabHanafi => 'Hanefi';
+  String get madhabHanafi => '2 Katı Gölge Boyu (Hanefi)';
 
   @override
   String get hijriMuharram => 'Muharrem';
@@ -528,7 +528,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get homeGreeting => 'Selamun Aleyküm';
 
   @override
-  String get homeToday => 'Bugün';
+  String get homeToday => 'Bugünün Vakitleri';
 
   @override
   String get nextPrayerHeader => 'Sıradaki Vakit';
@@ -660,4 +660,21 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get homePrayerIsha => 'Yatsı';
+
+  @override
+  String get descDiyarTurk =>
+      'Diyanet Başkanlığı standart namaz ve temkin profili.';
+
+  @override
+  String get descMwl =>
+      'Avrupa ve Asya\'da yaygın olarak kullanılan standart yöntem.';
+
+  @override
+  String get descIsna => 'Kuzey Amerika için standart hesaplama yöntemi.';
+
+  @override
+  String get descEgypt => 'Afrika ve Orta Doğu\'daki standart yöntem.';
+
+  @override
+  String get descMakkah => 'Arap Yarımadası\'ndaki standart yöntem.';
 }
