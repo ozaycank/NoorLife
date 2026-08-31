@@ -18,28 +18,26 @@ class LocationGeocodingServiceImpl implements LocationGeocodingService {
     double longitude,
   ) async {
     try {
-      // 1. Try standard device geocoding first (Works best on iOS/Android)
       final placemarks = await _dataSource.getPlacemarks(
         latitude,
         longitude,
       );
       if (placemarks.isNotEmpty) {
         final place = placemarks.first;
-        final city =
-            place.locality ?? place.subAdministrativeArea ?? 'Current Location';
-        final country = place.country ?? 'Unknown';
+        final city = place.locality ??
+            place.subAdministrativeArea ??
+            place.administrativeArea ??
+            '';
+        final country = place.country ?? place.isoCountryCode ?? '';
         return Success((city, country));
       }
 
-      // 2. If no placemarks (often happens on Web), fallback to Nominatim REST API.
       return _fallbackGeocodeRest(latitude, longitude);
     } catch (e) {
-      // Catch exceptions (like PlatformException on Web) and fallback to REST API
       return _fallbackGeocodeRest(latitude, longitude);
     }
   }
 
-  /// Fallback method for Web/Chrome or devices without play services
   Future<Result<(String, String), LocationFailure>> _fallbackGeocodeRest(
     double lat,
     double lon,
@@ -50,7 +48,6 @@ class LocationGeocodingServiceImpl implements LocationGeocodingService {
       );
 
       final response = await http.get(url, headers: {
-        // Nominatim requires a user-agent to prevent blocking
         'User-Agent': 'NoorLife/1.0 (Flutter App)',
         'Accept-Language': 'en-US,en;q=0.9',
       },);
@@ -60,15 +57,14 @@ class LocationGeocodingServiceImpl implements LocationGeocodingService {
         if (data != null && data['address'] != null) {
           final address = data['address'];
 
-          // Nominatim provides various keys depending on the region
           final city = address['city'] ??
               address['town'] ??
               address['village'] ??
               address['county'] ??
               address['state'] ??
-              'Current Location';
+              '';
 
-          final country = address['country'] ?? 'Unknown';
+          final country = address['country'] ?? '';
 
           return Success((city.toString(), country.toString()));
         }
@@ -76,7 +72,7 @@ class LocationGeocodingServiceImpl implements LocationGeocodingService {
 
       return const ResultFailure(
         LocationFailure(
-          'Geocoding fallback failed or returned no data.',
+          'Geocoding fallback returned no data.',
           code: 'locationGeocodingFallbackFailed',
         ),
       );

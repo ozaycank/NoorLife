@@ -128,32 +128,31 @@ class PresentationLocalizer {
     String? cityName,
     String? subAdminArea,
     String? countryName,
+    double? lat,
+    double? lon,
   }) {
-    if ((cityName == null || cityName.isEmpty) &&
-        (subAdminArea == null || subAdminArea.isEmpty) &&
-        (countryName == null || countryName.isEmpty)) {
-      return context.l10n.unknownCountry;
-    }
-
     final parts = <String>[];
 
-    if (cityName != null && cityName.isNotEmpty) {
-      parts.add(cityName);
+    if (cityName != null && cityName.trim().isNotEmpty) {
+      parts.add(cityName.trim());
     }
     if (subAdminArea != null &&
-        subAdminArea.isNotEmpty &&
-        subAdminArea != cityName) {
-      parts.add(subAdminArea);
+        subAdminArea.trim().isNotEmpty &&
+        subAdminArea.trim() != cityName?.trim()) {
+      parts.add(subAdminArea.trim());
     }
     if (countryName != null &&
-        countryName.isNotEmpty &&
-        countryName != cityName &&
-        countryName != subAdminArea) {
-      parts.add(countryName);
+        countryName.trim().isNotEmpty &&
+        countryName.trim() != cityName?.trim() &&
+        countryName.trim() != subAdminArea?.trim()) {
+      parts.add(countryName.trim());
     }
 
     if (parts.isEmpty) {
-      return context.l10n.unknownCountry;
+      if (lat != null && lon != null) {
+        return '${lat.toStringAsFixed(4)}, ${lon.toStringAsFixed(4)}';
+      }
+      return context.l10n.locationUnavailable;
     }
 
     return parts.join(', ');

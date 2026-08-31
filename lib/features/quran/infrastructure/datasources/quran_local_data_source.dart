@@ -1,54 +1,58 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
-import '../models/surah_model.dart';
+
+import '../../domain/entities/revelation_type.dart';
+import '../../domain/entities/surah.dart';
 
 abstract class QuranLocalDataSource {
-  Future<List<SurahModel>> getSurahs();
-  Future<SurahModel> getSurahDetail(int surahNumber);
+  Future<List<Surah>> getSurahs();
+  Future<Surah> getSurahDetail(int surahNumber);
 }
 
 @LazySingleton(as: QuranLocalDataSource)
 class QuranLocalDataSourceImpl implements QuranLocalDataSource {
-  static const String _fullQuranPath = 'assets/data/quran/quran.json';
-  List<SurahModel>? _cachedSurahs;
+  List<Surah>? _cachedSurahs;
 
-  Future<void> _loadAndCache() async {
-    if (_cachedSurahs != null) return;
+  @override
+  Future<List<Surah>> getSurahs() async {
+    if (_cachedSurahs != null) return _cachedSurahs!;
 
     try {
-      final jsonString = await rootBundle.loadString(_fullQuranPath);
-      final dynamic jsonMap = json.decode(jsonString);
+      final jsonString =
+          await rootBundle.loadString('assets/data/quran/surahs.json');
+      final List<dynamic> jsonList = json.decode(jsonString);
 
-      List<dynamic> surahsList;
-      if (jsonMap is Map<String, dynamic> && jsonMap.containsKey('data')) {
-        surahsList = jsonMap['data']['surahs'] as List<dynamic>;
-      } else if (jsonMap is List) {
-        surahsList = jsonMap;
-      } else {
-        throw Exception('Invalid Quran JSON structure.');
-      }
+      final surahs = jsonList.map((item) {
+        // FIX: Directly cast properties to domain entity
+        return Surah(
+          number: item['number'] ?? item['id'] ?? 1,
+          nameArabic: item['nameArabic'] ?? item['name'] ?? '',
+          nameTransliteration:
+              item['nameTransliteration'] ?? item['transliteration'] ?? '',
+          nameEnglish: item['nameEnglish'] ?? item['englishName'] ?? '',
+          nameTurkish: item['nameTurkish'] ?? item['translation'] ?? '',
+          ayahCount: item['ayahCount'] ?? item['total_verses'] ?? 0,
+          revelationType: (item['revelationType'] ?? item['type'])
+                      .toString()
+                      .toLowerCase() ==
+                  'meccan'
+              ? RevelationType.makkah
+              : RevelationType.madinah,
+        );
+      }).toList();
 
-      _cachedSurahs = surahsList
-          .map((e) => SurahModel.fromJson(e as Map<String, dynamic>))
-          .toList();
+      _cachedSurahs = surahs;
+      return surahs;
     } catch (e) {
-      throw Exception('Failed to load local Quran file: $e');
+      throw Exception('Failed to load Surah metadata: $e');
     }
   }
 
   @override
-  Future<List<SurahModel>> getSurahs() async {
-    await _loadAndCache();
-    return _cachedSurahs!;
-  }
-
-  @override
-  Future<SurahModel> getSurahDetail(int surahNumber) async {
-    await _loadAndCache();
-    return _cachedSurahs!.firstWhere(
-      (s) => s.number == surahNumber,
-      orElse: () => throw Exception('Surah $surahNumber not found.'),
-    );
+  Future<Surah> getSurahDetail(int surahNumber) async {
+    final surahs = await getSurahs();
+    final metadata = surahs.firstWhere((s) => s.number == surahNumber);
+    return metadata;
   }
 }

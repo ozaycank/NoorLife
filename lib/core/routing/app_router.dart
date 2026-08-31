@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
 import '../../features/activity/presentation/screens/activity_placeholder_screen.dart';
 import '../../features/authentication/application/auth_providers.dart';
 import '../../features/authentication/presentation/screens/email_verification_screen.dart';
@@ -138,12 +139,12 @@ class AppRouter {
                     GoRoute(
                       path: 'surah/:id',
                       builder: (context, state) {
-                        final id =
-                            int.tryParse(state.pathParameters['id'] ?? '1') ??
-                                1;
+                        final idStr = state.pathParameters['id'];
+                        final id = int.tryParse(idStr ?? '1') ?? 1;
                         final ayah = int.tryParse(
                           state.uri.queryParameters['ayah'] ?? '',
                         );
+
                         return SurahDetailPlaceholderScreen(
                           surahNumber: id,
                           jumpToAyah: ayah,
