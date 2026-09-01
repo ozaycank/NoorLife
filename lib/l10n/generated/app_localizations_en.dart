@@ -172,7 +172,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Holy Quran reading, audio recitations, and bookmarks will be available here.';
 
   @override
-  String get activityTitle => 'Worship Activity';
+  String get activityTitle => 'Activity';
 
   @override
   String get activityDesc =>
@@ -672,4 +672,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get descMakkah => 'Standard method in Arabian Peninsula.';
+
+  @override
+  String get activityToday => 'Today\'s Activity';
+
+  @override
+  String get activityPrayers => 'Prayers';
+
+  @override
+  String get activityCompleted => 'Completed';
+
+  @override
+  String get activityNotCompleted => 'Not Completed';
+
+  @override
+  String get activityQuranReading => 'Quran Reading';
+
+  @override
+  String get activityReadToday => 'Read Today';
+
+  @override
+  String get activityNotRecorded => 'Not Recorded';
+
+  @override
+  String get activityMarkAsRead => 'Mark as Read';
 }

@@ -857,5 +857,22 @@
   "@descEgypt": { "description": "Egypt method description" },
   "descMakkah": "Standard method in Arabian Peninsula.",
   "@descMakkah": { "description": "Makkah method description"
-}
+},"activityTitle": "Activity",
+  "@activityTitle": { "description": "Activity tab title" },
+  "activityToday": "Today's Activity",
+  "@activityToday": { "description": "Activity today section header" },
+  "activityPrayers": "Prayers",
+  "@activityPrayers": { "description": "Activity prayers section" },
+  "activityCompleted": "Completed",
+  "@activityCompleted": { "description": "Activity completed status" },
+  "activityNotCompleted": "Not Completed",
+  "@activityNotCompleted": { "description": "Activity not completed status" },
+  "activityQuranReading": "Quran Reading",
+  "@activityQuranReading": { "description": "Activity Quran reading section" },
+  "activityReadToday": "Read Today",
+  "@activityReadToday": { "description": "Activity read today status" },
+  "activityNotRecorded": "Not Recorded",
+  "@activityNotRecorded": { "description": "Activity not recorded status" },
+  "activityMarkAsRead": "Mark as Read",
+  "@activityMarkAsRead": { "description": "Activity manual mark as read button" }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../features/activity/presentation/screens/activity_placeholder_screen.dart';
+import '../../features/activity/presentation/screens/activity_screen.dart';
 import '../../features/authentication/application/auth_providers.dart';
 import '../../features/authentication/presentation/screens/email_verification_screen.dart';
 import '../../features/authentication/presentation/screens/forgot_password_screen.dart';
@@ -159,8 +159,7 @@ class AppRouter {
               routes: [
                 GoRoute(
                   path: AppRoutes.activity,
-                  builder: (context, state) =>
-                      const ActivityPlaceholderScreen(),
+                  builder: (context, state) => const ActivityScreen(),
                 ),
               ],
             ),

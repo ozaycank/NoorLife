@@ -13,6 +13,8 @@ import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
+import '../../features/activity/domain/activity_models.dart' as _i725;
+import '../../features/activity/infrastructure/activity_storage.dart' as _i624;
 import '../../features/authentication/domain/repositories/auth_repository.dart'
     as _i742;
 import '../../features/authentication/infrastructure/datasources/firebase_auth_data_source.dart'
@@ -128,6 +130,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i280.TimezoneService>(() => _i338.TimezoneServiceImpl());
     gh.lazySingleton<_i711.LocationGeocodingService>(() =>
         _i768.LocationGeocodingServiceImpl(gh<_i557.GeocodingDataSource>()));
+    gh.lazySingleton<_i725.ActivityRepository>(
+        () => _i624.ActivityRepositoryImpl());
     gh.lazySingleton<_i643.LocationPermissionService>(() =>
         _i493.LocationPermissionServiceImpl(gh<_i599.GeolocatorDataSource>()));
     gh.lazySingleton<_i570.DeviceHeadingService>(() =>

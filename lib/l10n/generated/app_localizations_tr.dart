@@ -175,7 +175,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'Kur\'an okuma, sesli tilavetler ve yer işaretleri burada yer alacaktır.';
 
   @override
-  String get activityTitle => 'İbadet Takibi';
+  String get activityTitle => 'İbadetlerim';
 
   @override
   String get activityDesc =>
@@ -677,4 +677,28 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get descMakkah => 'Arap Yarımadası\'ndaki standart yöntem.';
+
+  @override
+  String get activityToday => 'Bugünkü İbadetler';
+
+  @override
+  String get activityPrayers => 'Namazlar';
+
+  @override
+  String get activityCompleted => 'Tamamlandı';
+
+  @override
+  String get activityNotCompleted => 'Tamamlanmadı';
+
+  @override
+  String get activityQuranReading => 'Kur\'an Okuma';
+
+  @override
+  String get activityReadToday => 'Bugün Okundu';
+
+  @override
+  String get activityNotRecorded => 'Kayıt Yok';
+
+  @override
+  String get activityMarkAsRead => 'Okundu Olarak İşaretle';
 }

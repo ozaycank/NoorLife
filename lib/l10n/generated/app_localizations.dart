@@ -398,10 +398,10 @@ abstract class AppLocalizations {
   /// **'Holy Quran reading, audio recitations, and bookmarks will be available here.'**
   String get quranDesc;
 
-  /// Activity placeholder page title
+  /// Activity tab title
   ///
   /// In en, this message translates to:
-  /// **'Worship Activity'**
+  /// **'Activity'**
   String get activityTitle;
 
   /// Activity placeholder page description
@@ -1363,6 +1363,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Standard method in Arabian Peninsula.'**
   String get descMakkah;
+
+  /// Activity today section header
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s Activity'**
+  String get activityToday;
+
+  /// Activity prayers section
+  ///
+  /// In en, this message translates to:
+  /// **'Prayers'**
+  String get activityPrayers;
+
+  /// Activity completed status
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get activityCompleted;
+
+  /// Activity not completed status
+  ///
+  /// In en, this message translates to:
+  /// **'Not Completed'**
+  String get activityNotCompleted;
+
+  /// Activity Quran reading section
+  ///
+  /// In en, this message translates to:
+  /// **'Quran Reading'**
+  String get activityQuranReading;
+
+  /// Activity read today status
+  ///
+  /// In en, this message translates to:
+  /// **'Read Today'**
+  String get activityReadToday;
+
+  /// Activity not recorded status
+  ///
+  /// In en, this message translates to:
+  /// **'Not Recorded'**
+  String get activityNotRecorded;
+
+  /// Activity manual mark as read button
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as Read'**
+  String get activityMarkAsRead;
 }
 
 class _AppLocalizationsDelegate

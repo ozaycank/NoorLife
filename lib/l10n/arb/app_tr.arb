@@ -211,5 +211,14 @@
   "descMwl": "Avrupa ve Asya'da yaygın olarak kullanılan standart yöntem.",
   "descIsna": "Kuzey Amerika için standart hesaplama yöntemi.",
   "descEgypt": "Afrika ve Orta Doğu'daki standart yöntem.",
-  "descMakkah": "Arap Yarımadası'ndaki standart yöntem."
+  "descMakkah": "Arap Yarımadası'ndaki standart yöntem.",
+  "activityTitle": "İbadetlerim",
+  "activityToday": "Bugünkü İbadetler",
+  "activityPrayers": "Namazlar",
+  "activityCompleted": "Tamamlandı",
+  "activityNotCompleted": "Tamamlanmadı",
+  "activityQuranReading": "Kur'an Okuma",
+  "activityReadToday": "Bugün Okundu",
+  "activityNotRecorded": "Kayıt Yok",
+  "activityMarkAsRead": "Okundu Olarak İşaretle"
 }
