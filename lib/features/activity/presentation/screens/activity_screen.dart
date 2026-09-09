@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/extensions/context_extensions.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../../../shared/design_system/tokens/app_spacing.dart';
 import '../../../../shared/widgets/app_card.dart';
 import '../../../../shared/widgets/section_header.dart';
 import '../../../../shared/widgets/error_state_widget.dart';
-import '../../../prayer/shared/presentation/utils/presentation_localizer.dart';
-import '../../../prayer/prayer_times/domain/value_objects/prayer_name.dart';
+import '../../domain/activity_prayer_type.dart';
 import '../../application/activity_provider.dart';
 
 class ActivityScreen extends ConsumerStatefulWidget {
@@ -18,6 +18,21 @@ class ActivityScreen extends ConsumerStatefulWidget {
 }
 
 class _ActivityScreenState extends ConsumerState<ActivityScreen> {
+  String _localizePrayerType(ActivityPrayerType type, AppLocalizations l10n) {
+    switch (type) {
+      case ActivityPrayerType.fajr:
+        return l10n.prayerFajr;
+      case ActivityPrayerType.dhuhr:
+        return l10n.prayerDhuhr;
+      case ActivityPrayerType.asr:
+        return l10n.prayerAsr;
+      case ActivityPrayerType.maghrib:
+        return l10n.prayerMaghrib;
+      case ActivityPrayerType.isha:
+        return l10n.prayerIsha;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -27,12 +42,10 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
     final state = ref.watch(activityNotifierProvider);
     final notifier = ref.read(activityNotifierProvider.notifier);
 
-    // Display formatted local date
     final todayStr = DateFormat.yMMMMd(l10n.localeName).format(DateTime.now());
 
-    // Filter out Sunrise, we only track the 5 mandatory prayers
-    final trackablePrayers =
-        PrayerName.values.where((p) => p != PrayerName.sunrise).toList();
+    // FIX: Using const instead of final to improve performance
+    const trackablePrayers = ActivityPrayerType.values;
 
     return Scaffold(
       appBar: AppBar(
@@ -73,8 +86,7 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
                               children: [
                                 SwitchListTile(
                                   title: Text(
-                                    PresentationLocalizer.localizePrayerNameRaw(
-                                        context, prayer.name,),
+                                    _localizePrayerType(prayer, l10n),
                                     style: textTheme.titleMedium?.copyWith(
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -90,7 +102,8 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
                                     ),
                                   ),
                                   value: isCompleted,
-                                  activeThumbColor: colorScheme.primary,
+                                  // FIX: Used activeTrackColor instead of deprecated activeColor
+                                  activeTrackColor: colorScheme.primary,
                                   onChanged: (val) =>
                                       notifier.togglePrayer(prayer),
                                 ),

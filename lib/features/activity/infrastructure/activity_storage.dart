@@ -1,69 +1,58 @@
-import 'dart:convert';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import '../domain/activity_models.dart';
 import '../../../core/base/result.dart';
+import 'datasources/activity_local_data_source.dart';
 
 @LazySingleton(as: ActivityRepository)
 class ActivityRepositoryImpl implements ActivityRepository {
-  final FlutterSecureStorage _storage = const FlutterSecureStorage();
+  final ActivityLocalDataSource _dataSource;
 
-  // Namespaced key to prevent polluting secure storage root
-  static const String _storageKey = 'noorlife_activity_records';
-
-  Future<Map<String, DailyActivity>> _loadAllRecords() async {
-    try {
-      final data = await _storage.read(key: _storageKey);
-      if (data == null || data.isEmpty) return {};
-
-      final decoded = json.decode(data) as Map<String, dynamic>;
-      final map = <String, DailyActivity>{};
-
-      for (final entry in decoded.entries) {
-        map[entry.key] =
-            DailyActivity.fromJson(entry.value as Map<String, dynamic>);
-      }
-      return map;
-    } catch (_) {
-      // Return empty map on JSON corruption to prevent app crashes
-      return {};
-    }
-  }
+  ActivityRepositoryImpl(this._dataSource);
 
   @override
   Future<Result<DailyActivity, ActivityFailure>> getDailyActivity(
-      String date,) async {
+    String date,
+  ) async {
     try {
-      final allRecords = await _loadAllRecords();
+      final allRecords = await _dataSource.loadAllRecords();
       if (allRecords.containsKey(date)) {
-        return Success(allRecords[date]!);
+        final jsonRecord = allRecords[date];
+        if (jsonRecord is Map<String, dynamic>) {
+          return Success(DailyActivity.fromJson(jsonRecord));
+        }
       }
-
-      // Return a fresh default object if no record exists for this date
       return Success(DailyActivity(date: date));
     } catch (e) {
-      return ResultFailure(ActivityFailure('Failed to read activity: $e',
-          code: 'activityReadFailed',),);
+      // FIX: Added const to failure objects and fixed trailing commas
+      return const ResultFailure(
+        ActivityFailure(
+          'Failed to read activity',
+          code: 'activityReadFailed',
+        ),
+      );
     }
   }
 
   @override
   Future<Result<void, ActivityFailure>> saveDailyActivity(
-      DailyActivity activity,) async {
+    DailyActivity activity,
+  ) async {
     try {
-      final allRecords = await _loadAllRecords();
+      final allRecords = await _dataSource.loadAllRecords();
 
       // Latest write wins
-      allRecords[activity.date] = activity;
+      allRecords[activity.date] = activity.toJson();
 
-      final encoded =
-          json.encode(allRecords.map((k, v) => MapEntry(k, v.toJson())));
-      await _storage.write(key: _storageKey, value: encoded);
-
+      await _dataSource.saveAllRecords(allRecords);
       return const Success(null);
     } catch (e) {
-      return ResultFailure(ActivityFailure('Failed to save activity: $e',
-          code: 'activityWriteFailed',),);
+      // FIX: Added const to failure objects and fixed trailing commas
+      return const ResultFailure(
+        ActivityFailure(
+          'Failed to save activity',
+          code: 'activityWriteFailed',
+        ),
+      );
     }
   }
 }
