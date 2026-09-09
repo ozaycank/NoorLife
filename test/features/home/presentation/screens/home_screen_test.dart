@@ -1,7 +1,10 @@
+// ignore_for_file: avoid_relative_lib_imports
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get_it/get_it.dart';
+
 import 'package:noor_life/features/home/presentation/screens/home_screen.dart';
 import 'package:noor_life/features/prayer/location/application/providers/location_notifier.dart';
 import 'package:noor_life/features/prayer/location/application/states/location_state.dart';
@@ -10,6 +13,10 @@ import 'package:noor_life/features/prayer/prayer_times/application/providers/pra
 import 'package:noor_life/features/prayer/prayer_times/application/states/prayer_times_state.dart';
 import 'package:noor_life/features/prayer/prayer_times/presentation/providers/prayer_live_state_provider.dart';
 import 'package:noor_life/features/prayer/shared/domain/errors/prayer_failure.dart';
+import 'package:noor_life/features/quran/application/providers/quran_progress_provider.dart';
+import 'package:noor_life/features/quran/application/states/quran_progress_state.dart';
+import 'package:noor_life/features/quran/domain/entities/surah.dart';
+import 'package:noor_life/features/quran/domain/repositories/quran_repository.dart';
 import 'package:noor_life/l10n/generated/app_localizations.dart';
 
 class FakeLocationNotifier extends LocationNotifier {
@@ -41,7 +48,36 @@ class FakePrayerTimesNotifier extends PrayerTimesNotifier {
       );
 }
 
+class FakeQuranProgressNotifier extends QuranProgressNotifier {
+  @override
+  QuranProgressState build() => const QuranProgressState(
+        isLoading: false,
+        lastRead: null,
+      );
+}
+
+class FakeQuranRepository implements QuranRepository {
+  @override
+  Future<List<Surah>> getSurahs() async {
+    return [];
+  }
+
+  @override
+  Future<Surah> getSurahDetail(int surahNumber) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
 void main() {
+  setUp(() {
+    final getIt = GetIt.instance;
+    getIt.reset();
+    getIt.registerSingleton<QuranRepository>(FakeQuranRepository());
+  });
+
   Widget buildTestableWidget(
     Widget widget, {
     required List<Override> overrides,
@@ -70,7 +106,8 @@ void main() {
           locationNotifierProvider.overrideWith(() => FakeLocationNotifier()),
           prayerTimesNotifierProvider
               .overrideWith(() => FakePrayerTimesNotifier()),
-          // Timer'ı tetiklemeyen sabit bir PrayerLiveState override ediyoruz.
+          quranProgressNotifierProvider
+              .overrideWith(() => FakeQuranProgressNotifier()),
           prayerLiveStateProvider.overrideWith(
             (ref) => PrayerLiveState(
               nextPrayer: null,
@@ -81,10 +118,11 @@ void main() {
       ),
     );
 
-    // Initial state without valid schedule generates explicit error
-    expect(find.text('Prayer times unavailable.'), findsOneWidget);
+    await tester.pump();
 
-    // Test çerçevesinin temizlendiğinden emin olmak için ek olarak pumpAndSettle
+    // FIX: Expect the exact failure message supplied by FakePrayerTimesNotifier ('Network error')
+    expect(find.text('Network error'), findsOneWidget);
+
     await tester.pumpAndSettle();
   });
 }
