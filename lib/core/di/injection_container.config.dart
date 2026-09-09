@@ -10,11 +10,14 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
 import '../../features/activity/domain/activity_models.dart' as _i725;
 import '../../features/activity/infrastructure/activity_storage.dart' as _i624;
+import '../../features/activity/infrastructure/datasources/activity_local_data_source.dart'
+    as _i930;
 import '../../features/authentication/domain/repositories/auth_repository.dart'
     as _i742;
 import '../../features/authentication/infrastructure/datasources/firebase_auth_data_source.dart'
@@ -130,8 +133,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i280.TimezoneService>(() => _i338.TimezoneServiceImpl());
     gh.lazySingleton<_i711.LocationGeocodingService>(() =>
         _i768.LocationGeocodingServiceImpl(gh<_i557.GeocodingDataSource>()));
-    gh.lazySingleton<_i725.ActivityRepository>(
-        () => _i624.ActivityRepositoryImpl());
     gh.lazySingleton<_i643.LocationPermissionService>(() =>
         _i493.LocationPermissionServiceImpl(gh<_i599.GeolocatorDataSource>()));
     gh.lazySingleton<_i570.DeviceHeadingService>(() =>
@@ -139,6 +140,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i169.QuranReaderSettingsLocalDataSource>(() =>
         _i169.QuranReaderSettingsLocalDataSourceImpl(
             gh<_i666.SecureStorageService>()));
+    gh.lazySingleton<_i930.ActivityLocalDataSource>(() =>
+        _i930.ActivityLocalDataSourceImpl(
+            storage: gh<_i558.FlutterSecureStorage>()));
     gh.lazySingleton<_i290.QuranProgressLocalDataSource>(() =>
         _i290.QuranProgressLocalDataSourceImpl(
             gh<_i666.SecureStorageService>()));
@@ -160,6 +164,8 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i711.LocationGeocodingService>(),
           gh<_i599.GeolocatorDataSource>(),
         ));
+    gh.lazySingleton<_i725.ActivityRepository>(() =>
+        _i624.ActivityRepositoryImpl(gh<_i930.ActivityLocalDataSource>()));
     gh.lazySingleton<_i621.PrayerTimesRepository>(
         () => _i887.PrayerTimesRepositoryImpl(
               gh<_i260.PrayerLocalDataSource>(),
