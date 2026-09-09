@@ -12,17 +12,16 @@ class ActivityLocalDataSourceImpl implements ActivityLocalDataSource {
   final FlutterSecureStorage _storage;
   static const String _storageKey = 'noorlife_activity_records_v2';
 
-  // Injecting securely from the existing storage pattern if available, 
-  // otherwise instantiating directly but isolated within this file.
-  ActivityLocalDataSourceImpl({FlutterSecureStorage? storage}) 
-    : _storage = storage ?? const FlutterSecureStorage();
+  // FIX: Using the most standard, parameterless default constructor.
+  // Injectable will automatically call this without asking for any parameter.
+  ActivityLocalDataSourceImpl() : _storage = const FlutterSecureStorage();
 
   @override
   Future<Map<String, dynamic>> loadAllRecords() async {
     try {
       final data = await _storage.read(key: _storageKey);
       if (data == null || data.isEmpty) return {};
-      
+
       final decoded = json.decode(data);
       if (decoded is Map<String, dynamic>) {
         return decoded;

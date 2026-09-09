@@ -52,7 +52,9 @@ class QiblaScreen extends ConsumerWidget {
         l10n.compassUnsupportedPlatform,
         textAlign: TextAlign.center,
         style: textTheme.bodyLarge?.copyWith(
-            color: colorScheme.onSurfaceVariant, fontStyle: FontStyle.italic,),
+          color: colorScheme.onSurfaceVariant,
+          fontStyle: FontStyle.italic,
+        ),
       );
     }
     if (state.status == CompassStatus.sensorUnavailable) {

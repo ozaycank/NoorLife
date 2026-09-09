@@ -127,13 +127,15 @@ class PrayerTimesRepositoryImpl implements PrayerTimesRepository {
         DateTime(targetDate.year, targetDate.month, targetDate.day),
       );
 
-      final pureHijriString = '${hijriDate.hYear}-${hijriDate.hMonth}-${hijriDate.hDay}';
+      final pureHijriString =
+          '${hijriDate.hYear}-${hijriDate.hMonth}-${hijriDate.hDay}';
 
       return Success(
         PrayerDay(
           targetDate: targetDate,
           prayerTimes: prayerTimes,
-          hijriDateString: pureHijriString, // It's pure now, UI will localize it.
+          hijriDateString:
+              pureHijriString, // It's pure now, UI will localize it.
         ),
       );
     } catch (e) {

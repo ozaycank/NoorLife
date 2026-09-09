@@ -10,7 +10,6 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
@@ -126,6 +125,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i612.CalculationMethodRepository>(() =>
         _i699.CalculationMethodRepositoryImpl(
             gh<_i260.PrayerLocalDataSource>()));
+    gh.lazySingleton<_i930.ActivityLocalDataSource>(
+        () => _i930.ActivityLocalDataSourceImpl());
+    gh.lazySingleton<_i725.ActivityRepository>(() =>
+        _i624.ActivityRepositoryImpl(gh<_i930.ActivityLocalDataSource>()));
     gh.lazySingleton<_i986.QuranLocalDataSource>(
         () => _i986.QuranLocalDataSourceImpl());
     gh.lazySingleton<_i498.QuranRepository>(
@@ -140,9 +143,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i169.QuranReaderSettingsLocalDataSource>(() =>
         _i169.QuranReaderSettingsLocalDataSourceImpl(
             gh<_i666.SecureStorageService>()));
-    gh.lazySingleton<_i930.ActivityLocalDataSource>(() =>
-        _i930.ActivityLocalDataSourceImpl(
-            storage: gh<_i558.FlutterSecureStorage>()));
     gh.lazySingleton<_i290.QuranProgressLocalDataSource>(() =>
         _i290.QuranProgressLocalDataSourceImpl(
             gh<_i666.SecureStorageService>()));
@@ -164,8 +164,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i711.LocationGeocodingService>(),
           gh<_i599.GeolocatorDataSource>(),
         ));
-    gh.lazySingleton<_i725.ActivityRepository>(() =>
-        _i624.ActivityRepositoryImpl(gh<_i930.ActivityLocalDataSource>()));
     gh.lazySingleton<_i621.PrayerTimesRepository>(
         () => _i887.PrayerTimesRepositoryImpl(
               gh<_i260.PrayerLocalDataSource>(),

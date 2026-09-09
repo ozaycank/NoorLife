@@ -81,5 +81,6 @@ class DailyActivity extends Equatable {
 abstract class ActivityRepository {
   Future<Result<DailyActivity, ActivityFailure>> getDailyActivity(String date);
   Future<Result<void, ActivityFailure>> saveDailyActivity(
-      DailyActivity activity,);
+    DailyActivity activity,
+  );
 }

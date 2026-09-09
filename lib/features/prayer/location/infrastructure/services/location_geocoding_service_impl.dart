@@ -47,10 +47,13 @@ class LocationGeocodingServiceImpl implements LocationGeocodingService {
         'https://nominatim.openstreetmap.org/reverse?format=json&lat=$lat&lon=$lon&zoom=10&addressdetails=1',
       );
 
-      final response = await http.get(url, headers: {
-        'User-Agent': 'NoorLife/1.0 (Flutter App)',
-        'Accept-Language': 'en-US,en;q=0.9',
-      },);
+      final response = await http.get(
+        url,
+        headers: {
+          'User-Agent': 'NoorLife/1.0 (Flutter App)',
+          'Accept-Language': 'en-US,en;q=0.9',
+        },
+      );
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
