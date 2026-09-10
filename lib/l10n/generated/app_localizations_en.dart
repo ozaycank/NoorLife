@@ -696,4 +696,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get activityMarkAsRead => 'Mark as Read';
+
+  @override
+  String get activityHistory => 'History';
+
+  @override
+  String get activityStatistics => 'Statistics';
+
+  @override
+  String get activityEmptyHistory => 'No past records found.';
+
+  @override
+  String get statsStreak => 'Current Streak';
+
+  @override
+  String statsDays(int count) {
+    return '$count Days';
+  }
+
+  @override
+  String get statsAvgCompletion => '7-Day Avg';
+
+  @override
+  String get statsQuranDays => 'Quran (7d)';
+
+  @override
+  String get profileGuest => 'Guest User';
+
+  @override
+  String get profileGuestDesc => 'Sign in to backup your data.';
+
+  @override
+  String get profileStatsSummary => 'Your Progress';
 }

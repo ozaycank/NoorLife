@@ -147,7 +147,7 @@
   "methodMorocco": "Fas Vakıflar ve İslam İşleri Bakanlığı",
   "methodPortugal": "Paris Büyük Camii",
   "methodJafari": "Şia İsna Aşeri (Caferi)",
-  "madhabStandard": "Standart (Şafii / Maliki / Hanbeli)",
+  "madhabStandard": "1 Katı Gölge Boyu (Cumhur)", 
   "madhabHanafi": "Hanefi",
   "hijriMuharram": "Muharrem",
   "hijriSafar": "Safer",
@@ -220,5 +220,14 @@
   "activityQuranReading": "Kur'an Okuma",
   "activityReadToday": "Bugün Okundu",
   "activityNotRecorded": "Kayıt Yok",
-  "activityMarkAsRead": "Okundu Olarak İşaretle"
+  "activityMarkAsRead": "Okundu Olarak İşaretle","activityHistory": "Geçmiş",
+  "activityStatistics": "İstatistikler",
+  "activityEmptyHistory": "Geçmiş kayıt bulunmuyor.",
+  "statsStreak": "Mevcut Seri",
+  "statsDays": "{count} Gün",
+  "statsAvgCompletion": "7 Günlük Ort.",
+  "statsQuranDays": "Kur'an (7G)",
+  "profileGuest": "Misafir Kullanıcı",
+  "profileGuestDesc": "Verilerinizi yedeklemek için giriş yapın.",
+  "profileStatsSummary": "İlerlemeniz"
 }

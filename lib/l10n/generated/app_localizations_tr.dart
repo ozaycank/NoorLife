@@ -701,4 +701,36 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get activityMarkAsRead => 'Okundu Olarak İşaretle';
+
+  @override
+  String get activityHistory => 'Geçmiş';
+
+  @override
+  String get activityStatistics => 'İstatistikler';
+
+  @override
+  String get activityEmptyHistory => 'Geçmiş kayıt bulunmuyor.';
+
+  @override
+  String get statsStreak => 'Mevcut Seri';
+
+  @override
+  String statsDays(int count) {
+    return '$count Gün';
+  }
+
+  @override
+  String get statsAvgCompletion => '7 Günlük Ort.';
+
+  @override
+  String get statsQuranDays => 'Kur\'an (7G)';
+
+  @override
+  String get profileGuest => 'Misafir Kullanıcı';
+
+  @override
+  String get profileGuestDesc => 'Verilerinizi yedeklemek için giriş yapın.';
+
+  @override
+  String get profileStatsSummary => 'İlerlemeniz';
 }

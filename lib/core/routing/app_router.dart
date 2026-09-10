@@ -10,7 +10,7 @@ import '../../features/authentication/presentation/screens/login_screen.dart';
 import '../../features/authentication/presentation/screens/register_screen.dart';
 import '../../features/authentication/presentation/screens/splash_auth_decision_screen.dart';
 import '../../features/prayer/shared/presentation/screens/prayer_home_screen.dart';
-import '../../features/profile/presentation/screens/profile_placeholder_screen.dart';
+import '../../features/profile/presentation/screens/profile_screen.dart'; // Updated
 import '../../features/shell/presentation/screens/app_shell_screen.dart';
 import '../../features/settings/presentation/screens/settings_screen.dart';
 import '../di/injection_container.dart';
@@ -167,7 +167,8 @@ class AppRouter {
               routes: [
                 GoRoute(
                   path: AppRoutes.profile,
-                  builder: (context, state) => const ProfilePlaceholderScreen(),
+                  // FIX: Updated to real ProfileScreen foundation
+                  builder: (context, state) => const ProfileScreen(),
                 ),
               ],
             ),

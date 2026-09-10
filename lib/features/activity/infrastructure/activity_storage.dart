@@ -23,11 +23,36 @@ class ActivityRepositoryImpl implements ActivityRepository {
       }
       return Success(DailyActivity(date: date));
     } catch (e) {
-      // FIX: Added const to failure objects and fixed trailing commas
       return const ResultFailure(
         ActivityFailure(
           'Failed to read activity',
           code: 'activityReadFailed',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Result<List<DailyActivity>, ActivityFailure>>
+      getAllActivities() async {
+    try {
+      final allRecords = await _dataSource.loadAllRecords();
+      final List<DailyActivity> activities = [];
+
+      for (final entry in allRecords.entries) {
+        if (entry.value is Map<String, dynamic>) {
+          activities
+              .add(DailyActivity.fromJson(entry.value as Map<String, dynamic>));
+        }
+      }
+
+      activities.sort((a, b) => b.date.compareTo(a.date));
+      return Success(activities);
+    } catch (e) {
+      return const ResultFailure(
+        ActivityFailure(
+          'Failed to load history',
+          code: 'activityHistoryFailed',
         ),
       );
     }
@@ -39,14 +64,10 @@ class ActivityRepositoryImpl implements ActivityRepository {
   ) async {
     try {
       final allRecords = await _dataSource.loadAllRecords();
-
-      // Latest write wins
       allRecords[activity.date] = activity.toJson();
-
       await _dataSource.saveAllRecords(allRecords);
       return const Success(null);
     } catch (e) {
-      // FIX: Added const to failure objects and fixed trailing commas
       return const ResultFailure(
         ActivityFailure(
           'Failed to save activity',

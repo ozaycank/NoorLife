@@ -856,8 +856,8 @@
   "descEgypt": "Standard method in Africa and Middle East.",
   "@descEgypt": { "description": "Egypt method description" },
   "descMakkah": "Standard method in Arabian Peninsula.",
-  "@descMakkah": { "description": "Makkah method description"
-},"activityTitle": "Activity",
+  "@descMakkah": { "description": "Makkah method description" },
+  "activityTitle": "Activity",
   "@activityTitle": { "description": "Activity tab title" },
   "activityToday": "Today's Activity",
   "@activityToday": { "description": "Activity today section header" },
@@ -874,5 +874,30 @@
   "activityNotRecorded": "Not Recorded",
   "@activityNotRecorded": { "description": "Activity not recorded status" },
   "activityMarkAsRead": "Mark as Read",
-  "@activityMarkAsRead": { "description": "Activity manual mark as read button" }
+  "@activityMarkAsRead": { "description": "Activity manual mark as read button" },
+  "activityHistory": "History",
+  "@activityHistory": { "description": "Activity history section" },
+  "activityStatistics": "Statistics",
+  "@activityStatistics": { "description": "Activity statistics section" },
+  "activityEmptyHistory": "No past records found.",
+  "@activityEmptyHistory": { "description": "Activity empty history" },
+  "statsStreak": "Current Streak",
+  "@statsStreak": { "description": "Current streak stat label" },
+  "statsDays": "{count} Days",
+  "@statsDays": { 
+    "description": "Days count",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "statsAvgCompletion": "7-Day Avg",
+  "@statsAvgCompletion": { "description": "7-day average completion" },
+  "statsQuranDays": "Quran (7d)",
+  "@statsQuranDays": { "description": "Quran days in last 7 days" },
+  "profileGuest": "Guest User",
+  "@profileGuest": { "description": "Profile guest user label" },
+  "profileGuestDesc": "Sign in to backup your data.",
+  "@profileGuestDesc": { "description": "Profile guest user description" },
+  "profileStatsSummary": "Your Progress",
+  "@profileStatsSummary": { "description": "Profile stats summary label" }
 }

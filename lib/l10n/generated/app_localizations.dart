@@ -1411,6 +1411,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Mark as Read'**
   String get activityMarkAsRead;
+
+  /// Activity history section
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get activityHistory;
+
+  /// Activity statistics section
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
+  String get activityStatistics;
+
+  /// Activity empty history
+  ///
+  /// In en, this message translates to:
+  /// **'No past records found.'**
+  String get activityEmptyHistory;
+
+  /// Current streak stat label
+  ///
+  /// In en, this message translates to:
+  /// **'Current Streak'**
+  String get statsStreak;
+
+  /// Days count
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Days'**
+  String statsDays(int count);
+
+  /// 7-day average completion
+  ///
+  /// In en, this message translates to:
+  /// **'7-Day Avg'**
+  String get statsAvgCompletion;
+
+  /// Quran days in last 7 days
+  ///
+  /// In en, this message translates to:
+  /// **'Quran (7d)'**
+  String get statsQuranDays;
+
+  /// Profile guest user label
+  ///
+  /// In en, this message translates to:
+  /// **'Guest User'**
+  String get profileGuest;
+
+  /// Profile guest user description
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to backup your data.'**
+  String get profileGuestDesc;
+
+  /// Profile stats summary label
+  ///
+  /// In en, this message translates to:
+  /// **'Your Progress'**
+  String get profileStatsSummary;
 }
 
 class _AppLocalizationsDelegate
