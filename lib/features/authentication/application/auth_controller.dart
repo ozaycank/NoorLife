@@ -1,9 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/di/injection_container.dart';
-import '../../../../core/logging/logger_service.dart';
-import '../../../../core/providers/base_providers.dart';
-import '../../../../core/services/notification_service.dart';
-import '../../../../core/storage/secure_storage_service.dart';
+
+// FIX: Strictly using package imports to ensure GetIt and Logger compile properly
+import 'package:noor_life/core/di/injection_container.dart';
+import 'package:noor_life/core/logging/logger_service.dart';
+import 'package:noor_life/core/providers/base_providers.dart';
+import 'package:noor_life/core/services/notification_service.dart';
+import 'package:noor_life/core/storage/secure_storage_service.dart';
 import '../domain/repositories/auth_repository.dart';
 import 'auth_providers.dart';
 import 'auth_state.dart';
@@ -169,5 +171,12 @@ class AuthController extends Notifier<AuthState> {
 
   Future<void> signOut() async {
     await _authRepository.signOut();
+
+    // Clear sensitive localized app data securely on logout
+    try {
+      await _secureStorage.clearAll();
+    } catch (_) {
+      _logger.warning('Failed to clear secure storage during sign out');
+    }
   }
 }

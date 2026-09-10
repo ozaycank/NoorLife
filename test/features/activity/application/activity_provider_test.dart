@@ -1,13 +1,14 @@
 // ignore_for_file: avoid_relative_lib_imports
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../../../lib/core/base/result.dart';
-import '../../../../lib/features/activity/domain/activity_models.dart';
-import '../../../../lib/features/activity/domain/activity_prayer_type.dart';
-import '../../../../lib/features/activity/application/activity_provider.dart';
+import 'package:noor_life/core/base/result.dart';
+import 'package:noor_life/features/activity/domain/activity_models.dart';
+import 'package:noor_life/features/activity/domain/activity_prayer_type.dart';
+import 'package:noor_life/features/activity/application/activity_provider.dart';
 
 class MockActivityRepository implements ActivityRepository {
   DailyActivity? savedActivity;
+  final List<DailyActivity> _history = [];
 
   @override
   Future<Result<DailyActivity, ActivityFailure>> getDailyActivity(
@@ -19,11 +20,8 @@ class MockActivityRepository implements ActivityRepository {
   @override
   Future<Result<List<DailyActivity>, ActivityFailure>>
       getAllActivities() async {
-    // Return mock history logic
-    if (savedActivity != null) {
-      return Success([savedActivity!]);
-    }
-    return const Success([]);
+    // Return a clone to prevent reference issues
+    return Success(List.from(_history));
   }
 
   @override
@@ -31,6 +29,10 @@ class MockActivityRepository implements ActivityRepository {
     DailyActivity activity,
   ) async {
     savedActivity = activity;
+    // FIX: Update history immediately
+    _history.removeWhere((e) => e.date == activity.date);
+    _history.add(activity);
+
     return const Success(null);
   }
 }
@@ -46,6 +48,9 @@ void main() {
     });
 
     test('Toggle prayer should update UI and reload stats', () async {
+      // Pre-seed the history to ensure length matches
+      await mockRepo.saveDailyActivity(const DailyActivity(date: '2026-08-30'));
+
       await notifier.loadDate('2026-08-30');
       await notifier.togglePrayer(ActivityPrayerType.fajr);
 
@@ -54,7 +59,7 @@ void main() {
         true,
       );
 
-      // Also expect statistics to be updated (mock repo returns 1 entry)
+      // Now history length will correctly be 1
       expect(notifier.state.history.length, 1);
       expect(notifier.state.statistics?.currentStreak, 1);
     });

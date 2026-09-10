@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/extensions/context_extensions.dart';
-import '../../../../core/routing/app_routes.dart';
-import '../../../../shared/design_system/tokens/app_spacing.dart';
-import '../../../../shared/widgets/app_card.dart';
-import '../../../../shared/widgets/primary_button.dart';
-import '../../../../shared/widgets/section_header.dart';
-import '../../../authentication/application/auth_providers.dart';
-import '../../../activity/application/activity_provider.dart';
+import 'package:noor_life/core/extensions/context_extensions.dart';
+import 'package:noor_life/core/routing/app_routes.dart';
+import 'package:noor_life/shared/design_system/tokens/app_spacing.dart';
+import 'package:noor_life/shared/widgets/app_card.dart';
+import 'package:noor_life/shared/widgets/primary_button.dart';
+import 'package:noor_life/shared/widgets/section_header.dart';
+import 'package:noor_life/features/authentication/application/auth_providers.dart';
+import 'package:noor_life/features/activity/application/activity_provider.dart';
 
 final profileUserProvider = FutureProvider.autoDispose((ref) async {
   final authRepository = ref.read(authRepositoryProvider);
   final result = await authRepository.getCurrentUser();
-  return result.$2;
+  return result.$2; // User object, null if guest or missing
 });
 
 class ProfileScreen extends ConsumerWidget {
@@ -54,10 +54,12 @@ class ProfileScreen extends ConsumerWidget {
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (_, __) => const Center(child: Text('Error loading profile')),
           data: (user) {
-            // Safe evaluation without demanding exact missing property names from AuthUser entity
             final isGuest = user == null;
-            final displayName = isGuest ? l10n.profileGuest : 'NoorLife User';
-            final email = isGuest ? l10n.profileGuestDesc : '';
+            final String safeName =
+                user?.email?.split('@').first ?? 'NoorLife User';
+            final displayName = isGuest ? l10n.profileGuest : safeName;
+            final emailStr =
+                isGuest ? l10n.profileGuestDesc : (user.email ?? '');
 
             return ListView(
               padding: const EdgeInsets.all(AppSpacing.lg),
@@ -89,7 +91,7 @@ class ProfileScreen extends ConsumerWidget {
                             ),
                             const SizedBox(height: AppSpacing.xs),
                             Text(
-                              email,
+                              emailStr,
                               style: textTheme.bodyMedium?.copyWith(
                                 color: colorScheme.onSurfaceVariant,
                               ),

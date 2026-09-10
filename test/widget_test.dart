@@ -44,15 +44,21 @@ void main() {
   });
 
   testWidgets('App initialization test', (WidgetTester tester) async {
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          authRepositoryProvider.overrideWithValue(mockAuthRepository),
-        ],
-        child: const NoorLifeApp(),
-      ),
-    );
+    // FIX: Replaced pumpWidget with runAsync to prevent infinite timers from hanging the test.
+    await tester.runAsync(() async {
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            authRepositoryProvider.overrideWithValue(mockAuthRepository),
+          ],
+          child: const NoorLifeApp(),
+        ),
+      );
 
-    expect(find.byType(NoorLifeApp), findsOneWidget);
+      // Let the first frame render without forcing animations to complete
+      await tester.pump();
+
+      expect(find.byType(NoorLifeApp), findsOneWidget);
+    });
   });
 }

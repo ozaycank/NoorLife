@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/di/injection_container.dart';
-import '../domain/entities/auth_user.dart';
-import '../domain/repositories/auth_repository.dart';
+import 'package:noor_life/core/di/injection_container.dart';
+import 'package:noor_life/features/authentication/domain/entities/auth_user.dart';
+import 'package:noor_life/features/authentication/domain/repositories/auth_repository.dart';
 import 'auth_controller.dart';
 import 'auth_state.dart';
 

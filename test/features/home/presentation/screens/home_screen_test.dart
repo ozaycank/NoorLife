@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:get_it/get_it.dart';
 
 import 'package:noor_life/features/home/presentation/screens/home_screen.dart';
 import 'package:noor_life/features/prayer/location/application/providers/location_notifier.dart';
@@ -15,8 +14,8 @@ import 'package:noor_life/features/prayer/prayer_times/presentation/providers/pr
 import 'package:noor_life/features/prayer/shared/domain/errors/prayer_failure.dart';
 import 'package:noor_life/features/quran/application/providers/quran_progress_provider.dart';
 import 'package:noor_life/features/quran/application/states/quran_progress_state.dart';
-import 'package:noor_life/features/quran/domain/entities/surah.dart';
-import 'package:noor_life/features/quran/domain/repositories/quran_repository.dart';
+import 'package:noor_life/features/quran/application/providers/quran_provider.dart';
+import 'package:noor_life/features/quran/application/states/quran_state.dart';
 import 'package:noor_life/l10n/generated/app_localizations.dart';
 
 class FakeLocationNotifier extends LocationNotifier {
@@ -56,28 +55,16 @@ class FakeQuranProgressNotifier extends QuranProgressNotifier {
       );
 }
 
-class FakeQuranRepository implements QuranRepository {
+class FakeQuranNotifier extends QuranNotifier {
   @override
-  Future<List<Surah>> getSurahs() async {
-    return [];
-  }
-
-  @override
-  Future<Surah> getSurahDetail(int surahNumber) async {
-    throw UnimplementedError();
-  }
-
-  @override
-  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+  QuranState build() => const QuranState(
+        isLoading: false,
+        surahs: [],
+        searchQuery: '', // FIX: Added the required parameter
+      );
 }
 
 void main() {
-  setUp(() {
-    final getIt = GetIt.instance;
-    getIt.reset();
-    getIt.registerSingleton<QuranRepository>(FakeQuranRepository());
-  });
-
   Widget buildTestableWidget(
     Widget widget, {
     required List<Override> overrides,
@@ -99,30 +86,30 @@ void main() {
 
   testWidgets('Home displays Location and Failsafe Prayer States Safely',
       (tester) async {
-    await tester.pumpWidget(
-      buildTestableWidget(
-        const HomeScreen(),
-        overrides: [
-          locationNotifierProvider.overrideWith(() => FakeLocationNotifier()),
-          prayerTimesNotifierProvider
-              .overrideWith(() => FakePrayerTimesNotifier()),
-          quranProgressNotifierProvider
-              .overrideWith(() => FakeQuranProgressNotifier()),
-          prayerLiveStateProvider.overrideWith(
-            (ref) => PrayerLiveState(
-              nextPrayer: null,
-              timeRemaining: Duration.zero,
+    // Run async prevents background timers from hanging the test
+    await tester.runAsync(() async {
+      await tester.pumpWidget(
+        buildTestableWidget(
+          const HomeScreen(),
+          overrides: [
+            locationNotifierProvider.overrideWith(() => FakeLocationNotifier()),
+            prayerTimesNotifierProvider
+                .overrideWith(() => FakePrayerTimesNotifier()),
+            quranProgressNotifierProvider
+                .overrideWith(() => FakeQuranProgressNotifier()),
+            quranNotifierProvider.overrideWith(() => FakeQuranNotifier()),
+            prayerLiveStateProvider.overrideWith(
+              (ref) => PrayerLiveState(
+                nextPrayer: null,
+                timeRemaining: Duration.zero,
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
 
-    await tester.pump();
-
-    // FIX: Expect the exact failure message supplied by FakePrayerTimesNotifier ('Network error')
-    expect(find.text('Network error'), findsOneWidget);
-
-    await tester.pumpAndSettle();
+      await tester.pump();
+      expect(find.text('Network error'), findsOneWidget);
+    });
   });
 }
