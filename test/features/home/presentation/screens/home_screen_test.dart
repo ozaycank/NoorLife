@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:noor_life/features/home/presentation/screens/home_screen.dart';
 import 'package:noor_life/features/prayer/location/application/providers/location_notifier.dart';
@@ -16,6 +17,9 @@ import 'package:noor_life/features/quran/application/providers/quran_progress_pr
 import 'package:noor_life/features/quran/application/states/quran_progress_state.dart';
 import 'package:noor_life/features/quran/application/providers/quran_provider.dart';
 import 'package:noor_life/features/quran/application/states/quran_state.dart';
+import 'package:noor_life/features/quran/domain/repositories/quran_repository.dart';
+import 'package:noor_life/features/quran/domain/repositories/quran_bookmark_repository.dart';
+import 'package:noor_life/features/quran/domain/entities/surah.dart';
 import 'package:noor_life/l10n/generated/app_localizations.dart';
 
 class FakeLocationNotifier extends LocationNotifier {
@@ -60,11 +64,44 @@ class FakeQuranNotifier extends QuranNotifier {
   QuranState build() => const QuranState(
         isLoading: false,
         surahs: [],
-        searchQuery: '', // FIX: Added the required parameter
+        searchQuery: '',
       );
 }
 
+class FakeQuranRepository implements QuranRepository {
+  @override
+  Future<List<Surah>> getSurahs() async => [];
+
+  @override
+  Future<Surah> getSurahDetail(int surahNumber) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+// FIX: Re-added the missing QuranBookmarkRepository fake to prevent GetIt crash
+class FakeQuranBookmarkRepository implements QuranBookmarkRepository {
+  @override
+  dynamic noSuchMethod(Invocation invocation) {
+    if (invocation.memberName.toString().contains('Stream') ||
+        invocation.memberName.toString().contains('watch')) {
+      return const Stream.empty();
+    }
+    return [];
+  }
+}
+
 void main() {
+  setUp(() {
+    final getIt = GetIt.instance;
+    getIt.reset();
+    getIt.registerSingleton<QuranRepository>(FakeQuranRepository());
+    getIt.registerSingleton<QuranBookmarkRepository>(
+        FakeQuranBookmarkRepository(),);
+  });
+
   Widget buildTestableWidget(
     Widget widget, {
     required List<Override> overrides,
@@ -79,6 +116,7 @@ void main() {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: const [Locale('en')],
+        locale: const Locale('en'),
         home: widget,
       ),
     );
@@ -86,7 +124,6 @@ void main() {
 
   testWidgets('Home displays Location and Failsafe Prayer States Safely',
       (tester) async {
-    // Run async prevents background timers from hanging the test
     await tester.runAsync(() async {
       await tester.pumpWidget(
         buildTestableWidget(
