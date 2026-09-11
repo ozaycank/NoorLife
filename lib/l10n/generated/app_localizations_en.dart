@@ -9,7 +9,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'NoorLife';
+  String get appTitle => 'IslamFull';
 
   @override
   String get splashLoading => 'Loading application...';
@@ -56,7 +56,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get registerSubtitle =>
-      'Join NoorLife and organize your Islamic daily life.';
+      'Join IslamFull and organize your Islamic daily life.';
 
   @override
   String get registerButton => 'Create Account';
@@ -155,7 +155,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeDesc =>
-      'Welcome to NoorLife. Your daily spiritual overview will appear here.';
+      'Welcome to IslamFull. Your daily spiritual overview will appear here.';
 
   @override
   String get prayerTitle => 'Prayer Times';
@@ -183,7 +183,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileDesc =>
-      'Manage your NoorLife account, preferences, and personal statistics.';
+      'Manage your IslamFull account, preferences, and personal statistics.';
 
   @override
   String get settingsTitle => 'Settings';

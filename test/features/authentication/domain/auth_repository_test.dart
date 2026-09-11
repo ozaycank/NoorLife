@@ -16,7 +16,7 @@ void main() {
   group('AuthRepository Unit Tests', () {
     const tUser = AuthUser(
       id: 'usr_123',
-      email: 'test@noorlife.app',
+      email: 'test@islamfull.app',
       isAnonymous: false,
       isEmailVerified: true,
     );
@@ -24,13 +24,13 @@ void main() {
     test('should return AuthUser when signIn succeeds', () async {
       when(
         () => repository.signInWithEmailAndPassword(
-          email: 'test@noorlife.app',
+          email: 'test@islamfull.app',
           password: 'Password123!',
         ),
       ).thenAnswer((_) async => (null, tUser));
 
       final (failure, user) = await repository.signInWithEmailAndPassword(
-        email: 'test@noorlife.app',
+        email: 'test@islamfull.app',
         password: 'Password123!',
       );
 
@@ -42,13 +42,13 @@ void main() {
       const tFailure = AuthFailure('Invalid email or password.');
       when(
         () => repository.signInWithEmailAndPassword(
-          email: 'test@noorlife.app',
+          email: 'test@islamfull.app',
           password: 'WrongPassword!',
         ),
       ).thenAnswer((_) async => (tFailure, null));
 
       final (failure, user) = await repository.signInWithEmailAndPassword(
-        email: 'test@noorlife.app',
+        email: 'test@islamfull.app',
         password: 'WrongPassword!',
       );
 

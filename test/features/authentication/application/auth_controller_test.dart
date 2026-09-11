@@ -35,14 +35,14 @@ void main() {
       () async {
     const tUser = AuthUser(
       id: 'usr_1',
-      email: 'user@noorlife.app',
+      email: 'user@islamfull.app',
       isAnonymous: false,
       isEmailVerified: true,
     );
 
     when(
       () => repository.signInWithEmailAndPassword(
-        email: 'user@noorlife.app',
+        email: 'user@islamfull.app',
         password: 'Password123',
       ),
     ).thenAnswer((_) async => (null, tUser));
@@ -50,7 +50,7 @@ void main() {
     when(
       () => secureStorage.saveRememberMe(
         rememberMe: true,
-        email: 'user@noorlife.app',
+        email: 'user@islamfull.app',
       ),
     ).thenAnswer((_) async {});
 
@@ -63,7 +63,7 @@ void main() {
 
     final controller = container.read(authControllerProvider.notifier);
     final success = await controller.signIn(
-      email: 'user@noorlife.app',
+      email: 'user@islamfull.app',
       password: 'Password123',
       rememberMe: true,
     );

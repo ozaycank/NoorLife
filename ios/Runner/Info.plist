@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Noorlife</string>
+	<string>IslamFull</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>noorlife</string>
+	<string>IslamFull</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -67,8 +67,8 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>NoorLife needs your location to accurately calculate prayer times based on your current timezone.</string>
+	<string>IslamFull needs your location to accurately calculate prayer times based on your current timezone.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>NoorLife needs your location to accurately calculate prayer times based on your current timezone.</string>
+	<string>IslamFull needs your location to accurately calculate prayer times based on your current timezone.</string>
 </dict>
 </plist>

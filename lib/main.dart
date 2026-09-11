@@ -50,7 +50,7 @@ class NoorLifeApp extends ConsumerWidget {
     final localeState = ref.watch(languageSettingsNotifierProvider);
 
     return MaterialApp.router(
-      title: 'NoorLife',
+      title: 'IslamFull',
       theme: LightTheme.theme,
       darkTheme: DarkTheme.theme,
       themeMode: ThemeMode.system,
