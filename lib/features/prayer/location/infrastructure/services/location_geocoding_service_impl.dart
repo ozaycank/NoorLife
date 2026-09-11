@@ -50,7 +50,7 @@ class LocationGeocodingServiceImpl implements LocationGeocodingService {
       final response = await http.get(
         url,
         headers: {
-          'User-Agent': 'NoorLife/1.0 (Flutter App)',
+          'User-Agent': 'IslamFull/1.0 (Flutter App)',
           'Accept-Language': 'en-US,en;q=0.9',
         },
       );

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/routing/app_routes.dart';
-import '../../../../shared/widgets/loading_indicator.dart';
-import '../../application/auth_providers.dart';
-import '../../domain/entities/auth_user.dart';
+import 'package:noor_life/core/routing/app_routes.dart';
+import 'package:noor_life/features/authentication/application/auth_providers.dart';
+import 'package:noor_life/shared/design_system/tokens/app_spacing.dart';
+import 'package:noor_life/shared/widgets/loading_indicator.dart';
 
 class SplashAuthDecisionScreen extends ConsumerStatefulWidget {
   const SplashAuthDecisionScreen({super.key});
@@ -16,14 +16,22 @@ class SplashAuthDecisionScreen extends ConsumerStatefulWidget {
 
 class _SplashAuthDecisionScreenState
     extends ConsumerState<SplashAuthDecisionScreen> {
-  bool _isNavigating = false;
+  @override
+  void initState() {
+    super.initState();
+    _checkAuth();
+  }
 
-  void _handleNavigation(AsyncValue<AuthUser?> state) {
-    if (_isNavigating || !mounted) return;
+  Future<void> _checkAuth() async {
+    // Minimum splash screen duration for brand visibility
+    await Future.delayed(const Duration(seconds: 2));
 
-    state.whenOrNull(
+    if (!mounted) return;
+
+    final authState = ref.read(authStateChangesProvider);
+
+    authState.when(
       data: (user) {
-        _isNavigating = true;
         if (user == null) {
           context.go(AppRoutes.login);
         } else if (!user.isAnonymous && !user.isEmailVerified) {
@@ -32,41 +40,31 @@ class _SplashAuthDecisionScreenState
           context.go(AppRoutes.home);
         }
       },
-      error: (_, __) {
-        _isNavigating = true;
-        context.go(AppRoutes.login);
-      },
+      loading: () {}, // Let the UI spin
+      error: (_, __) => context.go(AppRoutes.login),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    // 1. Listen for any future state changes continuously
-    ref.listen<AsyncValue<AuthUser?>>(
-      authStateChangesProvider,
-      (_, next) => _handleNavigation(next),
-    );
-
-    // 2. Safely capture the exact immediate state if it's already resolved upon drawing
-    final authState = ref.watch(authStateChangesProvider);
-    if (!authState.isLoading) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _handleNavigation(authState);
-      });
-    }
-
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.mosque, size: 80, color: Colors.green),
-            const SizedBox(height: 24),
-            Text(
-              'NoorLife',
-              style: Theme.of(context).textTheme.headlineSmall,
+            Icon(
+              Icons.mosque,
+              size: 80,
+              color: Theme.of(context).colorScheme.primary,
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: AppSpacing.lg),
+            Text(
+              'IslamFull',
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            const SizedBox(height: AppSpacing.xxl),
             const LoadingIndicator(),
           ],
         ),

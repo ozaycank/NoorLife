@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// Application title
   ///
   /// In en, this message translates to:
-  /// **'NoorLife'**
+  /// **'IslamFull'**
   String get appTitle;
 
   /// Splash loading text
@@ -191,7 +191,7 @@ abstract class AppLocalizations {
   /// Register subtitle
   ///
   /// In en, this message translates to:
-  /// **'Join NoorLife and organize your Islamic daily life.'**
+  /// **'Join IslamFull and organize your Islamic daily life.'**
   String get registerSubtitle;
 
   /// Register button text
@@ -371,7 +371,7 @@ abstract class AppLocalizations {
   /// Home placeholder page description
   ///
   /// In en, this message translates to:
-  /// **'Welcome to NoorLife. Your daily spiritual overview will appear here.'**
+  /// **'Welcome to IslamFull. Your daily spiritual overview will appear here.'**
   String get homeDesc;
 
   /// Prayer placeholder page title
@@ -419,7 +419,7 @@ abstract class AppLocalizations {
   /// Profile placeholder page description
   ///
   /// In en, this message translates to:
-  /// **'Manage your NoorLife account, preferences, and personal statistics.'**
+  /// **'Manage your IslamFull account, preferences, and personal statistics.'**
   String get profileDesc;
 
   /// Settings placeholder page title

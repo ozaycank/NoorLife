@@ -1,4 +1,4 @@
-# noorlife
+# IslamFull
 
 A new Flutter project.
 

@@ -38,9 +38,9 @@ class DefaultFirebaseOptions {
             : 'AIzaSyDummyWebKeyForProd',
         appId: '1:1234567890:web:abcdef123456',
         messagingSenderId: '1234567890',
-        projectId: 'noorlife-app',
-        authDomain: 'noorlife-app.firebaseapp.com',
-        storageBucket: 'noorlife-app.appspot.com',
+        projectId: 'islamfull-app',
+        authDomain: 'islamfull-app.firebaseapp.com',
+        storageBucket: 'islamfull-app.appspot.com',
       );
 
   static FirebaseOptions get android => FirebaseOptions(
@@ -49,8 +49,8 @@ class DefaultFirebaseOptions {
             : 'AIzaSyDummyAndroidKeyForProd',
         appId: '1:1234567890:android:abcdef123456',
         messagingSenderId: '1234567890',
-        projectId: 'noorlife-app',
-        storageBucket: 'noorlife-app.appspot.com',
+        projectId: 'islamfull-app',
+        storageBucket: 'islamfull-app.appspot.com',
       );
 
   static FirebaseOptions get ios => FirebaseOptions(
@@ -59,9 +59,9 @@ class DefaultFirebaseOptions {
             : 'AIzaSyDummyIosKeyForProd',
         appId: '1:1234567890:ios:abcdef123456',
         messagingSenderId: '1234567890',
-        projectId: 'noorlife-app',
-        storageBucket: 'noorlife-app.appspot.com',
-        iosBundleId: 'com.noorlife.app',
+        projectId: 'islamfull-app',
+        storageBucket: 'islamfull-app.appspot.com',
+        iosBundleId: 'com.islamfull.app',
       );
 
   static FirebaseOptions get macos => FirebaseOptions(
@@ -70,8 +70,8 @@ class DefaultFirebaseOptions {
             : 'AIzaSyDummyMacosKeyForProd',
         appId: '1:1234567890:ios:abcdef123456',
         messagingSenderId: '1234567890',
-        projectId: 'noorlife-app',
-        storageBucket: 'noorlife-app.appspot.com',
-        iosBundleId: 'com.noorlife.app',
+        projectId: 'islamfull-app',
+        storageBucket: 'islamfull-app.appspot.com',
+        iosBundleId: 'com.islamfull.app',
       );
 }

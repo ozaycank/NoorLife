@@ -165,7 +165,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   final _fakeUser = const AuthUser(
     id: 'fake_user_123',
-    email: 'test@noorlife.com',
+    email: 'test@islamfull.com',
     isAnonymous: false,
     isEmailVerified: true,
   );

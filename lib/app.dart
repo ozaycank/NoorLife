@@ -17,7 +17,7 @@ class NoorLifeApp extends ConsumerWidget {
     final router = AppRouter.createRouter(ref);
 
     return MaterialApp.router(
-      title: 'NoorLife',
+      title: 'IslamFull',
       debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: NotificationService.messengerKey,
       theme: LightTheme.theme,

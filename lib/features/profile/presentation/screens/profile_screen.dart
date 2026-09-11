@@ -56,7 +56,7 @@ class ProfileScreen extends ConsumerWidget {
           data: (user) {
             final isGuest = user == null;
             final String safeName =
-                user?.email?.split('@').first ?? 'NoorLife User';
+                user?.email?.split('@').first ?? 'IslamFull User';
             final displayName = isGuest ? l10n.profileGuest : safeName;
             final emailStr =
                 isGuest ? l10n.profileGuestDesc : (user.email ?? '');

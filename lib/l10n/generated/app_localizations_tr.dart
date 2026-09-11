@@ -9,7 +9,7 @@ class AppLocalizationsTr extends AppLocalizations {
   AppLocalizationsTr([String locale = 'tr']) : super(locale);
 
   @override
-  String get appTitle => 'NoorLife';
+  String get appTitle => 'IslamFull';
 
   @override
   String get splashLoading => 'Uygulama yükleniyor...';
@@ -57,7 +57,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get registerSubtitle =>
-      'NoorLife\'a katılın ve İslami yaşamınızı planlayın.';
+      'IslamFull\'a katılın ve İslami yaşamınızı planlayın.';
 
   @override
   String get registerButton => 'Hesap Oluştur';
@@ -158,7 +158,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get homeDesc =>
-      'NoorLife\'a hoş geldiniz. Günlük manevi özetiniz burada görüntülenecektir.';
+      'IslamFull\'a hoş geldiniz. Günlük manevi özetiniz burada görüntülenecektir.';
 
   @override
   String get prayerTitle => 'Namaz Vakitleri';
@@ -186,7 +186,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get profileDesc =>
-      'NoorLife hesabınızı, tercihlerinizi ve kişisel istatistiklerinizi yönetin.';
+      'IslamFull hesabınızı, tercihlerinizi ve kişisel istatistiklerinizi yönetin.';
 
   @override
   String get settingsTitle => 'Ayarlar';

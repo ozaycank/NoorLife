@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "appTitle": "NoorLife",
+  "appTitle": "IslamFull",
   "@appTitle": {
     "description": "Application title"
   },
@@ -60,7 +60,7 @@
   "@registerTitle": {
     "description": "Register title"
   },
-  "registerSubtitle": "Join NoorLife and organize your Islamic daily life.",
+  "registerSubtitle": "Join IslamFull and organize your Islamic daily life.",
   "@registerSubtitle": {
     "description": "Register subtitle"
   },
@@ -185,7 +185,7 @@
   "@homeTitle": {
     "description": "Home placeholder page title"
   },
-  "homeDesc": "Welcome to NoorLife. Your daily spiritual overview will appear here.",
+  "homeDesc": "Welcome to IslamFull. Your daily spiritual overview will appear here.",
   "@homeDesc": {
     "description": "Home placeholder page description"
   },
@@ -217,7 +217,7 @@
   "@profileTitle": {
     "description": "Profile placeholder page title"
   },
-  "profileDesc": "Manage your NoorLife account, preferences, and personal statistics.",
+  "profileDesc": "Manage your IslamFull account, preferences, and personal statistics.",
   "@profileDesc": {
     "description": "Profile placeholder page description"
   },
@@ -875,6 +875,7 @@
   "@activityNotRecorded": { "description": "Activity not recorded status" },
   "activityMarkAsRead": "Mark as Read",
   "@activityMarkAsRead": { "description": "Activity manual mark as read button" },
+  
   "activityHistory": "History",
   "@activityHistory": { "description": "Activity history section" },
   "activityStatistics": "Statistics",
