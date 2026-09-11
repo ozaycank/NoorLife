@@ -51,8 +51,6 @@ flutter:
   assets:
     - .env
     - assets/images/
-    - assets/icons/
-    - assets/svgs/
     - assets/data/quran/surahs.json
     - assets/data/quran/quran.json
     - assets/data/quran/translations/tr/translation.json

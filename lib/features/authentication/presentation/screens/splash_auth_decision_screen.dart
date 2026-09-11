@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:noor_life/core/routing/app_routes.dart';
 import 'package:noor_life/features/authentication/application/auth_providers.dart';
+import 'package:noor_life/features/authentication/domain/entities/auth_user.dart';
 import 'package:noor_life/shared/design_system/tokens/app_spacing.dart';
 import 'package:noor_life/shared/widgets/loading_indicator.dart';
 
@@ -16,22 +17,29 @@ class SplashAuthDecisionScreen extends ConsumerStatefulWidget {
 
 class _SplashAuthDecisionScreenState
     extends ConsumerState<SplashAuthDecisionScreen> {
+  bool _isNavigating = false;
+  bool _minTimeElapsed = false;
+
   @override
   void initState() {
     super.initState();
-    _checkAuth();
+    _startTimer();
   }
 
-  Future<void> _checkAuth() async {
-    // Minimum splash screen duration for brand visibility
+  Future<void> _startTimer() async {
     await Future.delayed(const Duration(seconds: 2));
+    if (mounted) {
+      _minTimeElapsed = true;
+      _checkAndNavigate(ref.read(authStateChangesProvider));
+    }
+  }
 
-    if (!mounted) return;
+  void _checkAndNavigate(AsyncValue<AuthUser?> state) {
+    if (_isNavigating || !_minTimeElapsed || !mounted) return;
 
-    final authState = ref.read(authStateChangesProvider);
-
-    authState.when(
+    state.whenOrNull(
       data: (user) {
+        _isNavigating = true;
         if (user == null) {
           context.go(AppRoutes.login);
         } else if (!user.isAnonymous && !user.isEmailVerified) {
@@ -40,13 +48,20 @@ class _SplashAuthDecisionScreenState
           context.go(AppRoutes.home);
         }
       },
-      loading: () {}, // Let the UI spin
-      error: (_, __) => context.go(AppRoutes.login),
+      error: (_, __) {
+        _isNavigating = true;
+        context.go(AppRoutes.login);
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue<AuthUser?>>(
+      authStateChangesProvider,
+      (_, next) => _checkAndNavigate(next),
+    );
+
     return Scaffold(
       body: Center(
         child: Column(
