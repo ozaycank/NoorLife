@@ -12,6 +12,7 @@ import '../../../prayer/prayer_times/domain/calculators/high_latitude_strategy.d
 import '../../../prayer/shared/presentation/utils/presentation_localizer.dart';
 import '../../application/providers/prayer_settings_notifier.dart';
 import '../../application/providers/language_settings_notifier.dart';
+import '../../application/providers/notification_settings_provider.dart';
 import '../widgets/selection_bottom_sheet.dart';
 import '../widgets/settings_selection_tile.dart';
 
@@ -30,6 +31,8 @@ class SettingsScreen extends ConsumerWidget {
         child: ListView(
           padding: const EdgeInsets.all(AppSpacing.lg),
           children: const [
+            _NotificationSection(), // NEW
+            SizedBox(height: AppSpacing.lg),
             _LocationSection(),
             SizedBox(height: AppSpacing.lg),
             _PrayerCalculationSection(),
@@ -38,6 +41,74 @@ class SettingsScreen extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+// NEW: Notification Section
+class _NotificationSection extends ConsumerWidget {
+  const _NotificationSection();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final state = ref.watch(notificationSettingsProvider);
+    final notifier = ref.read(notificationSettingsProvider.notifier);
+
+    if (!state.isLoaded) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionHeader(
+            title: l10n.notificationsTitle,), // We will add to ARB
+        AppCard(
+          padding: EdgeInsets.zero,
+          child: Column(
+            children: [
+              SwitchListTile(
+                title:
+                    Text(l10n.notificationsEnabled,),
+                value: state.masterEnabled,
+                onChanged: notifier.toggleMaster,
+                activeThumbColor: context.colorScheme.primary,
+              ),
+              if (state.masterEnabled) ...[
+                const Divider(height: 1),
+                SettingsSelectionTile(
+                  title: l10n.prayerReminders,
+                  value: '${state.prayerReminderMinutes} mins before',
+                  onTap: () {
+                    showModalBottomSheet<void>(
+                      context: context,
+                      builder: (ctx) => SelectionBottomSheet(
+                        title: l10n.prayerReminders,
+                        items: const [
+                          SelectionItem('5', '5 Minutes'),
+                          SelectionItem('10', '10 Minutes'),
+                          SelectionItem('15', '15 Minutes'),
+                          SelectionItem('30', '30 Minutes'),
+                          SelectionItem('45', '45 Minutes'),
+                          SelectionItem('60', '60 Minutes'),
+                        ],
+                        selectedId: state.prayerReminderMinutes.toString(),
+                        onSelected: (id) =>
+                            notifier.setReminderMinutes(int.parse(id)),
+                      ),
+                    );
+                  },
+                ),
+                const Divider(height: 1),
+                SwitchListTile(
+                  title: Text(l10n.dailyVerseEnabled),
+                  value: state.dailyVerseEnabled,
+                  onChanged: notifier.toggleDailyVerse,
+                ),
+              ],
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

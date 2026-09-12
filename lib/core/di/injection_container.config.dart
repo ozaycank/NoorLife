@@ -91,6 +91,7 @@ import '../../features/quran/infrastructure/repositories/quran_translation_repos
     as _i821;
 import '../logging/logger_service.dart' as _i731;
 import '../network/dio_client.dart' as _i667;
+import '../services/local_notification_service.dart' as _i762;
 import '../services/timezone/timezone_service.dart' as _i280;
 import '../services/timezone/timezone_service_impl.dart' as _i338;
 import '../storage/secure_storage_service.dart' as _i666;
@@ -110,6 +111,8 @@ extension GetItInjectableX on _i174.GetIt {
     final firebaseModule = _$FirebaseModule();
     gh.lazySingleton<_i59.FirebaseAuth>(() => firebaseModule.firebaseAuth);
     gh.lazySingleton<_i731.LoggerService>(() => _i731.LoggerService());
+    gh.lazySingleton<_i762.LocalNotificationService>(
+        () => _i762.LocalNotificationService());
     gh.lazySingleton<_i666.SecureStorageService>(
         () => _i666.SecureStorageService());
     gh.lazySingleton<_i557.GeocodingDataSource>(

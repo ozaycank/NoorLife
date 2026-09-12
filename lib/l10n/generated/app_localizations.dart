@@ -1471,6 +1471,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your Progress'**
   String get profileStatsSummary;
+
+  /// Title for daily verse card
+  ///
+  /// In en, this message translates to:
+  /// **'Verse of the Day'**
+  String get dailyVerseTitle;
+
+  /// Settings notifications title
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationsTitle;
+
+  /// Toggle for master notifications
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Notifications'**
+  String get notificationsEnabled;
+
+  /// Prayer reminder setting label
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer Reminders'**
+  String get prayerReminders;
+
+  /// Toggle for daily verse
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Quran Verse'**
+  String get dailyVerseEnabled;
 }
 
 class _AppLocalizationsDelegate

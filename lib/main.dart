@@ -6,7 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // Saat dilimi (timezone) veritabanı başlatıcısı
 import 'package:timezone/data/latest_all.dart' as tz;
-
+import 'package:noor_life/core/services/local_notification_service.dart';
 import 'firebase_options.dart';
 import 'core/di/injection_container.dart';
 import 'core/routing/app_router.dart';
@@ -32,7 +32,7 @@ void main() async {
 
   // 5. DI (Dependency Injection) yapılandırmasını başlat
   await configureDependencies();
-
+  await getIt<LocalNotificationService>().init();
   // 6. Uygulamayı çalıştır
   runApp(
     const ProviderScope(

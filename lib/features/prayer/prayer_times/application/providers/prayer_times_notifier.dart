@@ -9,6 +9,7 @@ import '../../../location/domain/entities/prayer_location.dart';
 import '../../../shared/infrastructure/datasources/prayer_local_data_source.dart';
 import '../services/prayer_orchestrator_service.dart';
 import '../states/prayer_times_state.dart';
+import '../../../../settings/application/providers/notification_settings_provider.dart';
 
 final prayerTimesNotifierProvider =
     NotifierProvider<PrayerTimesNotifier, PrayerTimesState>(
@@ -48,7 +49,6 @@ class PrayerTimesNotifier extends Notifier<PrayerTimesState> {
     final nowLocal = DateTime.now();
     final targetNow = tz.TZDateTime.from(nowLocal, targetTz);
 
-    // Normalize target date to midnight to represent pure target calendar date.
     final targetCalendarDate = DateTime.utc(
       targetNow.year,
       targetNow.month,
@@ -66,6 +66,8 @@ class PrayerTimesNotifier extends Notifier<PrayerTimesState> {
           schedule: () => data,
           location: () => loc,
         );
+        ref.read(notificationSettingsProvider.notifier).syncPrayerSchedule();
+
       case ResultFailure(failure: final f):
         _logger.logPrayer('Failed to load prayer schedule: ${f.message}');
         state = state.copyWith(

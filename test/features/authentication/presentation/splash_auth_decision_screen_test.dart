@@ -59,6 +59,9 @@ void main() {
 
       expect(find.byType(LoadingIndicator), findsOneWidget);
       expect(find.text('Login'), findsNothing);
+
+      // FIX: Advance the virtual clock by 2 seconds to clear the pending Future.delayed timer
+      await tester.pump(const Duration(seconds: 2));
     });
 
     testWidgets('Null user navigates to Login', (tester) async {
@@ -66,6 +69,9 @@ void main() {
       await tester.pumpWidget(
         createTestWidget(const AsyncValue.data(null), router),
       );
+
+      // FIX: Wait for the 2 second splash timer to complete
+      await tester.pump(const Duration(seconds: 2));
       await tester.pumpAndSettle();
 
       expect(find.text('Login'), findsOneWidget);
@@ -77,6 +83,9 @@ void main() {
       await tester.pumpWidget(
         createTestWidget(const AsyncValue.data(user), router),
       );
+
+      // FIX: Wait for the 2 second splash timer to complete
+      await tester.pump(const Duration(seconds: 2));
       await tester.pumpAndSettle();
 
       expect(find.text('Home'), findsOneWidget);
@@ -88,6 +97,9 @@ void main() {
       await tester.pumpWidget(
         createTestWidget(const AsyncValue.data(user), router),
       );
+
+      // FIX: Wait for the 2 second splash timer to complete
+      await tester.pump(const Duration(seconds: 2));
       await tester.pumpAndSettle();
 
       expect(find.text('Home'), findsOneWidget);
@@ -103,6 +115,9 @@ void main() {
       await tester.pumpWidget(
         createTestWidget(const AsyncValue.data(user), router),
       );
+
+      // FIX: Wait for the 2 second splash timer to complete
+      await tester.pump(const Duration(seconds: 2));
       await tester.pumpAndSettle();
 
       expect(find.text('Verify'), findsOneWidget);
@@ -116,6 +131,9 @@ void main() {
           router,
         ),
       );
+
+      // FIX: Wait for the 2 second splash timer to complete
+      await tester.pump(const Duration(seconds: 2));
       await tester.pumpAndSettle();
 
       expect(find.text('Login'), findsOneWidget);

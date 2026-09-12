@@ -733,4 +733,19 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get profileStatsSummary => 'İlerlemeniz';
+
+  @override
+  String get dailyVerseTitle => 'Günün Ayeti';
+
+  @override
+  String get notificationsTitle => 'Bildirimler';
+
+  @override
+  String get notificationsEnabled => 'Bildirimlere İzin Ver';
+
+  @override
+  String get prayerReminders => 'Namaz Hatırlatıcı';
+
+  @override
+  String get dailyVerseEnabled => 'Günlük Kur\'an Ayeti';
 }

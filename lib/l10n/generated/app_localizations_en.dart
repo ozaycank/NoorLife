@@ -728,4 +728,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileStatsSummary => 'Your Progress';
+
+  @override
+  String get dailyVerseTitle => 'Verse of the Day';
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String get notificationsEnabled => 'Enable Notifications';
+
+  @override
+  String get prayerReminders => 'Prayer Reminders';
+
+  @override
+  String get dailyVerseEnabled => 'Daily Quran Verse';
 }

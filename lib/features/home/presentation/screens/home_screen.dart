@@ -18,6 +18,7 @@ import '../../../prayer/location/application/providers/location_notifier.dart';
 import '../../../prayer/prayer_times/application/providers/prayer_times_notifier.dart';
 import '../../../prayer/prayer_times/presentation/providers/prayer_live_state_provider.dart';
 import '../../../prayer/shared/presentation/utils/presentation_localizer.dart';
+import '../../../quran/application/providers/daily_verse_provider.dart';
 
 // Prayer Domain Entities
 import '../../../prayer/prayer_times/domain/value_objects/prayer_name.dart';
@@ -52,6 +53,8 @@ class HomeScreen extends ConsumerWidget {
                 _PrayerSummary(),
                 SizedBox(height: AppSpacing.xl),
                 _QuranContinueReading(),
+                SizedBox(height: AppSpacing.xl),
+                _DailyVerseCard(),
                 SizedBox(height: AppSpacing.md),
                 _QuranBookmarkShortcut(),
                 SizedBox(height: AppSpacing.xl),
@@ -434,7 +437,78 @@ class _QuranContinueReading extends ConsumerWidget {
     );
   }
 }
+/// NEW: DAILY VERSE CARD
+class _DailyVerseCard extends ConsumerWidget {
+  const _DailyVerseCard();
 
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final colorScheme = context.colorScheme;
+    final textTheme = context.textTheme;
+
+    final dailyVerse = ref.watch(dailyVerseProvider);
+    if (dailyVerse == null) return const SizedBox.shrink();
+
+    final surahName = l10n.localeName == 'tr'
+        ? dailyVerse.surah.nameTurkish
+        : dailyVerse.surah.nameTransliteration;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.dailyVerseTitle, // We will add to arb
+          style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: AppSpacing.md),
+        InkWell(
+          onTap: () => context.push('/quran/surah/${dailyVerse.surah.number}'),
+          borderRadius: BorderRadius.circular(16),
+          child: Ink(
+            padding: const EdgeInsets.all(AppSpacing.lg),
+            decoration: BoxDecoration(
+              color: colorScheme.primaryContainer.withValues(alpha: 0.3),
+              borderRadius: BorderRadius.circular(16),
+              border:
+                  Border.all(color: colorScheme.primary.withValues(alpha: 0.1)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  '“ Read and reflect on the words of Allah. ”', // Placeholder for Arabic/Meal text since explicit Ayah entity was not provided
+                  style: textTheme.bodyLarge?.copyWith(
+                    fontStyle: FontStyle.italic,
+                    color: colorScheme.onSurface,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: AppSpacing.md),
+                const Divider(),
+                const SizedBox(height: AppSpacing.sm),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '$surahName · ${dailyVerse.ayahNumber}',
+                      style: textTheme.labelLarge?.copyWith(
+                        color: colorScheme.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Icon(Icons.arrow_forward,
+                        size: 16, color: colorScheme.primary,),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
 /// 5. QURAN: Bookmark Shortcut
 class _QuranBookmarkShortcut extends ConsumerWidget {
   const _QuranBookmarkShortcut();

@@ -900,5 +900,15 @@
   "profileGuestDesc": "Sign in to backup your data.",
   "@profileGuestDesc": { "description": "Profile guest user description" },
   "profileStatsSummary": "Your Progress",
-  "@profileStatsSummary": { "description": "Profile stats summary label" }
+  "@profileStatsSummary": { "description": "Profile stats summary label" },
+  "dailyVerseTitle": "Verse of the Day",
+  "@dailyVerseTitle": { "description": "Title for daily verse card" },
+  "notificationsTitle": "Notifications",
+  "@notificationsTitle": { "description": "Settings notifications title" },
+  "notificationsEnabled": "Enable Notifications",
+  "@notificationsEnabled": { "description": "Toggle for master notifications" },
+  "prayerReminders": "Prayer Reminders",
+  "@prayerReminders": { "description": "Prayer reminder setting label" },
+  "dailyVerseEnabled": "Daily Quran Verse",
+  "@dailyVerseEnabled": { "description": "Toggle for daily verse" }
 }

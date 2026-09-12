@@ -10,8 +10,10 @@ import 'package:noor_life/core/base/result.dart';
 import 'package:noor_life/features/authentication/domain/entities/auth_user.dart';
 import 'package:noor_life/features/authentication/domain/repositories/auth_repository.dart';
 import 'package:noor_life/features/activity/domain/activity_models.dart';
-import '../../../../lib/l10n/generated/app_localizations.dart';
-import '../../../../lib/features/profile/presentation/screens/profile_screen.dart';
+
+// FIX: Absolute import instead of relative to guarantee localization resolution
+import 'package:noor_life/l10n/generated/app_localizations.dart';
+import 'package:noor_life/features/profile/presentation/screens/profile_screen.dart';
 
 class FakeAuthRepository implements AuthRepository {
   @override
@@ -62,18 +64,16 @@ void main() {
         ],
         supportedLocales: [Locale('en')],
         locale: Locale('en'),
-        home: ProfileScreen(),
+        home: Scaffold(body: ProfileScreen()), // Wrapped in Scaffold for safety
       ),
     );
   }
 
   testWidgets('Profile screen renders safely with basic user elements',
       (tester) async {
-    // FIX: Removed runAsync to allow Flutter to load Localizations synchronously
-    // in the first frame, preventing ContextExtensions.l10n null crashes.
     await tester.pumpWidget(buildTestableWidget());
 
-    // Wait for the FutureProvider and rendering to settle
+    // FIX: pumpAndSettle guarantees that localizations delegate completes loading
     await tester.pumpAndSettle();
 
     expect(find.text('Your Progress'), findsOneWidget);

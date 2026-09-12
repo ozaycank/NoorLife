@@ -229,5 +229,10 @@
   "statsQuranDays": "Kur'an (7G)",
   "profileGuest": "Misafir Kullanıcı",
   "profileGuestDesc": "Verilerinizi yedeklemek için giriş yapın.",
-  "profileStatsSummary": "İlerlemeniz"
+  "profileStatsSummary": "İlerlemeniz",
+  "dailyVerseTitle": "Günün Ayeti",
+  "notificationsTitle": "Bildirimler",
+  "notificationsEnabled": "Bildirimlere İzin Ver",
+  "prayerReminders": "Namaz Hatırlatıcı",
+  "dailyVerseEnabled": "Günlük Kur'an Ayeti"
 }
