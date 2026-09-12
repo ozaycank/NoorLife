@@ -437,6 +437,7 @@ class _QuranContinueReading extends ConsumerWidget {
     );
   }
 }
+
 /// NEW: DAILY VERSE CARD
 class _DailyVerseCard extends ConsumerWidget {
   const _DailyVerseCard();
@@ -454,16 +455,23 @@ class _DailyVerseCard extends ConsumerWidget {
         ? dailyVerse.surah.nameTurkish
         : dailyVerse.surah.nameTransliteration;
 
+    // FIX: Watch the new content provider to get Arabic text and translation
+    final languageCode = l10n.localeName == 'tr' ? 'tr' : 'en';
+    final contentAsync = ref.watch(dailyVerseContentProvider(languageCode));
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          l10n.dailyVerseTitle, // We will add to arb
+          l10n.dailyVerseTitle,
           style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: AppSpacing.md),
         InkWell(
-          onTap: () => context.push('/quran/surah/${dailyVerse.surah.number}'),
+          // FIX: Added ?ayah= parameter to force scroll to this specific verse!
+          onTap: () => context.push(
+            '/quran/surah/${dailyVerse.surah.number}?ayah=${dailyVerse.ayahNumber}',
+          ),
           borderRadius: BorderRadius.circular(16),
           child: Ink(
             padding: const EdgeInsets.all(AppSpacing.lg),
@@ -476,13 +484,54 @@ class _DailyVerseCard extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  '“ Read and reflect on the words of Allah. ”', // Placeholder for Arabic/Meal text since explicit Ayah entity was not provided
-                  style: textTheme.bodyLarge?.copyWith(
-                    fontStyle: FontStyle.italic,
-                    color: colorScheme.onSurface,
+                contentAsync.when(
+                  data: (content) {
+                    if (content == null) return const SizedBox.shrink();
+                    return Column(
+                      children: [
+                        // ARABIC TEXT
+                        Text(
+                          'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ',
+                          style: textTheme.titleMedium?.copyWith(
+                            color: colorScheme
+                                .primary, // Besmele için tema ana rengi
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        Text(
+                          content.arabicText,
+                          style: textTheme.headlineSmall?.copyWith(
+                            color: colorScheme.onSurface,
+                            height: 1.8,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        // TRANSLATION TEXT
+                        Text(
+                          content.translation,
+                          style: textTheme.bodyMedium?.copyWith(
+                            fontStyle: FontStyle.italic,
+                            color: colorScheme.onSurfaceVariant,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    );
+                  },
+                  loading: () => const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(AppSpacing.md),
+                      child: CircularProgressIndicator(),
+                    ),
                   ),
-                  textAlign: TextAlign.center,
+                  error: (err, stack) => Text(
+                    'Failed to load verse.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: colorScheme.error),
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 const Divider(),
@@ -497,8 +546,11 @@ class _DailyVerseCard extends ConsumerWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Icon(Icons.arrow_forward,
-                        size: 16, color: colorScheme.primary,),
+                    Icon(
+                      Icons.arrow_forward,
+                      size: 16,
+                      color: colorScheme.primary,
+                    ),
                   ],
                 ),
               ],
@@ -509,6 +561,7 @@ class _DailyVerseCard extends ConsumerWidget {
     );
   }
 }
+
 /// 5. QURAN: Bookmark Shortcut
 class _QuranBookmarkShortcut extends ConsumerWidget {
   const _QuranBookmarkShortcut();

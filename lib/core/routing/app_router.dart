@@ -10,7 +10,7 @@ import '../../features/authentication/presentation/screens/login_screen.dart';
 import '../../features/authentication/presentation/screens/register_screen.dart';
 import '../../features/authentication/presentation/screens/splash_auth_decision_screen.dart';
 import '../../features/prayer/shared/presentation/screens/prayer_home_screen.dart';
-import '../../features/profile/presentation/screens/profile_screen.dart'; // Updated
+import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/shell/presentation/screens/app_shell_screen.dart';
 import '../../features/settings/presentation/screens/settings_screen.dart';
 import '../di/injection_container.dart';
@@ -20,7 +20,7 @@ import 'app_routes.dart';
 import '../../features/prayer/qibla/presentation/qibla_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/quran/presentation/screens/quran_home_screen.dart';
-import '../../features/quran/presentation/screens/surah_detail_placeholder_screen.dart';
+import '../../features/quran/presentation/screens/surah_detail_screen.dart';
 import '../../features/quran/presentation/screens/quran_bookmarks_screen.dart';
 
 class AppRouter {
@@ -145,7 +145,7 @@ class AppRouter {
                           state.uri.queryParameters['ayah'] ?? '',
                         );
 
-                        return SurahDetailPlaceholderScreen(
+                        return SurahDetailScreen(
                           surahNumber: id,
                           jumpToAyah: ayah,
                         );
@@ -167,7 +167,6 @@ class AppRouter {
               routes: [
                 GoRoute(
                   path: AppRoutes.profile,
-                  // FIX: Updated to real ProfileScreen foundation
                   builder: (context, state) => const ProfileScreen(),
                 ),
               ],

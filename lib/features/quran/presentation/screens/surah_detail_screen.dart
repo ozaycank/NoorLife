@@ -15,23 +15,22 @@ import '../widgets/quran_ayah_view.dart';
 import '../widgets/quran_reader_settings_sheet.dart';
 import '../constants/quran_reader_typography.dart';
 
-class SurahDetailPlaceholderScreen extends ConsumerStatefulWidget {
+// FIX: Renamed class to remove Placeholder
+class SurahDetailScreen extends ConsumerStatefulWidget {
   final int surahNumber;
   final int? jumpToAyah;
 
-  const SurahDetailPlaceholderScreen({
+  const SurahDetailScreen({
     super.key,
     required this.surahNumber,
     this.jumpToAyah,
   });
 
   @override
-  ConsumerState<SurahDetailPlaceholderScreen> createState() =>
-      _SurahDetailScreenState();
+  ConsumerState<SurahDetailScreen> createState() => _SurahDetailScreenState();
 }
 
-class _SurahDetailScreenState
-    extends ConsumerState<SurahDetailPlaceholderScreen> {
+class _SurahDetailScreenState extends ConsumerState<SurahDetailScreen> {
   Surah? _surah;
   String? _error;
   bool _isLoading = true;
@@ -151,7 +150,6 @@ class _SurahDetailScreenState
 
     final bookmarkState = ref.watch(quranBookmarkNotifierProvider);
 
-    // Resolve dynamic language explicitly.
     final languageCode = l10n.localeName == 'tr' ? 'tr' : 'en';
     final translationAsyncValue = ref.watch(
       quranTranslationProvider(
@@ -196,7 +194,7 @@ class _SurahDetailScreenState
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 24.0),
                     child: Text(
-                      'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ',
+                      'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ',
                       style: textTheme.headlineMedium?.copyWith(
                         fontSize: QuranReaderTypography.bismillahFontSize,
                         color: colorScheme.primary,
